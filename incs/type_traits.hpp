@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/05/29 03:18:35 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/05/30 23:54:40 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,8 @@ struct is_integral<bool> : public true_type {};
 template <>
 struct is_integral<char> : public true_type {};
 
-// template <>
-// struct is_integral<char16_t> : public true_type {};
-
-// template <>
-// struct is_integral<char32_t> : public true_type {};
-
-// template <>
-// struct is_integral<wchar_t> : public true_type {};
-
-// template <>
-// struct is_integral<short> : public true_type {};
+template <>
+struct is_integral<short> : public true_type {};
 
 template <>
 struct is_integral<int> : public true_type {};
@@ -60,20 +51,23 @@ struct is_integral<int> : public true_type {};
 template <>
 struct is_integral<long> : public true_type {};
 
-// template <>
-// struct is_integral<long long> : public true_type {};
+template <>
+struct is_integral<long long> : public true_type {};
 
-// template <>
-// struct is_integral<int> : public true_type {};
+template <>
+struct is_integral<unsigned char> : public true_type {};
 
-// template <>
-// struct is_integral<int> : public true_type {};
+template <>
+struct is_integral<unsigned int> : public true_type {};
 
-// template <>
-// struct is_integral<int> : public true_type {};
+template <>
+struct is_integral<unsigned short> : public true_type {};
 
-// template <>
-// struct is_integral<int> : public true_type {};
+template <>
+struct is_integral<unsigned long> : public true_type {};
+
+template <>
+struct is_integral<unsigned long long> : public true_type {};
 
 } // namespace ft
 #endif

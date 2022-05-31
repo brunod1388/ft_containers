@@ -16,22 +16,15 @@
 namespace ft{
 
 	template <typename T>
-	class vector_rev_iterator{
+	class vector_rev_iterator {
 
 	private:
-		
+		T *_p;
 
 	public:
-		vector_rev_iterator<T>(void)
-		{
-			std::cout << "test vect_rev_it" << std::endl;
-		}
-		vector_rev_iterator<T>(T &val);
-		~vector_rev_iterator(void) {}
-
-
-		
-	
+		vector_rev_iterator<T>( void );
+		vector_rev_iterator<T>( T &val );
+		~vector_rev_iterator( void ) {}
 
 	};	//class vector_rev_iterator
 

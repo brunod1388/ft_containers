@@ -1,29 +1,51 @@
 #include <iostream>
 #include <iomanip>
 #include <type_traits>
-#define SHOW(...) std::cout << std::setw(29) << #__VA_ARGS__ << " == " << __VA_ARGS__ << '\n'
- 
-class A {};
- 
-enum E : int {};
- 
-template <class T>
-T f(T i)
+#include <vector>
+
+template< class T, class Alloc >
+std::ostream &operator<<(std::ostream &os, const std::vector<T, Alloc>& v )
 {
-    static_assert(std::is_integral<T>::value, "Integral required.");
-    return i;
+    os << "(";
+    for (size_t i = 0; i < v.size(); i++)
+        os << v[i] << (i < v.size() - 1 ? ", " : "");
+    os << ")";
+    return os;
 }
 
+template <typename T>
+void print_vector(std::vector<T> &v)
+{
+    std::cout << "v : " << v << std::endl;
+    std::cout << "size     : " << v.size() << std::endl;
+    std::cout << "capacity : " << v.capacity() << std::endl;
+    std::cout << "data     : " << v.data()  << std::endl;
+    std::cout << "front    : " << v.front()  << std::endl;
+    std::cout << "back     : " << v.back()  << std::endl;
+    std::cout << "maxsize  : " << v.max_size() << std::endl << std::endl;
+    std::cout << std::endl;
+
+}
 
 int main()
 {
-    std::cout << std::boolalpha;
- 
-    SHOW( std::is_integral<A>::value );
-    SHOW( std::is_integral_v<E> );
-    SHOW( std::is_integral_v<float> );
-    SHOW( std::is_integral_v<int> );
-    SHOW( std::is_integral_v<const int> );
-    SHOW( std::is_integral_v<bool> );
-    SHOW( f(123) );
+    std::vector<int> v;
+    std::vector<std::string> vs;
+
+
+    for (int i = 111; i < 114; i++)
+    {
+        v.push_back(i);
+        print_vector(v);
+    }
+
+    std::cout << "After reserve " << std::endl;
+    v.reserve(5);
+    print_vector(v);
+    v.push_back(3);
+    v.push_back(3);
+    v.push_back(3);
+    print_vector(v);
+
+    return 0;
 }

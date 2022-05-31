@@ -15,8 +15,7 @@ T f(T i)
     return i;
 }
 
-
-int main()
+void main()
 {
     std::cout << std::boolalpha;
  

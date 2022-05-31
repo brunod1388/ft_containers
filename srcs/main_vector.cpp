@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/05/28 22:30:34 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/05/30 04:02:32 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ struct Buffer
 	int idx;
 	char buff[BUFFER_SIZE];
 };
-
-
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 int main(void) {

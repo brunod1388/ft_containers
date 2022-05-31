@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/05/29 00:20:19 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/05/30 00:27:15 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 namespace ft{
 
 template <class T1, class T2>
-class pair{
+struct pair{
 	typedef T1	firs_type;
 	typedef T2	seconde_type;
 
@@ -71,7 +71,7 @@ inline bool operator!=( const pair<T1,T2>& lhs, const pair<T1,T2>& rhs )
 template< class T1, class T2 >
 inline bool operator<( const pair<T1,T2>& lhs, const pair<T1,T2>& rhs )
 {
-	return (lhs.first == rhs.first ? lhs.first < rhs.first : lhs.second < rhs.second);
+	return (lhs.first != rhs.first ? lhs.first < rhs.first : lhs.second < rhs.second);
 }
 
 template< class T1, class T2 >
@@ -90,6 +90,23 @@ template< class T1, class T2 >
 inline bool operator>=( const pair<T1,T2>& lhs, const pair<T1,T2>& rhs )
 {
 	return !(lhs < rhs);
+}
+
+template< class T1, class T2 >
+std::ostream &operator<<(std::ostream &os, const pair<T1,T2>& rhs )
+{
+	os << "(" << rhs.first << ", " << rhs.second << ")";
+	return os;
+}
+
+template< typename T>
+void	swap(T a, T b)
+{
+	T c;
+
+	c = a;
+	a = b;
+	b = c;
 }
 
 } // namespace ft

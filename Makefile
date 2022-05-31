@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/05/29 02:38:28 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/05/31 00:02:10 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ NAME	= ft_containers
 
 SRCS	= main.cpp 
 
-CC		= clang++
+CC		= c++-11
 
 CFLAGS	+= -Wall -Wextra -Werror -std=c++98
 
-CFLAGS	+= -I$I             #/containers -I$I/iterators
+CFLAGS	+= -I$I   -I$I/containers -I$I/iterators
 SRCS	:= $(foreach file,$(SRCS),$S$(file))
 OBJS	= $(SRCS:$S%=$O%.o)
 DEPS	= $(SRCS:$S%=$D%.d)
