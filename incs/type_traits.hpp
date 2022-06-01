@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/05/30 23:54:40 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/05/31 20:33:48 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 # define TYPE_TRAITS_HPP
 
 namespace ft{
+
+template<bool B, class T = void>
+struct enable_if
+{};
+ 
+template<class T>
+struct enable_if<true, T> 
+{
+	typedef T type;
+};
 
 template< typename T , T v>
 struct integral_constant

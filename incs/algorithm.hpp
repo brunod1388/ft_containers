@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/05/29 00:04:16 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/01 19:36:13 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ bool equal( InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p 
 		if (!p(*first1++, *first2++))
 			return false;
 	return true;
+}
+
+template< class T >
+void swap( T& a, T& b )
+{
+	T& c(a);
+
+	a = b;
+	b = c;
 }
 
 } // namespace ft

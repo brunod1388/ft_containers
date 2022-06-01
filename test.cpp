@@ -47,5 +47,9 @@ int main()
     v.push_back(3);
     print_vector(v);
 
+    v.clear();
+    print_vector(v);
+    v.pop_back();
+    v.reserve(1000000000000000000000000000000000000000000000);
     return 0;
 }
