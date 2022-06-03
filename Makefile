@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/05/31 00:02:10 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/06/02 02:20:03 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS	= main.cpp
 
 CC		= c++-11
 
-CFLAGS	+= -Wall -Wextra -Werror -std=c++98
+CFLAGS	+= -Wall -Wextra -Werror -std=c++98  #-fsanitize=address 
 
 CFLAGS	+= -I$I   -I$I/containers -I$I/iterators
 SRCS	:= $(foreach file,$(SRCS),$S$(file))

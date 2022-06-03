@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/01 16:52:59 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/02 02:16:36 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,29 @@ namespace ft{
 			reference	operator*(void) const { return *_p; }
 			pointer		operator->(void) const { return _p; }
 
-			reference	operator++(void) { return *(++_p); }
-			value_type	operator++(int) { return *_p++; }  //a tester
+			vector_iterator&	operator++(void)
+			{
+				++_p;
+				return *this;
+			}
 
-			reference	operator--(void) { return *(--_p); }
-			value_type	operator--(int) { return *_p--; }  //a tester
+			vector_iterator	operator++(int)
+			{
+				vector_iterator it(_p++);
+				return it;
+			}
+
+			vector_iterator&	operator--(void)
+			{
+				--_p;
+				return *this;
+			}
+
+			vector_iterator	operator--(int)
+			{
+				vector_iterator it(_p--);
+				return it;
+			}
 
 			vector_iterator	operator+(difference_type n) { return vector_iterator(_p + n); }
 			vector_iterator	operator-(difference_type n) { return vector_iterator(_p - n); }

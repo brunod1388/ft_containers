@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/01 19:42:54 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/03 02:29:21 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ namespace ft{
 			_alloc(Allocator()),
 			_size(0),
 			_capacity(0),
-			_data(_alloc.allocate(_capacity))
+			_data(NULL)
 		{}
 
 		explicit vector( const Allocator& alloc ) :
@@ -112,7 +112,7 @@ namespace ft{
 			_size = x._size;
 			_capacity = x._capacity;
 			_data = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < size; i++)
+			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(_data + i, x._data[i]);
 			return *this;
 		}
@@ -123,11 +123,11 @@ namespace ft{
 			_alloc.deallocate(_data, _capacity);
 		}
 
-		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last)
-		{
-			return ;
-		}
+		// template <class InputIterator>
+		// void assign (InputIterator first, InputIterator last)
+		// {
+		// 	return ;
+		// }
 
 
 		void assign( size_type count, const T& value )
@@ -184,10 +184,10 @@ namespace ft{
 		const_iterator			begin() const { return const_iterator(_data); }
 		iterator				end() { return iterator(_data + _size); }
 		const_iterator			end() const { return iterator(_data + _size); }
-		reverse_iterator		rbegin() { return reverse_iterator(end()); }
-		const_reverse_iterator	rbegin() const{ return const_reverse_iterator(end()); }
-		reverse_iterator		rend() { return reverse_iterator(begin()); }
-		const_reverse_iterator	rend() const{ return const_reverse_iterator(begin()); }
+		reverse_iterator		rbegin() { return reverse_iterator(end() - 1); }
+		const_reverse_iterator	rbegin() const{ return const_reverse_iterator(end() - 1); }
+		reverse_iterator		rend() { return reverse_iterator(begin() - 1); }
+		const_reverse_iterator	rend() const{ return const_reverse_iterator(begin() - 1); }
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -210,7 +210,7 @@ namespace ft{
 
 			for (size_t i = 0; i < _size; i++)
 			{
-				_alloc.allocate(newData + i, _data[i]);
+				_alloc.construct(newData + i, _data[i]);
 				_alloc.destroy(_data + i);
 			}
 			_alloc.deallocate(_data, _capacity);
@@ -233,7 +233,18 @@ namespace ft{
 			_size = 0;
 		}
 
-		iterator	insert( iterator pos, const T& value );
+		iterator	insert( iterator pos, const T& value )
+		{
+			if (++_size == _capacity)
+				reserve(_capacity ? _capacity * 2 : 1);
+
+			_alloc.construct(_data + _size, _data[_size - 2]);
+			for (iterator it = end() - 1; it != pos; it--)
+				it[1] = it[0];
+			*pos = value;
+			return pos;
+		}
+
 		void		insert( iterator pos, size_type count, const T& value );
 
 		template< class InputIt >
@@ -266,18 +277,20 @@ namespace ft{
 
 		void	push_back( const T& value )
 		{
-			if (_size==capacity)
-				reserve(_capacity * 2);   //maybe a different behavour when near max size
-			_alloc.allocate(_data + _size++, value);
+			if (_size == _capacity)
+				reserve(_capacity > 0 ? _capacity * 2 : 1);   //maybe a different behavour when near max size
+			_alloc.construct(_data + _size++, value);
 		}
+
 		void	pop_back()
 		{
 			if (!_size)
 				return;
 			_alloc.destroy(_data + --_size);
 		}
+
 		void 	resize ( size_type n, value_type val = value_type() );
-		
+
 		void swap ( vector& arg )
 		{
 			std::swap(_size, arg._size);
@@ -330,7 +343,6 @@ namespace ft{
 		return !(lhs < rhs);
 	}
 
-	// not sur about this, should it be more generic?
 	template< class T, class Alloc >
 	void swap( vector<T,Alloc>& lhs, vector<T,Alloc>& rhs )
 	{

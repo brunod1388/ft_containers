@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <vector>
 
+
+
 template< class T, class Alloc >
 std::ostream &operator<<(std::ostream &os, const std::vector<T, Alloc>& v )
 {
@@ -24,32 +26,35 @@ void print_vector(std::vector<T> &v)
     std::cout << "back     : " << v.back()  << std::endl;
     std::cout << "maxsize  : " << v.max_size() << std::endl << std::endl;
     std::cout << std::endl;
-
 }
 
 int main()
 {
-    std::vector<int> v;
-    std::vector<std::string> vs;
+
+        std::vector<int> v;
+        std::vector<int> *v1 = new std::vector<int>();
+        std::vector<std::string> vs;
 
 
-    for (int i = 111; i < 114; i++)
-    {
-        v.push_back(i);
+
+        for (int i = 111; i < 114; i++)
+        {
+            v.push_back(i);
+            print_vector(v);
+        }
+
+        std::cout << "TEST " << *v.begin() << std::endl;
+        std::cout << "After reserve " << std::endl;
+        v.reserve(5);
         print_vector(v);
-    }
+        v.push_back(3);
+        v.push_back(3);
+        v.push_back(3);
+        print_vector(v);
 
-    std::cout << "After reserve " << std::endl;
-    v.reserve(5);
-    print_vector(v);
-    v.push_back(3);
-    v.push_back(3);
-    v.push_back(3);
-    print_vector(v);
-
-    v.clear();
-    print_vector(v);
-    v.pop_back();
-    v.reserve(1000000000000000000000000000000000000000000000);
+        v.clear();
+        // print_vector(v);
+        // v.pop_back();
+        v1 = NULL;
     return 0;
 }
