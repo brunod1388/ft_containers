@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 02:31:36 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/08 16:07:59 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void print_vector(ft::vector<T> &v, std::vector<T> &v2)
 		std::cout << "back       : " << std::setw(15) << v.back()  << "    " << std::setw(15) << v2.back() << std::endl;
 		std::cout << "*begin     : " << std::setw(15) << *v.begin()  << "    " << std::setw(15) << *v2.begin() << std::endl;
 		std::cout << "*(end-1)   : " << std::setw(15) << *(v.end()-1)  << "    " << std::setw(15) << *(v2.end()-1) << std::endl;
+		std::cout << "*(end)   : " << std::setw(15) << *(v.end())  << "    " << std::setw(15) << *(v2.end()) << std::endl;
 	}
 	
 	std::cout << std::endl;
@@ -235,13 +236,13 @@ void	vector_test(void)
 	while (it2 != v2.begin())
 		std::cout << *it2-- << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "--ft::iterator  : ";
 	it = v.end();
 	while (it != v.begin() + 1)
 		std::cout << *--it << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "--std::iterator : ";
 	it2 = v2.end();
 	while (it2 != v2.begin() + 1)
@@ -259,13 +260,13 @@ void	vector_test(void)
 	while (it2 != v2.end())
 		std::cout << *it2++ << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "++ft::iterator  : ";
 	it = v.begin();
 	while (it != v.end())
 		std::cout << *++it << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "++std::iterator : ";
 	it2 = v2.begin();
 	while (it2 != v2.end())
@@ -286,13 +287,13 @@ void	vector_test(void)
 	while (rIt2 != v2.rend())
 		std::cout << *rIt2++ << " ";
 	std::cout << std::endl << std::endl;
-	
+
 	std::cout << "++ft::reverse_iterator  : ";
 	rIt = v.rbegin();
 	while (rIt != v.rend())
 		std::cout << *++rIt << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "++std::reverse_iterator : ";
 	rIt2 = v2.rbegin();
 	while (rIt2 != v2.rend())
@@ -310,13 +311,13 @@ void	vector_test(void)
 	while (rIt2 != v2.rbegin())
 		std::cout << *rIt2-- << " ";
 	std::cout << std::endl << std::endl;
-	
+
 	std::cout << "--ft::reverse_iterator  : ";
 	rIt = v.rend();
 	while (rIt != v.rbegin())
 		std::cout << *--rIt << " ";
 	std::cout << std::endl;
-	
+
 	std::cout << "--std::reverse_iterator : ";
 	rIt2 = v2.rend();
 	while (rIt2 != v2.rbegin())
@@ -339,7 +340,27 @@ void	vector_test(void)
 	std::cout << "ft: v.front() : " << v.front() << "      " << v2.front() << " : std: v2.front()" <<  std::endl;
 	std::cout << "ft: v.back()  : " << v.back() << "      " << v2.back() << " : std: v2.back() " <<  std::endl << std::endl;
 	std::cout << "ft:  v  : " << v << std::endl;
-	std::cout << "std: v2 : " << v2 << std::endl;
+	std::cout << "std: v2 : " << v2 << std::endl<< std::endl<< std::endl;
+
+	ft::vector<int> va;
+	std::vector<int> va2;
+
+	it = v.begin() + 4;
+	it2 = v2.begin() + 4;
+	va.assign(it, v.end());
+	va2.assign(it2, v2.end());
+	print_vector(va, va2);
+
+	va.assign(v.begin(), v.end());
+	va2.assign(v2.begin(), v2.end());
+	print_vector(va, va2);
+
+	ft::vector<int> vfill(10, 55);
+	std::vector<int> vfill2(10, 55);
+	print_vector(vfill, vfill2);
+
+	ft::vector<int> vfill(10, 55);
+	ft::vector<int>::const_iterator cIt = v.begin();
 }
 
 

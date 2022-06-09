@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/02 02:16:36 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/08 16:07:50 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ namespace ft{
 				return it;
 			}
 
-			vector_iterator	operator+(difference_type n) { return vector_iterator(_p + n); }
-			vector_iterator	operator-(difference_type n) { return vector_iterator(_p - n); }
-			vector_iterator	operator-(vector_iterator rhs) { return vector_iterator(_p - rhs._p); }
+			vector_iterator	operator+(const difference_type n) const { return vector_iterator(_p + n); }
+			vector_iterator	operator-(const difference_type n) const { return vector_iterator(_p - n); }
+			difference_type	operator-(vector_iterator rhs) const { return _p - rhs._p; }
 
-			bool	operator==(const vector_iterator& rhs) { return _p == rhs._p; }
-			bool	operator!=(const vector_iterator& rhs) { return _p != rhs._p; }
-			bool	operator<(const vector_iterator& rhs) { return _p < rhs._p; }
-			bool	operator>(const vector_iterator& rhs) { return _p > rhs._p; }
-			bool	operator<=(const vector_iterator& rhs) { return _p <= rhs._p; }
-			bool	operator>=(const vector_iterator& rhs) { return _p >= rhs._p; }
+			bool	operator==(const vector_iterator rhs) const { return _p == rhs._p; }
+			bool	operator!=(const vector_iterator rhs) const { return _p != rhs._p; }
+			bool	operator<(const vector_iterator rhs) const { return _p < rhs._p; }
+			bool	operator>(const vector_iterator rhs) const { return _p > rhs._p; }
+			bool	operator<=(const vector_iterator rhs) const { return _p <= rhs._p; }
+			bool	operator>=(const vector_iterator rhs) const { return _p >= rhs._p; }
 
 			reference	operator+=(difference_type n)
 			{
@@ -98,7 +98,7 @@ namespace ft{
 	};	//class vector_iterator
 
 	template <typename T>
-	vector_iterator<T>	operator-(typename vector_iterator<T>::difference_type lhs, const vector_iterator<T>& rhs)
+	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type lhs, const vector_iterator<T>& rhs)
 	{
 		return vector_iterator<T>(lhs + rhs[0]);
 	}

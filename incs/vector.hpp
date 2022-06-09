@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 02:29:21 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/08 16:08:39 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,24 @@ namespace ft{
 			_alloc(alloc),
 			_size(count),
 			_capacity(count),
-			_data(alloc.allocate(_capacity))
+			_data(_alloc.allocate(_capacity))
 		{
 			for (size_type i = 0; i < _size; i++)  //maybe const
-				alloc.construct(_data + i, value);
+				_alloc.construct(_data + i, value);
 		}
 
-		// template< class InputIt >   // test and correct if needed
-		// vector( InputIt first,
-		// 		ft::enable_if<ft::is_integral<InputIt>::value, InputIt>::type last,
-		// 		const Allocator& alloc = Allocator() ) :
-		// 		_alloc(alloc),
-		// 		_size(ft::distance(first, last)),
-		// 		_capacity(_size),
-		// 		_data(alloc.allocate(_capacity))
-		// {
-		// 	for (size_type i = 0; i < _size; i++, first++)
-		// 		_alloc.construct(_data + i, *first);
-		// }
+		template< class InputIt >   // test and correct if needed
+		vector( InputIt first,
+				typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type last,
+				const Allocator& alloc = Allocator() ) :
+				_alloc(alloc),
+				_size(ft::distance(first, last)),
+				_capacity(_size),
+				_data(_alloc.allocate(_capacity))
+		{
+			for (size_type i = 0; i < _size; i++, first++)
+				_alloc.construct(_data + i, *first);
+		}
 
 		vector( const vector<T> &other ) :
 			_alloc(other._alloc),
@@ -107,7 +107,7 @@ namespace ft{
 		vector& operator= (const vector& x)
 		{
 			clear();
-			_alloc.dealocate(_data, _capacity);
+			_alloc.deallocate(_data, _capacity);
 			_alloc = Allocator(x._alloc);
 			_size = x._size;
 			_capacity = x._capacity;
@@ -123,12 +123,24 @@ namespace ft{
 			_alloc.deallocate(_data, _capacity);
 		}
 
-		// template <class InputIterator>
-		// void assign (InputIterator first, InputIterator last)
-		// {
-		// 	return ;
-		// }
+		template <class InputIterator>
+		void assign ( InputIterator first, InputIterator last)
+		{
+			size_type	diff = (size_type) (last - first);
 
+			if (_capacity < diff)
+				reserve(diff);
+			for (size_type i = 0; first < last; i++, first++)
+			{
+				if (i < size())
+					_data[i] = *first;
+				else
+					_alloc.construct(_data + i, *first);
+			}
+			for (size_type i = diff; i < size(); i++)
+				_alloc.destroy(_data + i);
+			_size = diff;
+		}
 
 		void assign( size_type count, const T& value )
 		{
@@ -166,13 +178,14 @@ namespace ft{
 		}
 
 		reference 		operator[]( size_type pos ) { return _data[pos]; }
+		reference 		front()	{ return *begin(); }
+		reference 		back()	{ return *(end() - 1); }
+		T*				data()	{ return _data; }
+
 		const_reference operator[]( size_type pos ) const { return _data[pos]; }
-		reference 		front() { return *begin(); }
-		const_reference front() const { return *begin(); }
-		reference 		back() { return *(end() - 1); }
-		const_reference back() const { return *(end() - 1); }
-		T*				data() { return _data; }
-		const T* 		data() const { return _data; }
+		const_reference front() const	{ return *begin(); }
+		const_reference back() const	{ return *(end() - 1); }
+		const T* 		data() const	{ return _data; }
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -180,14 +193,15 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		iterator				begin() { return iterator(_data); }
-		const_iterator			begin() const { return const_iterator(_data); }
-		iterator				end() { return iterator(_data + _size); }
-		const_iterator			end() const { return iterator(_data + _size); }
-		reverse_iterator		rbegin() { return reverse_iterator(end() - 1); }
-		const_reverse_iterator	rbegin() const{ return const_reverse_iterator(end() - 1); }
-		reverse_iterator		rend() { return reverse_iterator(begin() - 1); }
-		const_reverse_iterator	rend() const{ return const_reverse_iterator(begin() - 1); }
+		iterator				begin()		{ return iterator(_data); }
+		iterator				end()		{ return iterator(_data + _size); }
+		reverse_iterator		rbegin()	{ return reverse_iterator(end() - 1); }
+		reverse_iterator		rend()		{ return reverse_iterator(begin() - 1); }
+
+		const_iterator			begin() const	{ return const_iterator(_data); }
+		const_iterator			end() const		{ return const_iterator(_data + _size); }
+		const_reverse_iterator	rbegin() const	{ return const_reverse_iterator(end() - 1); }
+		const_reverse_iterator	rend() const	{ return const_reverse_iterator(begin() - 1); }
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -195,9 +209,11 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		bool		empty() const { return _size == 0; }
-		size_type	size() const { return _size; }
-		size_type	max_size() const { return _alloc.max_size() ; }  //maybe add ram available?
+		bool		empty() const		{ return _size == 0; }
+		size_type	size() const		{ return _size; }
+		size_type	max_size() const	{ return _alloc.max_size(); }  //maybe add ram available?
+		size_type	capacity() const	{ return _capacity; }
+
 		void		reserve( size_type new_cap )
 		{
 			if (_capacity > new_cap)
@@ -218,7 +234,6 @@ namespace ft{
 			_data = newData;
 		}
 
-		size_type	capacity() const { return _capacity; }
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -248,7 +263,9 @@ namespace ft{
 		void		insert( iterator pos, size_type count, const T& value );
 
 		template< class InputIt >
-		void	insert( iterator pos, InputIt first, InputIt last );
+		void	insert( iterator pos,
+						typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type first,
+						InputIt last );
 
 		iterator	erase( iterator pos )
 		{

@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/02 22:06:50 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/03 22:00:49 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ namespace ft{
 			typedef typename iterator_traits<Iter>::pointer				pointer;
 			typedef typename iterator_traits<Iter>::reference			reference;
 			typedef typename iterator_traits<Iter>::iterator_category	iterator_category;
+
+		// public :
+		// 	typedef Iter								iterator_type;
+		// 	typedef typename Iter::difference_type		difference_type;
+		// 	typedef typename Iter::value_type			value_type;
+		// 	typedef typename Iter::pointer				pointer;
+		// 	typedef typename Iter::reference			reference;
+		// 	typedef typename Iter::iterator_category	iterator_category;
 
 		protected :
 			Iter	current;
@@ -113,7 +121,7 @@ namespace ft{
 				return *this;
 			}
 
-	}; // reverse_iterator
+	}; // class reverse_iterator
 
 	template< class Iter >
 	reverse_iterator<Iter>
@@ -173,7 +181,6 @@ namespace ft{
 		return lhs.base() >= rhs.base();
 	}
 
-	// // TO DO LATER
 	template< class InputIt >
 	typename iterator_traits<InputIt>::difference_type
 	distance (InputIt first, InputIt last)
@@ -197,6 +204,7 @@ namespace ft{
 			while (n--)
 				it++;
 	}
+
 }; // namespace ft
 
 #endif
