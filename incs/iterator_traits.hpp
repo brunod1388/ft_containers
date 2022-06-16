@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 22:00:49 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/15 04:18:31 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,22 @@ namespace ft{
 	template< class Iter >
 	class reverse_iterator {
 
-		public :
-			typedef Iter												iterator_type;
-			typedef typename iterator_traits<Iter>::difference_type		difference_type;
-			typedef typename iterator_traits<Iter>::value_type			value_type;
-			typedef typename iterator_traits<Iter>::pointer				pointer;
-			typedef typename iterator_traits<Iter>::reference			reference;
-			typedef typename iterator_traits<Iter>::iterator_category	iterator_category;
-
 		// public :
-		// 	typedef Iter								iterator_type;
-		// 	typedef typename Iter::difference_type		difference_type;
-		// 	typedef typename Iter::value_type			value_type;
-		// 	typedef typename Iter::pointer				pointer;
-		// 	typedef typename Iter::reference			reference;
-		// 	typedef typename Iter::iterator_category	iterator_category;
+		// 	typedef Iter												iterator_type;
+		// 	typedef typename iterator_traits<Iter>::difference_type		difference_type;
+		// 	typedef typename iterator_traits<Iter>::value_type			value_type;
+		// 	typedef typename iterator_traits<Iter>::pointer				pointer;
+		// 	typedef typename iterator_traits<Iter>::reference			reference;
+		// 	typedef typename iterator_traits<Iter>::iterator_category	iterator_category;
+
+		public :
+			typedef Iter								iterator_type;
+			typedef typename Iter::difference_type		difference_type;
+			typedef typename Iter::value_type			value_type;
+			typedef typename Iter::pointer				pointer;
+			typedef typename Iter::reference			reference;
+			typedef typename Iter::const_iterator		const_Iter; //test
+			typedef typename Iter::iterator_category	iterator_category;
 
 		protected :
 			Iter	current;
@@ -60,7 +61,12 @@ namespace ft{
 			reverse_iterator() : current(Iter()) {}
 			explicit reverse_iterator( iterator_type x ) : current(x) {}
 			template< class U >
-			reverse_iterator( const reverse_iterator<U>& other ) : current(other.current) {}
+			reverse_iterator( const reverse_iterator& other ) : current(other.current) {}
+
+			operator reverse_iterator<const_Iter>() const
+			{
+				return reverse_iterator<const_Iter>(current);
+			}
 
 			reverse_iterator& operator=(const reverse_iterator& rhs)
 			{
@@ -73,7 +79,7 @@ namespace ft{
 			reference			operator*(void) const { return *current; }
 			pointer				operator->(void) const { return current; }
 
-			reference			operator[](size_t i) const { return current[current - 1 - i]; }
+			reference			operator[](size_t i) const { return *(current - i - 1); }
 
 			reverse_iterator&	operator++()
 			{

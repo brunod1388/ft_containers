@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/06/08 16:07:56 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/06/16 01:43:03 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS	= main.cpp
 
 CC		= c++-11
 
-CFLAGS	+= -Wall -Wextra -Werror -std=c++98  #-fsanitize=address 
+CFLAGS	+= -Wall -Wextra -Werror -std=c++98 -g #-fsanitize=address 
 
 CFLAGS	+= -I$I  
 SRCS	:= $(foreach file,$(SRCS),$S$(file))
@@ -55,5 +55,8 @@ clean:
 fclean: clean
 		@echo "Everything!"
 		@$(RM) $(NAME)
+
+test:	re
+		./$(NAME)
 
 re:	fclean all

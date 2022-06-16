@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/08 16:07:50 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/15 04:17:32 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 namespace ft{
 
 	template <typename T>
-	class vector_iterator {
-
+	class vector_iterator 
+	{
 		public:
 			typedef ptrdiff_t						difference_type;
 			typedef T								value_type;
 			typedef T*								pointer;
 			typedef T&								reference;
+			typedef vector_iterator<const T>		const_iterator; // test
 			typedef ft::random_access_iterator_tag	iterator_category;
 
 		private :
@@ -34,7 +35,6 @@ namespace ft{
 			vector_iterator(void) : _p(NULL) {}
 			vector_iterator(pointer p) : _p(p) {}
 			vector_iterator(const vector_iterator& src) { *this = src; }
-			vector_iterator(T &p) : _p(p) {}
 			~vector_iterator(void) {}
 
 			vector_iterator& operator=(const vector_iterator& rhs)
@@ -43,8 +43,15 @@ namespace ft{
 				return *this;
 			}
 
+			pointer	base() const { return _p; }
+
 			reference	operator*(void) const { return *_p; }
 			pointer		operator->(void) const { return _p; }
+
+			operator vector_iterator<const T>() const
+			{
+				return vector_iterator<const T>(_p);
+			}
 
 			vector_iterator&	operator++(void)
 			{
@@ -54,8 +61,7 @@ namespace ft{
 
 			vector_iterator	operator++(int)
 			{
-				vector_iterator it(_p++);
-				return it;
+				return vector_iterator(_p++);
 			}
 
 			vector_iterator&	operator--(void)
@@ -66,8 +72,7 @@ namespace ft{
 
 			vector_iterator	operator--(int)
 			{
-				vector_iterator it(_p--);
-				return it;
+				return vector_iterator(_p--);
 			}
 
 			vector_iterator	operator+(const difference_type n) const { return vector_iterator(_p + n); }
@@ -81,13 +86,13 @@ namespace ft{
 			bool	operator<=(const vector_iterator rhs) const { return _p <= rhs._p; }
 			bool	operator>=(const vector_iterator rhs) const { return _p >= rhs._p; }
 
-			reference	operator+=(difference_type n)
+			vector_iterator	operator+=(difference_type n)
 			{
 				_p += n;
 				return *this;
 			}
 
-			reference	operator-=(difference_type n)
+			vector_iterator	operator-=(difference_type n)
 			{
 				_p -= n;
 				return *this;

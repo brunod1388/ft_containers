@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/08 16:07:59 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/16 02:50:12 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
 	if (argc == 1 || isTest("is_integral", argv[1])) test("is_integral", integral_test);
 	if (argc == 1 || isTest("pair", argv[1])) test("pair", pair_test);
 	if (argc == 1 || isTest("vector", argv[1])) test("vector", vector_test);
-	if (argc == 1 || isTest("stack", argv[1])) test("stack", stack_test);
+	// if (argc == 1 || isTest("stack", argv[1])) test("stack", stack_test);
 
 	return (0);
 }
@@ -351,16 +351,157 @@ void	vector_test(void)
 	va2.assign(it2, v2.end());
 	print_vector(va, va2);
 
+	std::cout << "va.at(2)  : " <<va.at(2) << std::endl;
+	std::cout << "va2.at(2) : " <<va2.at(2) << std::endl;
+
 	va.assign(v.begin(), v.end());
 	va2.assign(v2.begin(), v2.end());
+	// va.assign(v2.end(), v2.begin());
 	print_vector(va, va2);
+
+	// va.insert(va.begin() + 5, 777);
+	// va2.insert(va2.begin() + 5, 777);
+	// print_vector(va, va2);
 
 	ft::vector<int> vfill(10, 55);
 	std::vector<int> vfill2(10, 55);
 	print_vector(vfill, vfill2);
 
-	ft::vector<int> vfill(10, 55);
-	ft::vector<int>::const_iterator cIt = v.begin();
+	// ft::vector<int> vfill(10, 55);
+	// ft::vector<int> vx;
+	// ft::vector<int>::const_iterator cIt = vx.begin();
+	// std::vector<int> vx2;
+	// std::vector<int>::const_iterator cIt2 = vx2.begin();
+
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===           resize            ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+
+	print_vector(va, va2);
+	// v.resize(20, 13);
+	va.resize(50, 13);
+	va2.resize(50, 13);
+	print_vector(va, va2);
+	va.resize(5, 13);
+	va2.resize(5, 13);
+	print_vector(va, va2);
+
+
+
+	// va.assign(7, 7);
+	// va2.assign(7, 7);
+	// print_vector(va, va2);
+	// va.assign(3, 3);
+	// va2.assign(3, 3);
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===       insert one el         ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+
+
+	va = ft::vector<int>(2, 1);
+	va2 = std::vector<int>(2, 1);
+	print_vector(va, va2);
+	va.insert(va.begin(), 11);
+	va2.insert(va2.begin(), 11);
+	print_vector(va, va2);
+	va.insert(va.end(), 100);
+	va2.insert(va2.end(), 100);
+	print_vector(va, va2);
+	va.insert(va.end(), 100);
+	va2.insert(va2.end(), 100);
+	print_vector(va, va2);
+
+	{
+
+		ft::vector<int> vi;
+		std::vector<int> vi2;
+		print_vector(vi, vi2);
+
+		// std::cout << "TEST   : " << vi.begin().base() << std::endl;
+		// std::cout << "TEST   : " << vi2.begin().base() << std::endl;
+		// std::cout << "TEST   : " << vi.end().base() << std::endl;
+		// std::cout << "TEST   : " << vi2.end().base() << std::endl;
+		
+
+		vi.insert(vi.begin(), 11);
+		vi2.insert(vi2.begin(), 11);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+	}
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===       insert n el           ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+
+	{
+
+		ft::vector<int> vi = ft::vector<int>(2, 11);
+		std::vector<int> vi2 = std::vector<int>(2, 11);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.begin(), 1, 11);
+		vi2.insert(vi2.begin(), 1, 11);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+	}
+
+	{
+		ft::vector<int> vi;
+		std::vector<int> vi2;
+		print_vector(vi, vi2);
+
+		vi.insert(vi.begin(), 1, 11);
+		vi2.insert(vi2.begin(), 1, 11);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+
+		vi.insert(vi.end(), 100);
+		vi2.insert(vi2.end(), 100);
+		print_vector(vi, vi2);
+	}
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===       insert iter           ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+
+	{
+		ft::vector<int> ftV;
+		ft::vector<int> ftV2(10, 100);
+		std::vector<int> stdV;
+		std::vector<int> stdV2(10, 100);
+
+		for (size_t i = 0; i < 10; i++)
+		{
+			ftV.push_back(i);
+			stdV.push_back(i);
+		}
+
+		ftV2.insert(ftV2.begin() + 2, ftV.begin() + 1, ftV.end() - 4);
+		stdV2.insert(stdV2.begin() + 2, stdV.begin() + 1, stdV.end() - 4);
+
+		print_vector(ftV2, stdV2);
+
+	}
+
 }
 
 

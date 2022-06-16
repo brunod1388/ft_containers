@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 02:29:43 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/15 16:31:15 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ namespace ft{
 
 		stack(const stack& src) : c(src.c) {}
 
-		// template< class InputIt >
-		// stack( InputIt first, InputIt last ) : c(first, last) {}
+		template< class InputIt >
+		stack( InputIt first, InputIt last ) : c(first, last) {}
 
 		~stack( void ) {}
 
-		stack& operator=(const stack& rhs) { this->c = rhs.s; }
+		stack& operator=(const stack& rhs) { c = rhs.c; return *this; }
 
 		reference		top( void ) { return c.back(); }
 		const_reference	top( void ) const { return c.back(); }
