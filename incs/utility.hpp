@@ -6,12 +6,14 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 18:43:48 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/16 23:07:37 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILITY_HPP
 # define UTILITY_HPP
+
+#include <ostream>
 
 namespace ft{
 
@@ -99,15 +101,15 @@ namespace ft{
 		return os;
 	}
 
-	template< typename T>    // not sur about this
-	void	swap(T a, T b)
-	{
-		T c;
+	// template< typename T>    // not sur about this
+	// void	swap(T a, T b)
+	// {
+	// 	T c;
 
-		c = a;
-		a = b;
-		b = c;
-	}
+	// 	c = a;
+	// 	a = b;
+	// 	b = c;
+	// }
 
 } // namespace ft
 #endif

@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/06/16 01:43:03 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/06/16 22:58:56 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,5 +58,9 @@ fclean: clean
 
 test:	re
 		./$(NAME)
+
+tree:
+		@$(CC) $(CFLAGS) srcs/maintree.cpp -o tree_test
+		./tree_test
 
 re:	fclean all

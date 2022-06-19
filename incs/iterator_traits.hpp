@@ -6,13 +6,14 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/15 04:18:31 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/16 23:07:10 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_TRAITS_HPP
 # define ITERATOR_TRAITS_HPP
 #include <typeinfo>
+#include <cstddef>
 
 namespace ft{
 

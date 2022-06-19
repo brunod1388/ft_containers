@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/16 02:50:12 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/16 03:03:04 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stack>
 
 #include "vector.hpp"
+#include "map.hpp"
 #include "stack.hpp"
 #include "type_traits.hpp"
 #include "utility.hpp"
@@ -499,7 +500,6 @@ void	vector_test(void)
 		stdV2.insert(stdV2.begin() + 2, stdV.begin() + 1, stdV.end() - 4);
 
 		print_vector(ftV2, stdV2);
-
 	}
 
 }
