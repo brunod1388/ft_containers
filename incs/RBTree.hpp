@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/18 04:11:22 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/23 01:48:10 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace ft
 
 	private:
 
-		typedef struct RBNode
+		struct RBNode
 		{
 			T			content;
 			RBNode*		parent;
@@ -61,8 +61,8 @@ namespace ft
 			RBNode*		right;
 
 			RBNode(T content,
-				   RBNode *parent,
-				   color_type color = "BLACK",
+				   RBNode *parent = NULL,
+				   color_type color = BLACK,
 				   RBNode *left = NULL,
 				   RBNode *right = NULL) :
 				content(content),
@@ -98,38 +98,37 @@ namespace ft
 				return !(*this == rhs);
 			}
 
-		}	node; // struct RBNode
+		}; // struct RBNode
 
-		typedef typename Allocator::template rebind<RBNode>::other RBNodeAllocator;
+		typedef struct RBNode										node;
+		typedef struct RBNode*										node_pointer;
+
+		typedef typename Allocator::template rebind<RBNode>::other	RBNodeAllocator;
+
 
 		RBNodeAllocator	_alloc;
-		node*			_root;
-		size_type		_size;
+		node_pointer			_root;
 
-		node*	_newNode(T content,
-						 RBNode *parent = NULL,
-						 color_type color = BLACK,
-						 RBNode *left = NULL,
-						 RBNode *right = NULL)
+		node_pointer	_newNode(T content, RBNodeAllocator &alloc)
 		{
-			node*	node = _alloc.allocate(1);
-			_alloc.construct(node, RBNode(content, parent, color, left, right));
+			node_pointer	n = alloc.allocate(1);
+			alloc.construct(n, RBNode(content));
 
-			return node;
+			return n;
 		}
 
-		void _delRBNode(const RBNodeAllocator &alloc, RBNode* node)
+		void _delRBNode(RBNodeAllocator &alloc, node_pointer n)
 		{
-			alloc.destroy(node);
-			alloc.deallocate(node, 1);
+			alloc.destroy(n);
+			alloc.deallocate(n, 1);
 		}
 
-		void print_node(node *root, std::string indent = "")
+		void _printNode(node *root, std::string indent = "", bool isR = true)
 		{
 			if (!root)
 				return ;
 			std::cout << indent;
-			if (!root->left && !root->right)
+			if (isR)
 			{
 				std::cout << "R----";
 				indent += "    ";
@@ -139,32 +138,9 @@ namespace ft
 				std::cout << "L----";
 				indent += "|  ";
 			}
-			std::cout << root->content << "(" << (root->color == RED ? "RED" : "BLACK") << ")" << std::endl;
-			print_node(root->left, indent);
-			print_node(root->right, indent);
-		}
-
-	public:
-
-		RBTree(void) :
-			_alloc(RBNodeAllocator()),
-			_root(NULL),
-			_size(0)
-		{}
-
-		RBTree(const T& src)
-		{
-			*this = src;   // pas ca du tout en vrai, a faire
-		}
-		~RBTree(void) {}
-
-		RBTree&	operator=(const RBTree& rhs)
-		{
-			_root = rhs._root; // shold be replaced by deep copy
-			_size = rhs._size;
-			_alloc = rhs._alloc;
-
-			return *this;
+			std::cout << root->content << "(" << (root->color == BLACK ? "BLACK" : "RED") << ")" << std::endl;
+			_printNode(root->left, indent, false);
+			_printNode(root->right, indent, true);
 		}
 
 		/*========================================================*/
@@ -178,12 +154,12 @@ namespace ft
 		/*==		b   c						a   b			==*/
 		/*========================================================*/
 
-		void	leftRotate(node* n)
+		void	_leftRotate(node_pointer n)
 		{
-			node*	x = n;
-			node*	y = n->right;
-			node*	p = x->parent;
-			node*	b = y->left;
+			node_pointer	x = n;
+			node_pointer	y = n->right;
+			node_pointer	p = x->parent;
+			node_pointer	b = y->left;
 
 			x->right = b;
 			if (b)
@@ -209,12 +185,12 @@ namespace ft
 		/*==	 / \								 / \		==*/
 		/*==	c   b								b   a		==*/
 		/*========================================================*/
-		void	rightRotate(node* n)
+		void	_rightRotate(node_pointer n)
 		{
-			node*	x = n->left;
-			node*	y = n;
-			node*	p = y->parent;
-			node*	b = x->right;
+			node_pointer	x = n->left;
+			node_pointer	y = n;
+			node_pointer	p = y->parent;
+			node_pointer	b = x->right;
 
 			x->right = y;
 			if (b)
@@ -230,52 +206,59 @@ namespace ft
 			y->parent = x;
 		}
 
-		void insertFix(node *newNode)
+		void _insertFix(node *newNode)
 		{
-			node* uncle;
+			node_pointer	uncle;
+			node_pointer	parent;
+
 			while (newNode->parent->color == RED)
 			{
-				if (newNode->parent == newNode->parent->parent->right)
-				{
-					uncle = newNode->parent->parent->left;
-					if (uncle->color == RED)
-					{
-						uncle->color = BLACK;
-						newNode->parent->color = BLACK;
-						newNode->parent->parent->color = RED;
-						newNode = newNode->parent->parent;
-					}
-					else
-					{
-						if (newNode == newNode->parent->left)
-						{
-							newNode = newNode->parent;
-							rightRotate(newNode);
-						}
-						newNode->parent->color = BLACK;
-						newNode->parent->parent->color = RED;
-						leftRotate(newNode->parent->parent);
-					}
-				} else {
-					uncle = newNode->parent->parent->right;
+				parent = newNode->parent;
 
-					if (uncle->color == RED)
+				if (parent == parent->parent->left)
+				{
+					uncle = parent->parent->right;
+
+					if (uncle && uncle->color == RED)
 					{
 						uncle->color = BLACK;
-						newNode->parent->color = BLACK;
-						newNode->parent->parent->color = RED;
-						newNode = newNode->parent->parent;
+						parent->color = BLACK;
+						parent->parent->color = RED;
+						newNode = parent->parent;
 					}
 					else
 					{
-						if (newNode == newNode->parent->right)
+						if (newNode == parent->right)
 						{
-							newNode = newNode->parent;
-							leftRotate(newNode);
+							newNode = parent;
+							_leftRotate(newNode);
 						}
-						newNode->parent->color = BLACK;
-						newNode->parent->parent->color = RED;
-						rightRotate(newNode->parent->parent);
+						parent->color = BLACK;
+						parent->parent->color = RED;
+						_rightRotate(parent->parent);
+					}
+				}
+				else
+				{
+					uncle = parent->parent->left;
+
+					if (uncle && uncle->color == RED)
+					{
+						uncle->color = BLACK;
+						parent->color = BLACK;
+						parent->parent->color = RED;
+						newNode = parent->parent;
+					}
+					else
+					{
+						if (newNode == parent->left)
+						{
+							newNode = parent;
+							_rightRotate(newNode);
+						}
+						parent->color = BLACK;
+						parent->parent->color = RED;
+						_leftRotate(parent->parent);
 					}
 				}
 				if (newNode == _root)
@@ -284,11 +267,157 @@ namespace ft
 			_root->color = BLACK;
 		}
 
+	void	_deleteFix(node_pointer x)
+	{
+		node_pointer	bro;
+
+		while (x != _root && x->color == BLACK)
+		{
+			if (x == x->parent->left)
+			{
+				bro = x->parent->right;
+				if (bro->color == RED)
+				{
+					bro->color = BLACK;
+					x->parent->color = RED;
+					_leftRotate(x->parent);
+					bro = x->parent->right;
+				}
+				if (bro->right->color == BLACK && bro->left->color == BLACK)
+				{
+					bro->color = RED;
+					x = x->parent;
+				}
+				else if (bro->right->color == BLACK)
+				{
+					bro->left->color = BLACK;
+					bro->color = RED;
+					_rightRotate(bro);
+					bro = x->parent->right;
+				}
+				else
+				{
+					bro->color = x->parent->color;
+					x->parent->color = BLACK;
+					bro->right->color = BLACK;
+					_leftRotate(x);
+					x = _root;
+				}
+			}
+			else
+			{
+				bro = x->parent->left;
+				if (bro->color == RED)
+				{
+					bro->color = BLACK;
+					x->parent->color = RED;
+					_rightRotate(x->parent);
+					bro = x->parent->left;
+				}
+				if (bro->left->color == BLACK && bro->right->color == BLACK)
+				{
+					bro->color = RED;
+					x = x->parent;
+				}
+				else if (bro->left->color == BLACK)
+				{
+					bro->right->color = BLACK;
+					bro->color = RED;
+					_leftRotate(bro);
+					bro = x->parent->left;
+				}
+				else
+				{
+					bro->color = x->parent->color;
+					x->parent->color = BLACK;
+					bro->left->color = BLACK;
+					_rightRotate(x);
+					x = _root;
+				}
+			}
+		}
+		x->color = BLACK;
+	}
+
+	void	_transplant(node_pointer x, node_pointer y)
+	{
+		if (!x->parent)
+			_root = y;
+		else if (x->parent->left == x)
+			x->parent->left = y;
+		else
+			x->parent->right = y;
+		if (y)
+			y->parent = x->parent;
+	}
+
+	void	_clearNode(RBNodeAllocator &alloc, node_pointer n)
+	{
+		if (n->left)
+			_clearNode(alloc, n->left);
+		if (n->right)
+			_clearNode(alloc, n->right);
+		_delRBNode(alloc, n);
+	}
+
+	public:
+
+		RBTree(void) :
+			_alloc(RBNodeAllocator()),
+			_root(NULL)
+		{}
+
+		RBTree(const T& src)
+		{
+			*this = src;   // pas ca du tout en vrai, a faire
+		}
+		~RBTree(void) {}
+
+		RBTree&	operator=(const RBTree& rhs)
+		{
+			_root = rhs._root; // shold be replaced by deep copy
+			_alloc = rhs._alloc;
+
+			return *this;
+		}
+
+		node_pointer getRoot(void) { return _root; }
+
+		node_pointer getNode(const T&key)
+		{
+			node_pointer current = _root;
+
+			while (current)
+			{
+				if (current->content == key)
+					return current;
+				if (key < current->content) // maybe <= because of deletion in case of doubles....
+					current = current->left;
+				else
+					current = current->right;
+			}
+			return current;
+		}
+
+		node_pointer	minimum(node_pointer n)
+		{
+			while (n->left)
+				n = n->left;
+			return n;
+		}
+
+		node_pointer	maximum(node_pointer n)
+		{
+			while (n->right)
+				n = n->right;
+			return n;
+		}
+
 		void insert(const T& key)
 		{
-			node* newNode = _newNode(key);
-			node* current = _root;
-			node* parent = NULL;
+			node_pointer newNode = _newNode(key, _alloc);
+			node_pointer current = _root;
+			node_pointer parent = NULL;
 
 			while (current)
 			{
@@ -301,22 +430,74 @@ namespace ft
 
 			newNode->parent = parent;
 			if (!parent)
+			{
 				_root = newNode;
+				return ;
+			}
 			else if (newNode->content < parent->content)
 				parent->left = newNode;
 			else
 				parent->right = newNode;
 
-			if (!parent || !parent->parent)
+			if (!parent->parent)
 				return ;
 
-			insertFix(newNode);
+			newNode->color = RED;
+			_insertFix(newNode);
 		}
 
-		void	print(void)
+		bool	deleteKey(const T&key)
 		{
-			print_node(_root);
+			node_pointer		toDelete = getNode(key);
+			color_type			original_color;
+			node_pointer		x, y;
+
+			if (!toDelete)
+				return false;
+
+			original_color = toDelete->color;
+			if (!toDelete->left)
+			{
+				x = toDelete->right;
+				_transplant(toDelete, x);
+			}
+			else if (!toDelete->right)
+			{
+				x = toDelete->left;
+				_transplant(toDelete, x);
+			}
+			else
+			{
+				y = minimum(toDelete->right);
+				original_color = y->color;
+				x = y->right;
+				if (y->parent == toDelete)
+					x->parent = y;
+				else
+				{
+					_transplant(y, y->right);
+					y->right = toDelete->right;
+					y->right->parent = y;
+				}
+				_transplant(toDelete, y);
+				y->left = toDelete->left;
+				y->left->parent = y;
+				y->color = toDelete->color;
+			}
+			_delRBNode(_alloc, toDelete);
+			if (original_color == BLACK)
+				_deleteFix(x);
+			return true;
 		}
+
+		void	clear(void)
+		{
+			_clearNode(_alloc, _root);
+			_root = NULL;
+		}
+
+		void	print(void) { _printNode(_root); }
+
 	}; // class RBTree
 
 } // namespace ft
