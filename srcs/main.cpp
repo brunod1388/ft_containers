@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/16 03:03:04 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/06 22:33:07 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,43 @@
 #include <utility>
 #include <vector>
 #include <stack>
+#include <list>
 
 #include "vector.hpp"
-#include "map.hpp"
+// #include "map.hpp"
 #include "stack.hpp"
 #include "type_traits.hpp"
 #include "utility.hpp"
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
+#define TEST 0
+
 struct Buffer
 {
 	int idx;
 	char buff[BUFFER_SIZE];
 };
+
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 class A {};
 enum E {};
+
+class truc
+{
+	int i;
+public:
+	truc(int x = 0) : i(x) {}
+	truc(const truc& src) { *this = src; }
+	~truc() {};
+
+	truc& operator=(const truc& rhs) { i = rhs.i; return *this; }
+
+	void	f()
+	{
+		std::cout << "KIKOUU! : " << i << std::endl;
+	}
+};
 
 void	test(std::string s, void (*f)(void));
 void	subject_test(void);
@@ -52,8 +72,8 @@ std::ostream &operator<<( std::ostream &os, const std::vector<T, Alloc>& rhs )
 	return os;
 }
 
-template <typename T>
-void print_vector(ft::vector<T> &v, std::vector<T> &v2)
+template <typename T1, typename T2>
+void print_vector(T1 &v, T2 &v2)
 {
 	std::cout << "ft::v      : " << v << "    " << std:: endl;
 	std::cout << "std::v     : "<< v2 << std::endl;
@@ -68,7 +88,6 @@ void print_vector(ft::vector<T> &v, std::vector<T> &v2)
 		std::cout << "*(end-1)   : " << std::setw(15) << *(v.end()-1)  << "    " << std::setw(15) << *(v2.end()-1) << std::endl;
 		std::cout << "*(end)   : " << std::setw(15) << *(v.end())  << "    " << std::setw(15) << *(v2.end()) << std::endl;
 	}
-	
 	std::cout << std::endl;
 }
 
@@ -95,7 +114,10 @@ int main(int argc, char **argv) {
 	if (argc == 1 || isTest("pair", argv[1])) test("pair", pair_test);
 	if (argc == 1 || isTest("vector", argv[1])) test("vector", vector_test);
 	// if (argc == 1 || isTest("stack", argv[1])) test("stack", stack_test);
-
+	// if (argc == 1 || isTest("map", argv[1])) test("map", map_test);
+	
+	if (TEST)
+		while(42);
 	return (0);
 }
 
@@ -502,8 +524,186 @@ void	vector_test(void)
 		print_vector(ftV2, stdV2);
 	}
 
-}
+	std::cout << "===================================" << std::endl;
+	std::cout << "===       insert iter list      ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+	{
+		struct machin
+		{
+			ft::vector<int>::iterator ift;
+			std::vector<int>::iterator ist;
 
+			machin() : ift(), ist() {}
+		};
+
+		std::list<int> lst;
+		std::list<int>::iterator lst_it;
+		for (int i = 1; i < 5; ++i)
+			lst.push_back(i * 3);
+
+		ft::vector<int> vft(lst.begin(), lst.end());
+		std::vector<int> vstd(lst.begin(), lst.end());
+
+		print_vector(vft, vstd);
+
+		{
+			ft::vector<int>::iterator	ift = vft.begin();
+			std::vector<int>::iterator	ist = vstd.begin();
+			struct machin				*m = new machin();
+
+			m->ift = ift;
+			m->ist = ist;
+
+			std::cout << "ift : " << *ift << std::endl;
+			std::cout << "ist : " << *ist << std::endl;
+
+			++*ift;
+			++*ist;
+
+			std::cout << "ift : " << *++ift << std::endl;
+			std::cout << "ist : " << *++ist << std::endl;
+
+			std::cout << "ift : " << *m->ift << std::endl;
+			std::cout << "ist : " << *m->ist << std::endl << std::endl;
+			delete m;
+		}
+
+
+		{
+			ft::vector<int>::const_iterator		cift = vft.begin();
+			std::vector<int>::const_iterator	cist = vstd.begin();
+
+			std::cout << "cift : " << *cift << std::endl;
+			std::cout << "cist : " << *cist << std::endl;
+
+			++cift;
+			++cist;
+
+			std::cout << "cift : " << *++cift << std::endl;
+			std::cout << "cist : " << *++cist << std::endl;
+		}
+
+	}
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===      relational operator    ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+	{
+
+		std::list<int> lst;
+		std::list<int>::iterator lst_it;
+		for (int i = 1; i < 5; ++i)
+			lst.push_back(i * 3);
+
+		
+		ft::vector<int> vft(lst.begin(), lst.end());
+		std::vector<int> vstd(lst.begin(), lst.end());
+		ft::vector<int> vft2(lst.begin(), lst.end());
+		std::vector<int> vstd2(lst.begin(), lst.end());
+
+		print_vector(vft, vstd);
+		std::cout << std::endl << " vft2 and vstd2 :" << std::endl;
+		print_vector(vft2, vstd2);
+
+		std::cout << "vft <  vft2 : vstd <  vstd2    " << (vft < vft2)  << ":" <<(vstd < vstd2) << std::endl;
+		std::cout << "vft <= vft2 : vstd <= vstd2    " << (vft <= vft2) << ":" <<(vstd <= vstd2) << std::endl;
+		std::cout << "vft >  vft2 : vstd >  vstd2    " << (vft > vft2)  << ":" <<(vstd > vstd2) << std::endl;
+		std::cout << "vft >= vft2 : vstd >= vstd2    " << (vft >= vft2) << ":" <<(vstd >= vstd2) << std::endl;
+		std::cout << "vft == vft2 : vstd == vstd2    " << (vft == vft2) << ":" <<(vstd == vstd2) << std::endl;
+		std::cout << "vft != vft2 : vstd != vstd2    " << (vft != vft2) << ":" <<(vstd != vstd2) << std::endl;
+
+		std::cout << std::endl << " Push 42 on vft and vsyd" << std::endl << std::endl;
+		vft.push_back(42);
+		vstd.push_back(42);
+		print_vector(vft, vstd);
+		std::cout << std::endl << " vft2 and vstd2 :" << std::endl;
+		print_vector(vft2, vstd2);
+		std::cout << "vft <  vft2 : vstd <  vstd2    " << (vft < vft2)  << ":" <<(vstd < vstd2) << std::endl;
+		std::cout << "vft <= vft2 : vstd <= vstd2    " << (vft <= vft2) << ":" <<(vstd <= vstd2) << std::endl;
+		std::cout << "vft >  vft2 : vstd >  vstd2    " << (vft > vft2)  << ":" <<(vstd > vstd2) << std::endl;
+		std::cout << "vft >= vft2 : vstd >= vstd2    " << (vft >= vft2) << ":" <<(vstd >= vstd2) << std::endl;
+		std::cout << "vft == vft2 : vstd == vstd2    " << (vft == vft2) << ":" <<(vstd == vstd2) << std::endl;
+		std::cout << "vft != vft2 : vstd != vstd2    " << (vft != vft2) << ":" <<(vstd != vstd2) << std::endl;
+
+		std::cout << std::endl << " Push 84 on vft2 and vstd2" << std::endl << std::endl;
+		vft2.push_back(84);
+		vstd2.push_back(84);
+		print_vector(vft, vstd);
+		std::cout << std::endl << " vft2 and vstd2 :" << std::endl;
+		print_vector(vft2, vstd2);
+		std::cout << "vft <  vft2 : vstd <  vstd2    " << (vft < vft2)  << ":" <<(vstd < vstd2) << std::endl;
+		std::cout << "vft <= vft2 : vstd <= vstd2    " << (vft <= vft2) << ":" <<(vstd <= vstd2) << std::endl;
+		std::cout << "vft >  vft2 : vstd >  vstd2    " << (vft > vft2)  << ":" <<(vstd > vstd2) << std::endl;
+		std::cout << "vft >= vft2 : vstd >= vstd2    " << (vft >= vft2) << ":" <<(vstd >= vstd2) << std::endl;
+		std::cout << "vft == vft2 : vstd == vstd2    " << (vft == vft2) << ":" <<(vstd == vstd2) << std::endl;
+		std::cout << "vft != vft2 : vstd != vstd2    " << (vft != vft2) << ":" <<(vstd != vstd2) << std::endl;
+
+		std::cout << std::endl << " Push 84 on vft2 and vstd2" << std::endl << std::endl;
+		vft2.push_back(84);
+		vstd2.push_back(84);
+		print_vector(vft, vstd);
+		std::cout << std::endl << " vft2 and vstd2 :" << std::endl;
+		print_vector(vft2, vstd2);
+		std::cout << "vft <  vft2 : vstd <  vstd2    " << (vft < vft2)  << ":" <<(vstd < vstd2) << std::endl;
+		std::cout << "vft <= vft2 : vstd <= vstd2    " << (vft <= vft2) << ":" <<(vstd <= vstd2) << std::endl;
+		std::cout << "vft >  vft2 : vstd >  vstd2    " << (vft > vft2)  << ":" <<(vstd > vstd2) << std::endl;
+		std::cout << "vft >= vft2 : vstd >= vstd2    " << (vft >= vft2) << ":" <<(vstd >= vstd2) << std::endl;
+		std::cout << "vft == vft2 : vstd == vstd2    " << (vft == vft2) << ":" <<(vstd == vstd2) << std::endl;
+		std::cout << "vft != vft2 : vstd != vstd2    " << (vft != vft2) << ":" <<(vstd != vstd2) << std::endl;
+	}
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===      -> and *   operator    ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+	{
+		std::list<truc> lst;
+		std::list<truc>::iterator lst_it;
+		for (int i = 1; i < 5; ++i)
+			lst.push_back(truc(i * 3));
+
+		ft::vector<truc> vft(lst.begin(), lst.end());
+		std::vector<truc> vstd(lst.begin(), lst.end());
+
+		ft::vector<truc>::iterator	ftit = vft.begin();
+		std::vector<truc>::iterator	stdit = vstd.begin();
+
+		ftit->f();
+		stdit->f();
+		ftit++;
+		stdit++;
+		(*ftit).f();
+		(*stdit).f();
+	}
+
+	std::cout << "===================================" << std::endl;
+	std::cout << "===          rev iterator       ===" << std::endl;
+	std::cout << "===================================" << std::endl;
+	{
+		std::list<int> lst;
+		std::list<int>::iterator lst_it;
+		for (int i = 1; i < 5; ++i)
+			lst.push_back(i * 3);
+
+		ft::vector<int> vft(lst.begin(), lst.end());
+		std::vector<int> vstd(lst.begin(), lst.end());
+
+		ft::vector<int>::const_reverse_iterator	ftrit = vft.rbegin();
+		std::vector<int>::reverse_iterator		stdrit = vstd.rbegin();
+
+		{
+			ft::vector<int> vft2(ftrit, vft.rend());
+			std::vector<int> vstd2(stdrit, vstd.rend());
+			print_vector(vft2, vstd2);
+		}
+		// {
+		// 	std::vector<int> vstd2(stdrit, vstd.rend());
+		// 	ft::vector<int> vft2(ftrit, vft.rend());
+		// 	print_vector(vstd2, vft2);
+		// }
+
+		std::cout << 
+	}
+} // vector_test
 
 void	stack_test(void)
 {
@@ -534,6 +734,10 @@ void	stack_test(void)
 	print_stack(st1, st2);
 }
 
+void	map_test(void)
+{
+	return;
+}
 
 // void	subject_test(void)
 // {

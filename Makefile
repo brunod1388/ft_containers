@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/06/23 00:08:05 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/07/07 04:24:49 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ SRCS	= main.cpp
 
 CC		= c++-11
 
-CFLAGS	+= -Wall -Wextra -Werror -std=c++98 -g #-fsanitize=address 
+CFLAGS	= -Wall -Wextra -Werror -std=c++98 -g #-fsanitize=address 
 
-CFLAGS	+= -I$I  
+CFLAGS	+= -I$I 
 SRCS	:= $(foreach file,$(SRCS),$S$(file))
 OBJS	= $(SRCS:$S%=$O%.o)
 DEPS	= $(SRCS:$S%=$D%.d)
@@ -56,8 +56,9 @@ fclean: clean
 		@echo "Everything!"
 		@$(RM) $(NAME)
 
-test:	re
-		./$(NAME)
+test:	fclean
+		@$(CC) $(CFLAGS) -I tests/ srcs/main666.cpp -o test
+		./test
 
 tree:
 		@$(CC) $(CFLAGS) srcs/maintree.cpp -o tree_test

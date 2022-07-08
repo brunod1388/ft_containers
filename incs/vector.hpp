@@ -6,12 +6,14 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/16 02:53:27 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 00:19:34 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
+
+#include <iostream>   //TODELETE
 
 #include <memory>
 #include <ostream>
@@ -22,6 +24,39 @@
 #include "type_traits.hpp"
 
 namespace ft{
+
+	/*-------------------------------------------------------------------------
+	*							ft::vector<T>
+	*
+	*-Coplien form
+	*(constructor)		vector()
+	*					vector( const Allocator& )
+	*					vector( size_type count,
+	*					 		const T& value = T(),
+	*					 		const Allocator& alloc = Allocator())
+	*					vector( InputIt first,
+								InputIt last,
+								const Allocator& alloc = Allocator() )
+						vector( const vector<T> &other )
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*
+	*-------------------------------------------------------------------------*/
 
 	template < class T, class Allocator = std::allocator<T> >
 	class vector
@@ -94,7 +129,7 @@ namespace ft{
 				_alloc.construct(_data + i, *first);
 		}
 
-		vector( const vector<T> &other ) :
+		vector( const vector &other ) :
 			_alloc(other._alloc),
 			_size(other._size),
 			_capacity(other._capacity),
@@ -261,7 +296,9 @@ namespace ft{
 
 			push_back(value);
 			for (size_type i = _size - 1; i > ipos; i--)
+			{
 				_data[i] = _data[i - 1];
+			}
 			_data[ipos] = value;
 			return iterator(_data + ipos);
 		}
@@ -352,6 +389,8 @@ namespace ft{
 		{
 			difference_type diff = last - first;
 
+			if (first == last || first == end())
+				return first;
 			while (first != end())
 			{
 				if (first < end() - diff)
@@ -361,13 +400,14 @@ namespace ft{
 				first++;
 			}
 			_size -= diff;
-			return last - diff;
+			return iterator(&_data[diff]);
 		}
 
 		void	push_back( const T& value )
 		{
 			if (_size == _capacity)
 				reserve(_capacity > 0 ? _capacity * 2 : 1);   //maybe a different behavour when near max size
+
 			_alloc.construct(_data + _size++, value);
 		}
 

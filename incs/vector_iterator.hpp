@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/15 04:17:32 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/06/30 23:30:55 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft{
 
 	template <typename T>
-	class vector_iterator 
+	class vector_iterator
 	{
 		public:
 			typedef ptrdiff_t						difference_type;
@@ -78,6 +78,14 @@ namespace ft{
 			vector_iterator	operator+(const difference_type n) const { return vector_iterator(_p + n); }
 			vector_iterator	operator-(const difference_type n) const { return vector_iterator(_p - n); }
 			difference_type	operator-(vector_iterator rhs) const { return _p - rhs._p; }
+
+			// bool	operator==(const vector_iterator rhs) const { return _p == rhs._p; }
+			// bool	operator!=(const vector_iterator rhs) const { return _p != rhs._p; }
+			// bool	operator<(const vector_iterator rhs) const { return _p < rhs._p; }
+			// bool	operator>(const vector_iterator rhs) const { return _p > rhs._p; }
+			// bool	operator<=(const vector_iterator rhs) const { return _p <= rhs._p; }
+			// bool	operator>=(const vector_iterator rhs) const { return _p >= rhs._p; }
+
 
 			bool	operator==(const vector_iterator rhs) const { return _p == rhs._p; }
 			bool	operator!=(const vector_iterator rhs) const { return _p != rhs._p; }

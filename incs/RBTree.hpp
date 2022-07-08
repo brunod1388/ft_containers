@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/23 01:48:10 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 00:10:35 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,31 @@
 
 namespace ft
 {
+	/*-------------------------------------------------------------------------*/
+	/*                       ft::RBTree fct list                               */
+	/*                                                                         */
+	/*-Coplien form                                                                         */
+	/*(constructor):	                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*                                                                         */
+	/*-------------------------------------------------------------------------*/
 
 	template<
 		class T,
@@ -49,8 +74,6 @@ namespace ft
 		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		typedef enum {BLACK, RED} 								color_type;
-
-	private:
 
 		struct RBNode
 		{
@@ -105,9 +128,10 @@ namespace ft
 
 		typedef typename Allocator::template rebind<RBNode>::other	RBNodeAllocator;
 
+	private:
 
 		RBNodeAllocator	_alloc;
-		node_pointer			_root;
+		node_pointer	_root;
 
 		node_pointer	_newNode(T content, RBNodeAllocator &alloc)
 		{
@@ -271,7 +295,7 @@ namespace ft
 	{
 		node_pointer	bro;
 
-		while (x != _root && x->color == BLACK)
+		while (x && x != _root && x->color == BLACK)
 		{
 			if (x == x->parent->left)
 			{
@@ -336,7 +360,8 @@ namespace ft
 				}
 			}
 		}
-		x->color = BLACK;
+		if (x)
+			x->color = BLACK;
 	}
 
 	void	_transplant(node_pointer x, node_pointer y)
@@ -351,6 +376,19 @@ namespace ft
 			y->parent = x->parent;
 	}
 
+	node_pointer _copy(node_pointer n)
+	{
+		if (n == NULL)
+			return NULL;
+
+		node_pointer newNode = new node(n);
+		newNode->left = copy(n->left);
+		newNode->right = copy(n->right);
+		newNode->left->parent = newNode;
+		newNode->right->parent = newNode;
+		return newNode;
+	}
+
 	void	_clearNode(RBNodeAllocator &alloc, node_pointer n)
 	{
 		if (n->left)
@@ -361,6 +399,11 @@ namespace ft
 	}
 
 	public:
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                     Member Function                       ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
 
 		RBTree(void) :
 			_alloc(RBNodeAllocator()),
@@ -369,17 +412,26 @@ namespace ft
 
 		RBTree(const T& src)
 		{
-			*this = src;   // pas ca du tout en vrai, a faire
+			*this = src;
 		}
-		~RBTree(void) {}
+
+		~RBTree(void) { clear(); }
 
 		RBTree&	operator=(const RBTree& rhs)
 		{
-			_root = rhs._root; // shold be replaced by deep copy
-			_alloc = rhs._alloc;
-
+			if (this != &rhs)
+			{
+				_alloc = rhs._alloc;
+				_root = rhs._copy(rhs._root);
+			}
 			return *this;
 		}
+
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                     Element access                        ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
 
 		node_pointer getRoot(void) { return _root; }
 
@@ -413,12 +465,49 @@ namespace ft
 			return n;
 		}
 
+		node_pointer	previous(node_pointer n)
+		{
+			if (n->left)
+				return maximum(n->left);
+
+			node_pointer prev = n->parent;
+
+			while (prev && n == prev->left)
+			{
+				n = prev;
+				prev = prev->parent;
+			}
+			return prev;
+		}
+
+		node_pointer	next(node_pointer n)
+		{
+			if (n->right)
+				return minimum(n->left);
+
+			node_pointer nxt = n->parent;
+
+			while (nxt && n == nxt->left)
+			{
+				n = nxt;
+				nxt = nxt->parent;
+			}
+			return nxt;
+		}
+
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                        Modifiers                          ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
+
 		void insert(const T& key)
 		{
 			node_pointer newNode = _newNode(key, _alloc);
 			node_pointer current = _root;
 			node_pointer parent = NULL;
 
+			newNode->color = RED;
 			while (current)
 			{
 				parent = current;
@@ -430,19 +519,20 @@ namespace ft
 
 			newNode->parent = parent;
 			if (!parent)
-			{
 				_root = newNode;
-				return ;
-			}
 			else if (newNode->content < parent->content)
 				parent->left = newNode;
 			else
 				parent->right = newNode;
 
+			if (!parent)
+			{
+				newNode->color = BLACK;
+				return ;
+			}
 			if (!parent->parent)
 				return ;
 
-			newNode->color = RED;
 			_insertFix(newNode);
 		}
 
@@ -471,13 +561,14 @@ namespace ft
 				y = minimum(toDelete->right);
 				original_color = y->color;
 				x = y->right;
-				if (y->parent == toDelete)
+				if (x && y->parent == toDelete)
 					x->parent = y;
 				else
 				{
 					_transplant(y, y->right);
 					y->right = toDelete->right;
-					y->right->parent = y;
+					if (y->right)
+						y->right->parent = y;
 				}
 				_transplant(toDelete, y);
 				y->left = toDelete->left;
@@ -501,7 +592,5 @@ namespace ft
 	}; // class RBTree
 
 } // namespace ft
-
-
 
 #endif

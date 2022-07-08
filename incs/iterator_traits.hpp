@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/16 23:07:10 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 00:04:18 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,8 @@ namespace ft{
 	typename iterator_traits<InputIt>::difference_type
 	distance (InputIt first, InputIt last)
 	{
-		if (typeid(typename iterator_traits<InputIt>::iterator_category)
-			== typeid(random_access_iterator_tag))
-			return last - first;                            //maybe better with enable_if to choose
 		typename iterator_traits<InputIt>::difference_type n = 0;
+
 		while (first++ != last)
 			n++;
 		return n;

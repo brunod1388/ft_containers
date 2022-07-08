@@ -1,2 +1,6 @@
 a.out
 *.o
+*.dSYM
+ft_containers_test
+containers_test
+tree_test
