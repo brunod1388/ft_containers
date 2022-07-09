@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/08 23:57:48 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 05:13:23 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,45 @@
 
 namespace ft{
 
+    /*------------------------------------------------------------- 
+     *
+     *
+     * - Coplien form:
+     *	(constructor):	Construct map
+     *	(destructor):	Map destructor
+     *	operator=:		Assign map
+     *
+     * - Iterators:
+     *	begin: 			Return iterator to beginning
+     *	end: 			Return iterator to end
+     *	rbegin: 		Return reverse iterator to reverse beginning
+     *	rend: 			Return reverse iterator to reverse end
+     *
+     * - Capacity:
+     *	empty: 			Test whether container is empty
+     *	size: 			Return container size
+     *	max_size: 		Return maximum size
+     *
+     * - Element access:
+     *	operator:		Access element
+     *
+     * - Modifiers:
+     *	insert: 		Insert elements
+     *	erase: 			Erase elements
+     *	swap: 			Swap content
+     *	clear: 			Clear content
+     *
+     * - Observers:
+     *	key_comp: 		Return key comparison object
+     *	value_comp: 	Return value comparison object
+     *
+     * - Operations:
+     *	find: 			Get iterator to element
+     *	count: 			Count elements with a specific key
+     *	lower_bound: 	Return iterator to lower bound
+     *	upper_bound: 	Return iterator to upper bound
+     *	equal_range  	Get range of equal elements
+     * ------------------------------------------------------------- */
 	template<
 		class Key,
 		class T,

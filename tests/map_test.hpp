@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_test.hpp                                    :+:      :+:    :+:   */
+/*   map_test.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/08 03:06:12 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 02:36:33 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_TESTS_HPP
-# define VECTOR_TESTS_HPP
+#ifndef MAP_TESTS_HPP
+# define MAP_TESTS_HPP
 
 #include <string>
 #include <iostream>
@@ -405,34 +405,35 @@ template <typename T>
 void vectorTest(T* tab, size_t size, std::string type)
 {
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                        Capacity                           ====" <<std::endl
-			  << "===================================================================" <<std::endl;
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_size< ft::vector<T>, std::vector<T> >, tab, size, "size(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_empty< ft::vector<T>, std::vector<T> >, tab, size, "empty(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_max_size< ft::vector<T>, std::vector<T> >, tab, size, "max_size(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_capacity< ft::vector<T>, std::vector<T> >, tab, size, "capacity(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_reserve< ft::vector<T>, std::vector<T> >, tab, size, "reserve(" + type + ")");
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                        Modifiers                          ====" <<std::endl
-			  << "===================================================================" <<std::endl;
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")");
+	// std::cout << "===================================================================" <<std::endl
+	// 		  << "====                        Capacity                           ====" <<std::endl
+	// 		  << "===================================================================" <<std::endl;
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_size< ft::vector<T>, std::vector<T> >, tab, size, "size(" + type + ")");
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_empty< ft::vector<T>, std::vector<T> >, tab, size, "empty(" + type + ")");
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_max_size< ft::vector<T>, std::vector<T> >, tab, size, "max_size(" + type + ")");
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_capacity< ft::vector<T>, std::vector<T> >, tab, size, "capacity(" + type + ")");
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_reserve< ft::vector<T>, std::vector<T> >, tab, size, "reserve(" + type + ")");
+
+	// std::cout << "===================================================================" <<std::endl
+	// 		  << "====                        Modifiers                          ====" <<std::endl
+	// 		  << "===================================================================" <<std::endl;
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")");
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")");
 
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                     Reverse Iterator                      ====" <<std::endl
-			  << "===================================================================" <<std::endl;
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")");
+	// std::cout << "===================================================================" <<std::endl
+	// 		  << "====                     Reverse Iterator                      ====" <<std::endl
+	// 		  << "===================================================================" <<std::endl;
+	// constructVector<ft::vector<T>, std::vector<T>, T>(
+	// 	vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")");
 	
 }
 

@@ -6,6 +6,5 @@ c++-11 -Wall -Wextra -Werror -std=c++98 -g  -Iincs/  -c srcs/main.cpp -o objs/ma
 echo "✓"
 echo "Assembling ft_containers"
 c++-11  objs/main.cpp.o -o ft_containers
- 
 make: Leaving directory `/Users/brunodeoliveira/Desktop/ft_container'
  

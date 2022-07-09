@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/06 22:33:07 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 02:33:50 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int main(int argc, char **argv) {
 	if (argc == 1 || isTest("vector", argv[1])) test("vector", vector_test);
 	// if (argc == 1 || isTest("stack", argv[1])) test("stack", stack_test);
 	// if (argc == 1 || isTest("map", argv[1])) test("map", map_test);
-	
+
+
 	if (TEST)
 		while(42);
 	return (0);
@@ -701,7 +702,7 @@ void	vector_test(void)
 		// 	print_vector(vstd2, vft2);
 		// }
 
-		std::cout << 
+		// std::cout << 
 	}
 } // vector_test
 

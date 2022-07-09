@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/08 03:06:12 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 02:35:17 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	constructVector(int (*f) (V1& , V2&, std::string),
 			isOk = false;
 	}
 
-	while (v1.size() || v2.size())
+	for (size_t i = 0; i < size && isOk; i++)
 	{
 		if(v1.size())
 			v1.pop_back();
@@ -140,22 +140,8 @@ void	constructVector(int (*f) (V1& , V2&, std::string),
 			isOk = false;
 	}
 
-	for (size_t i = 0; i < size && isOk; i++)
-	{
-		v1.push_back(tab[i]);
-		v2.push_back(tab[i]);
-	}
-
-	if (isOk && (f(v1, v2, testName + " push 1 element") || !isEqual(v1, v2)))
-		isOk = false;
-
-	while (isOk && (v1.size() || v2.size()))
-	{
-		if(v1.size())
-			v1.pop_back();
-		if(v2.size())
-			v2.pop_back();
-	}
+	v1.clear();
+	v2.clear();
 	if (isOk && (f(v1, v2, testName + " pop 1 element") || !isEqual(v1, v2)))
 		isOk = false;
 
@@ -401,9 +387,102 @@ int	vectorTest_reverseIterator(V1& v1, V2& v2, std::string testName)
 	return (!isOk);
 }
 
+template <class V1, class V2>
+int	error(std::string testMsg, std::string test, V1& v1, V2& v2)
+{
+	print_vector(v1, v2, testMsg);
+	std::cout << BLUE << std::left << std::setw(30) << test + " : " << NOTOK << RESET << std::endl;
+	return 1;
+}
+
+template <typename T>
+int	constructor_test(T* tab, size_t size, std::string type)
+{
+	ft::vector<T>	vft;
+	std::vector<T>	vstd;
+	std::list<T>	lst;
+	std::string		testName = "construtor";
+
+	for (size_t i = 0; i < size; i++)
+		lst.push_back(tab[i]);
+
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(" + type + ")", vft, vstd);
+
+	vft = ft::vector<T>(0, tab[0]);
+	vstd = std::vector<T>(0, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(0, " + type + ")", vft, vstd);
+	vft = ft::vector<T>(1, tab[0]);
+	vstd = std::vector<T>(1, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(1, " + type + ")", vft, vstd);
+	vft = ft::vector<T>(10, tab[0]);
+	vstd = std::vector<T>(10, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(10, " + type + ")", vft, vstd);
+	vft = ft::vector<T>(lst.begin(), lst.end());
+	vstd = std::vector<T>(lst.begin(), lst.end());
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(lst.begin(), lst.last())", vft, vstd);
+	vft = ft::vector<T>(lst.begin(), lst.begin());
+	vstd = std::vector<T>(lst.begin(), lst.begin());
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor vector(lst.begin(), lst.begin())", vft, vstd);
+
+	std::cout << BLUE << std::left << std::setw(30) << testName + " : " << OK << RESET << std::endl;
+	return 0;
+}
+
+template <typename T>
+int	assign_test(T* tab, size_t size, std::string type)
+{
+	ft::vector<T>	vft;
+	std::vector<T>	vstd;
+	std::list<T>	lst;
+	std::string		testName = "assign";
+
+	for (size_t i = 0; i < size; i++)
+		lst.push_back(tab[i]);
+
+	vft.assign(0, tab[0]);
+	vstd.assign(0, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor assign(0, " + type + ")", vft, vstd);
+	vft.assign(1, tab[0]);
+	vstd.assign(1, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor assign(1, " + type + ")", vft, vstd);
+	vft.assign(10, tab[0]);
+	vstd.assign(10, tab[0]);
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor assign(10, " + type + ")", vft, vstd);
+
+	vft.assign(lst.begin(), lst.end());
+	vstd.assign(lst.begin(), lst.end());
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor assign(lst.begin(), lst.last())", vft, vstd);
+	vft.assign(lst.begin(), lst.begin());
+	vstd.assign(lst.begin(), lst.begin());
+	if (!isEqual(vft, vstd))
+		return error(testName, "FAIL on constructor assign(lst.begin(), lst.begin())", vft, vstd);
+
+	std::cout << BLUE << std::left << std::setw(30) << testName + " : " << OK << RESET << std::endl;
+	return 0;
+}
+
 template <typename T>
 void vectorTest(T* tab, size_t size, std::string type)
 {
+	std::cout << "=====================================================================" <<std::endl
+			  << "====                         pre-requisit                        ====" <<std::endl
+			  << "=====================================================================" <<std::endl;
+	if (constructor_test(tab, size, type)
+		|| assign_test(tab,size,type))
+	{
+		std::cout << std::endl << BOLDRED << "FAIL on pre-requisit, can't go further for vectors" << RESET << std::endl;
+		return ;
+	}
 
 	std::cout << "===================================================================" <<std::endl
 			  << "====                        Capacity                           ====" <<std::endl
@@ -426,7 +505,6 @@ void vectorTest(T* tab, size_t size, std::string type)
 		vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")");
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")");
-
 
 	std::cout << "===================================================================" <<std::endl
 			  << "====                     Reverse Iterator                      ====" <<std::endl

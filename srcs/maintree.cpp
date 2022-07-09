@@ -6,14 +6,21 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/24 01:41:53 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 04:43:35 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utility.hpp"
 #include "RBTree.hpp"
 #include <iostream>
 #include <map>
 
+template < typename T1, typename T2 >
+std::ostream&	operator<<(std::ostream& os, ft::pair<T1, T2>& rhs)
+{
+	os << "(" << rhs.first << ", " << rhs.second << ")";
+	return os;
+}
 
 int main(void)
 {
@@ -76,13 +83,44 @@ int main(void)
 	
 	rb.clear();
 
-	rb.insert(3);
-	rb.print();
-	rb.insert(21);
-	rb.print();
-	rb.insert(32);
-	rb.print();
+	for (int i = 0; i < 10; i++)
+	{
+		rb.insert(i);
+		rb.insert(i*3);
+	}
 
+	ft::RBTree<int>::node*	nd = rb.first();
+	rb.print();
+	while (nd)
+	{
+		std::cout << nd->content << "  ";
+		nd = nd->next();
+	}
+	std::cout << std::endl;
+
+	nd = rb.last();
+	while (nd)
+	{
+		std::cout << nd->content << "  ";
+		nd = nd->previous();
+	}
+
+	std::cout << std::endl;
+
+	ft::pair<int, std::string> dic[10] = {ft::pair<int, std::string>(0, "zero"),
+										ft::pair<int, std::string>(1, "un"),
+										ft::pair<int, std::string>(2, "deux"),
+										ft::pair<int, std::string>(3, "trois"),
+										ft::pair<int, std::string>(4, "quatre"),
+										ft::pair<int, std::string>(5, "cinq"),
+										ft::pair<int, std::string>(6, "six"),
+										ft::pair<int, std::string>(7, "sept"),
+										ft::pair<int, std::string>(8, "huit"),
+										ft::pair<int, std::string>(9, "neuf")};
 	
+	ft::RBTree< ft::pair<int, std::string> > dicTree;
+	for (size_t i = 0; i < 10; i++)
+		dicTree.insert(dic[i]);
+	dicTree.print();
 	return 0;
 }

@@ -8,7 +8,7 @@
 			"name": "C++ Launch (Windows)",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/test",
+			"program": "${workspaceFolder}/tree_test",
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"externalConsole": false,

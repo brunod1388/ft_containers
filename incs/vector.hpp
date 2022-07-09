@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 00:19:34 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 02:34:21 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,59 @@ namespace ft{
 	/*-------------------------------------------------------------------------
 	*							ft::vector<T>
 	*
-	*-Coplien form
-	*(constructor)		vector()
+	* - Coplien form:
+	* 	(constructor):	Construcucts the vector
+	*					vector()
 	*					vector( const Allocator& )
 	*					vector( size_type count,
 	*					 		const T& value = T(),
 	*					 		const Allocator& alloc = Allocator())
 	*					vector( InputIt first,
-								InputIt last,
-								const Allocator& alloc = Allocator() )
-						vector( const vector<T> &other )
+	*							InputIt last,
+	*							const Allocator& alloc = Allocator() )
+	*					vector( const vector &other )
+	*
+	* 	(destructor):	Destructs the vector
+	*					~vector( void )
+	*
+	* 	operator=:		assigns values to the container
+	*					vector& operator= (const vector& x)
+	*
+	* - Iterators:
+	* 	begin:			return iterator to beginning
+	* 	end:			return iterator to end
+	* 	rbegin:			return reverse iterator to reverse beginning
+	* 	rend:			return reverse iterator to reverse end
 	*
 	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
-	*
+    * - Capacity:
+    * 	size:			Return size
+    * 	max_size:		Return maximum size
+    * 	resize:			Change size
+    * 	capacity:		Return size of allocated storage capacity
+    * 	empty:			Test whether vector is empty
+    * 	reserve:		Request a change in capacity
+    *
+    * - Element access:
+    *	operator[]:		Access element
+    *	at:				Access element
+    *	front:			Access first element
+    *	back:			Access last element
+    *
+    * - Modifiers:
+    * 	assign:			Assign vector content
+	*					void assign ( InputIt first, InputIt last )
+	*					void assign( size_type count, const T& value )
+    * 	push_back:		Add element at the end
+    * 	pop_back:		Delete last element
+    * 	insert:			Insert elements
+    * 	erase:			Erase elements
+    * 	swap:			Swap content
+    * 	clear:			Clear content
+    *
+    * - Non-member function overloads:
+    *	relational operators: Relational operators for vector
+    *	swap:                 Exchange contents of two vectors
 	*-------------------------------------------------------------------------*/
 
 	template < class T, class Allocator = std::allocator<T> >
@@ -165,11 +190,12 @@ namespace ft{
 		void assign ( InputIt first,
 					  typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type last )
 		{
-			size_type	diff = (size_type) (last - first);
+			// size_type	diff = (size_type) (last - first);
+			size_type	diff = ft::distance(first, last);
 
 			if (_capacity < diff)
 				reserve(diff);
-			for (size_type i = 0; first < last; i++, first++)
+			for (size_type i = 0; first != last; i++, first++)
 			{
 				if (i < size())
 					_data[i] = *first;

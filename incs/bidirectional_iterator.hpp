@@ -19,7 +19,7 @@
 namespace ft{
 
 	template <typename T>
-	class bidirectional_iterator 
+	class bidirectional_iterator
 	{
 		//===============================================================
 		//
@@ -45,14 +45,31 @@ namespace ft{
 
 			bidirectional_iterator& operator=(const bidirectional_iterator& rhs);
 
-			pointer	base() const;
-			reference	operator*(void) const;
-			pointer		operator->(void) const;
-			operator bidirectional_iterator<const T>() const;
-			bidirectional_iterator&	operator++(void);
-			bidirectional_iterator	operator++(int);
-			bidirectional_iterator&	operator--(void);
-			bidirectional_iterator	operator--(int);
+			pointer	base() const { return _p; }
+
+			reference	operator*(void) const { return *_p; }
+			pointer		operator->(void) const {return _p; }
+
+			operator bidirectional_iterator<const T>() const
+			{
+				return bidirectional_iterator<const T>(_p);
+			}
+
+			bidirectional_iterator&	operator++(void) { _p = _p->next() ; return *this; }
+			bidirectional_iterator	operator++(int)
+			{
+				bidirectional_iterator tmp(_p);
+				_p = _p.next();
+				return tmp;
+			}
+
+			bidirectional_iterator&	operator--(void) { _p = _p->prev() ; return *this; }
+			bidirectional_iterator	operator--(int)
+			{
+				bidirectional_iterator tmp(_p);
+				_p = _p.prev();
+				return tmp;
+			}
 
 			bool	operator==(const bidirectional_iterator rhs) const { return _p == rhs._p; }
 			bool	operator!=(const bidirectional_iterator rhs) const { return _p != rhs._p; }

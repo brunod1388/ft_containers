@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 00:10:35 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/09 05:40:27 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,47 @@
 #include <iostream>
 #include <functional>
 #include <cstddef>
-// #include "bidirectional_iterator.hpp"
+#include "bidirectional_iterator.hpp"
 #include "utility.hpp"
 #include "algorithm.hpp"
 #include "type_traits.hpp"
 
 namespace ft
 {
-	/*-------------------------------------------------------------------------*/
-	/*                       ft::RBTree fct list                               */
-	/*                                                                         */
-	/*-Coplien form                                                                         */
-	/*(constructor):	                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*                                                                         */
-	/*-------------------------------------------------------------------------*/
+	/*-------------------------------------------------------------------------
+	*                       ft::RBTree fct list
+	*
+	* - Coplien form
+	*	(constructor):		Constructs the RBTree
+	*	(destructor)		Destructs the RBtree
+	*	operator=:			assigns values to the container
+	*
+	* - Element Access
+	*	getRoot():			returns root
+	*	getNode(const T&):	returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
+	*	first():			returns smallest node
+	*	last():				returns biggest node
+	*
+    * - Capacity:
+    *	empty: 				Test whether container is empty
+    *	size: 				Return container size
+     *	max_size: 			Return maximum size
+	*
+	* - Modifiers
+	*	insert(const T&)	insert node by key
+	*	delete(const T&)	delete node by key
+	*	clear()				clear TBTree
+     *	erase: 				Erase elements
+     *	swap: 				Swap content
+	*
+	*	print()				print RBTree
+	*
+    * - Iterators:
+    *	begin: 				Return iterator to beginning
+    *	end: 				Return iterator to end
+     *	rbegin: 			Return reverse iterator to reverse beginning
+     *	rend: 				Return reverse iterator to reverse end
+	*-------------------------------------------------------------------------*/
 
 	template<
 		class T,
@@ -68,8 +77,8 @@ namespace ft
 		typedef T*												pointer;
 		typedef const T*										const_pointer;
 
-		// typedef typename ft::bidirectional_iterator<T>			iterator;
-		// typedef typename ft::bidirectional_iterator<const T>	const_iterator;			//un truc a faire ici avec const
+		typedef typename ft::bidirectional_iterator<T>			iterator;
+		typedef typename ft::bidirectional_iterator<const T>	const_iterator;			//un truc a faire ici avec const
 		// typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -121,6 +130,52 @@ namespace ft
 				return !(*this == rhs);
 			}
 
+			RBNode*	mini(void)
+			{
+				if (left)
+					return left->mini();
+				return this;
+			}
+
+			RBNode*	maxi(void)
+			{
+				if (right)
+					return right->maxi();
+				return this;
+			}
+
+			RBNode*	previous(void)
+			{
+				if (left)
+					return left->maxi();
+
+				RBNode* n = this;
+				RBNode* p = n->parent;
+
+				while (p && n == p->left)
+				{
+					n = p;
+					p = p->parent;
+				}
+				return p;
+			}
+
+			RBNode*	next(void)
+			{
+				if (right)
+					return right->mini();
+
+				RBNode* n = this;
+				RBNode* p = n->parent;
+
+				while (p && n == p->right)
+				{
+					n = p;
+					p = p->parent;
+				}
+				return p;
+			}
+
 		}; // struct RBNode
 
 		typedef struct RBNode										node;
@@ -132,6 +187,7 @@ namespace ft
 
 		RBNodeAllocator	_alloc;
 		node_pointer	_root;
+		size_type		_size;
 
 		node_pointer	_newNode(T content, RBNodeAllocator &alloc)
 		{
@@ -401,13 +457,14 @@ namespace ft
 	public:
 		/*===================================================================*/
 		/*====                                                           ====*/
-		/*====                     Member Function                       ====*/
+		/*====                     Constructor                           ====*/
 		/*====                                                           ====*/
 		/*===================================================================*/
 
 		RBTree(void) :
 			_alloc(RBNodeAllocator()),
-			_root(NULL)
+			_root(NULL),
+			_size(0)
 		{}
 
 		RBTree(const T& src)
@@ -421,8 +478,10 @@ namespace ft
 		{
 			if (this != &rhs)
 			{
+				_clearNode(_root);
 				_alloc = rhs._alloc;
 				_root = rhs._copy(rhs._root);
+				_size = rhs._size;
 			}
 			return *this;
 		}
@@ -451,49 +510,28 @@ namespace ft
 			return current;
 		}
 
-		node_pointer	minimum(node_pointer n)
+		node_pointer	first()
 		{
-			while (n->left)
-				n = n->left;
-			return n;
+			if (!_root)
+				return NULL;
+			return _root->mini();
 		}
 
-		node_pointer	maximum(node_pointer n)
+		node_pointer	last()
 		{
-			while (n->right)
-				n = n->right;
-			return n;
+			if (!_root)
+				return NULL;
+			return _root->maxi();
 		}
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                     Element access                        ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
 
-		node_pointer	previous(node_pointer n)
-		{
-			if (n->left)
-				return maximum(n->left);
-
-			node_pointer prev = n->parent;
-
-			while (prev && n == prev->left)
-			{
-				n = prev;
-				prev = prev->parent;
-			}
-			return prev;
-		}
-
-		node_pointer	next(node_pointer n)
-		{
-			if (n->right)
-				return minimum(n->left);
-
-			node_pointer nxt = n->parent;
-
-			while (nxt && n == nxt->left)
-			{
-				n = nxt;
-				nxt = nxt->parent;
-			}
-			return nxt;
-		}
+		bool	empty(void) { return _root ? true : false; }
+		size_type	size(void) { return _size; }
+		size_type	max_size(void);                        //TO DO
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -507,6 +545,7 @@ namespace ft
 			node_pointer current = _root;
 			node_pointer parent = NULL;
 
+			_size++;
 			newNode->color = RED;
 			while (current)
 			{
@@ -558,7 +597,7 @@ namespace ft
 			}
 			else
 			{
-				y = minimum(toDelete->right);
+				y = toDelete->right->mini();
 				original_color = y->color;
 				x = y->right;
 				if (x && y->parent == toDelete)
@@ -578,6 +617,7 @@ namespace ft
 			_delRBNode(_alloc, toDelete);
 			if (original_color == BLACK)
 				_deleteFix(x);
+			_size--;
 			return true;
 		}
 
@@ -585,7 +625,24 @@ namespace ft
 		{
 			_clearNode(_alloc, _root);
 			_root = NULL;
+			_size = 0;
 		}
+
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                        Iterator                           ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
+
+		iterator		begin(void) {return bidirectional_iterator<node>(_root->mini()); }
+		const_iterator	begin(void) const { return bidirectional_iterator<node>(_root->mini())};
+		iterator		end(void) { return bidirectional_iterator<node>(_root->mini())};
+		const_iterator	end(void) const { return bidirectional_iterator<node>(_root->mini())};
+
+		// reverse_iterator		rbegin(void);
+		// const_reverse_iterator	rbegin(void) const;
+		// reverse_iterator		rend(void);
+		// const_reverse_iterator	rend(void) const;
 
 		void	print(void) { _printNode(_root); }
 
