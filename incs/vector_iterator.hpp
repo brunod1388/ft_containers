@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/30 23:30:55 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/10 21:24:55 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,6 @@ namespace ft{
 			vector_iterator	operator+(const difference_type n) const { return vector_iterator(_p + n); }
 			vector_iterator	operator-(const difference_type n) const { return vector_iterator(_p - n); }
 			difference_type	operator-(vector_iterator rhs) const { return _p - rhs._p; }
-
-			// bool	operator==(const vector_iterator rhs) const { return _p == rhs._p; }
-			// bool	operator!=(const vector_iterator rhs) const { return _p != rhs._p; }
-			// bool	operator<(const vector_iterator rhs) const { return _p < rhs._p; }
-			// bool	operator>(const vector_iterator rhs) const { return _p > rhs._p; }
-			// bool	operator<=(const vector_iterator rhs) const { return _p <= rhs._p; }
-			// bool	operator>=(const vector_iterator rhs) const { return _p >= rhs._p; }
-
 
 			bool	operator==(const vector_iterator rhs) const { return _p == rhs._p; }
 			bool	operator!=(const vector_iterator rhs) const { return _p != rhs._p; }

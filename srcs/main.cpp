@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:41:51 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 02:33:50 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/10 21:24:55 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,24 @@ int main(int argc, char **argv) {
 	// if (argc == 1 || isTest("stack", argv[1])) test("stack", stack_test);
 	// if (argc == 1 || isTest("map", argv[1])) test("map", map_test);
 
+	std::list<int>	lst;
+
+	for (int i = 0; i < 10; i++)
+		lst.push_back(i);
+
+	ft::vector<int>		vft(lst.begin(), lst.end());
+	std::vector<int>	vstd(lst.begin(), lst.end());
+	print_vector(vft, vstd);
+	
+	ft::vector<int>			v1(lst.begin(), lst.end());
+	std::vector<int>		v2(lst.begin(), lst.end());
+	std::cout << "TEST : " << v2.front() << std::endl;
+	for (ft::vector<int>::const_iterator i = v1.begin(); i < v1.end(); i++)
+	{
+		std::cout << "test " << *i << std::endl;
+		
+	}
+	
 
 	if (TEST)
 		while(42);

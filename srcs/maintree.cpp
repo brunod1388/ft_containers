@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 04:43:35 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/12 01:13:44 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,29 @@ int main(void)
 	for (size_t i = 0; i < 10; i++)
 		dicTree.insert(dic[i]);
 	dicTree.print();
+
+	// std::cout << *dicTree.getRoot() << " ";
+
+	std::cout << "TESTdsadda" << std::endl;
+	for (ft::RBTree<ft::pair<int, std::string> >::iterator i = dicTree.begin();
+		i != dicTree.end(); i++)
+	{
+		std::cout << *i << " ";
+	}
+	std::cout << std::endl;
+	for (ft::RBTree<ft::pair<int, std::string> >::const_iterator i = --dicTree.end();
+		i != dicTree.begin(); i--)
+	{
+		std::cout << *i << " ";
+	}
+	std::cout << std::endl;
+	for (ft::RBTree<ft::pair<int, std::string> >::const_iterator i = dicTree.begin();
+		i < dicTree.end(); i++)
+	{
+		std::cout << *i << " " << std::endl;
+	}
+	std::cout << std::endl;
+
+	// while(42);
 	return 0;
 }

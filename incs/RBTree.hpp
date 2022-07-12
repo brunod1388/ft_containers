@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 05:40:27 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/12 01:15:25 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,31 @@ namespace ft
 	*	operator=:			assigns values to the container
 	*
 	* - Element Access
+	*	operator[]:			access or insert element
 	*	getRoot():			returns root
 	*	getNode(const T&):	returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
 	*	first():			returns smallest node
 	*	last():				returns biggest node
 	*
     * - Capacity:
-    *	empty: 				Test whether container is empty
-    *	size: 				Return container size
-     *	max_size: 			Return maximum size
+    *	empty(): 			Test whether container is empty
+    *	size(): 			Return container size
+     *	max_size(): 		Return maximum size
 	*
 	* - Modifiers
 	*	insert(const T&)	insert node by key
 	*	delete(const T&)	delete node by key
 	*	clear()				clear TBTree
-     *	erase: 				Erase elements
-     *	swap: 				Swap content
+     *	erase(): 			Erase elements
+     *	swap(): 			Swap content
 	*
 	*	print()				print RBTree
 	*
     * - Iterators:
-    *	begin: 				Return iterator to beginning
-    *	end: 				Return iterator to end
-     *	rbegin: 			Return reverse iterator to reverse beginning
-     *	rend: 				Return reverse iterator to reverse end
+    *	begin(): 			Return iterator to beginning
+    *	end(): 				Return iterator to end
+     *	rbegin(): 			Return reverse iterator to reverse beginning
+     *	rend(): 			Return reverse iterator to reverse end
 	*-------------------------------------------------------------------------*/
 
 	template<
@@ -77,22 +78,35 @@ namespace ft
 		typedef T*												pointer;
 		typedef const T*										const_pointer;
 
-		typedef typename ft::bidirectional_iterator<T>			iterator;
-		typedef typename ft::bidirectional_iterator<const T>	const_iterator;			//un truc a faire ici avec const
-		// typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-
 		typedef enum {BLACK, RED} 								color_type;
 
+		/*-------------------------------------------------------------------------
+		*                       ft::RBNode fct list
+		*
+		* - Coplien form
+		*	(constructor):		Constructs the RBTree
+		*	(destructor)		Destructs the RBtree
+		*	operator=:			assigns values to the container
+		*
+		* - Element Access
+		*	getRoot():			returns root
+		*	next():				return the next node
+		*	prev():				return the prev node
+		*
+		* - Operator:
+		*	== / !=				relational operator for RBNodes
+		*-------------------------------------------------------------------------*/
 		struct RBNode
 		{
+			typedef T									value_type;
+
 			T			content;
 			RBNode*		parent;
 			color_type	color;
 			RBNode*		left;
 			RBNode*		right;
 
-			RBNode(T content,
+			RBNode(T content = T(),
 				   RBNode *parent = NULL,
 				   color_type color = BLACK,
 				   RBNode *left = NULL,
@@ -117,8 +131,11 @@ namespace ft
 					content = rhs.content;
 					color = rhs.color;
 				}
-				return *this;
+				return *this; 
 			}
+
+			reference	operator*(void) const { return content; }
+			pointer		operator->(void) const { return &content; }
 
 			bool	operator==(const RBNode &rhs)
 			{
@@ -130,6 +147,23 @@ namespace ft
 				return !(*this == rhs);
 			}
 
+			RBNode* getRoot(void)
+			{
+				RBNode*	root = this;
+				RBNode*	parent = root->parent;
+
+				while(parent)
+				{
+					root = parent;
+					parent = parent->parent;
+				}
+
+				return root;
+			}
+
+			/*===================================================================*/
+			/*====                     Element access                        ====*/
+			/*===================================================================*/
 			RBNode*	mini(void)
 			{
 				if (left)
@@ -157,7 +191,7 @@ namespace ft
 					n = p;
 					p = p->parent;
 				}
-				return p;
+				return (p == this ? NULL : p);
 			}
 
 			RBNode*	next(void)
@@ -173,15 +207,20 @@ namespace ft
 					n = p;
 					p = p->parent;
 				}
-				return p;
+				return (p == this ? NULL : p);
 			}
 
-		}; // struct RBNode
+		}; // struct RBNode -------------------------------------------------------
 
 		typedef struct RBNode										node;
 		typedef struct RBNode*										node_pointer;
 
-		typedef typename Allocator::template rebind<RBNode>::other	RBNodeAllocator;
+		typedef typename Allocator::template rebind<node>::other	RBNodeAllocator;
+
+		typedef typename ft::bidirectional_iterator<node, T>		iterator;
+		typedef typename ft::bidirectional_iterator<node, const T>	const_iterator;			//un truc a faire ici avec const
+		// typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
+		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 	private:
 
@@ -487,9 +526,7 @@ namespace ft
 		}
 
 		/*===================================================================*/
-		/*====                                                           ====*/
 		/*====                     Element access                        ====*/
-		/*====                                                           ====*/
 		/*===================================================================*/
 
 		node_pointer getRoot(void) { return _root; }
@@ -510,33 +547,29 @@ namespace ft
 			return current;
 		}
 
-		node_pointer	first()
+		node_pointer	first()	const
 		{
 			if (!_root)
 				return NULL;
 			return _root->mini();
 		}
 
-		node_pointer	last()
+		node_pointer	last() const
 		{
 			if (!_root)
 				return NULL;
 			return _root->maxi();
 		}
 		/*===================================================================*/
-		/*====                                                           ====*/
 		/*====                     Element access                        ====*/
-		/*====                                                           ====*/
 		/*===================================================================*/
 
-		bool	empty(void) { return _root ? true : false; }
+		bool		empty(void) { return _root ? true : false; }
 		size_type	size(void) { return _size; }
-		size_type	max_size(void);                        //TO DO
+		size_type	max_size() const { return _alloc.max_size(); }  //maybe add ram available?
 
 		/*===================================================================*/
-		/*====                                                           ====*/
 		/*====                        Modifiers                          ====*/
-		/*====                                                           ====*/
 		/*===================================================================*/
 
 		void insert(const T& key)
@@ -634,17 +667,21 @@ namespace ft
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		iterator		begin(void) {return bidirectional_iterator<node>(_root->mini()); }
-		const_iterator	begin(void) const { return bidirectional_iterator<node>(_root->mini())};
-		iterator		end(void) { return bidirectional_iterator<node>(_root->mini())};
-		const_iterator	end(void) const { return bidirectional_iterator<node>(_root->mini())};
+		iterator		begin(void) 		{ return iterator(_root->mini()); }
+		iterator		end(void) 			{ return iterator(NULL); }
+		const_iterator	begin(void) const	{ return const_iterator(_root->mini()); }
+		const_iterator	end(void) const		{ return const_iterator(NULL); }
 
 		// reverse_iterator		rbegin(void);
 		// const_reverse_iterator	rbegin(void) const;
 		// reverse_iterator		rend(void);
 		// const_reverse_iterator	rend(void) const;
 
-		void	print(void) { _printNode(_root); }
+		void	print(void)
+		{
+			_printNode(_root);
+			std::cout << "size : " << _size << std::endl;
+		}
 
 	}; // class RBTree
 

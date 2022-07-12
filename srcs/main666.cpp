@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:38:25 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 01:53:11 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/12 00:28:13 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <vector>
 #include <list>
 
-#define	TEST 1
+#define	TEST 0
 
 int main( void )
 {
@@ -26,6 +26,28 @@ int main( void )
 	vectorTest<std::string>(strTab, 7, "string");
 	vectorTest<int>(iTab, 7, "int");
 
+	ft::vector<int> v;
+
+	v.push_back(1);
+	v.push_back(1);
+	
+	for (ft::vector<int>::const_iterator i = v.begin(); i != v.end(); i++)
+	{
+		std::cout << *i;
+	}
+
+	std::vector<int> vs;
+
+	vs.push_back(1);
+	vs.push_back(1);
+	
+	for (std::vector<int>::const_iterator i = vs.begin(); i != vs.end(); i++)
+	{
+		std::cout << *i;
+		*i = 0;
+	}
+	std::cout << "test : " << v[0] << "   " << v[1] << std::endl;
+	
 	if (TEST)
 		while(42);
 	return 0;
