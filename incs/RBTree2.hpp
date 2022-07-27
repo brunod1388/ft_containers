@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RBTree.hpp                                         :+:      :+:    :+:   */
+/*   RBTree2.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 00:21:57 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/27 22:41:11 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,19 +147,19 @@ namespace ft
 				return !(*this == rhs);
 			}
 
-			// RBNode* getRoot(void)
-			// {
-			// 	RBNode*	root = this;
-			// 	RBNode*	parent = root->parent;
+			RBNode* getRoot(void)
+			{
+				RBNode*	root = this;
+				RBNode*	parent = root->parent;
 
-			// 	while(parent)
-			// 	{
-			// 		root = parent;
-			// 		parent = parent->parent;
-			// 	}
+				while(parent)
+				{
+					root = parent;
+					parent = parent->parent;
+				}
 
-			// 	return root;
-			// }
+				return root;
+			}
 
 			/*===================================================================*/
 			/*====                     Element access                        ====*/
@@ -667,10 +667,10 @@ namespace ft
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		iterator		begin(void) 		{ return iterator(_root->mini(), _root); }
-		iterator		end(void) 			{ return iterator(NULL , _root); }
-		const_iterator	begin(void) const	{ return const_iterator(_root->mini(), _root); }
-		const_iterator	end(void) const		{ return const_iterator(NULL , _root); }
+		iterator		begin(void) 		{ return iterator(_root->mini()); }
+		iterator		end(void) 			{ return iterator(NULL, _root->maxi()); }
+		const_iterator	begin(void) const	{ return const_iterator(_root->mini()); }
+		const_iterator	end(void) const		{ return const_iterator(NULL, _root->maxi()); }
 
 		// reverse_iterator		rbegin(void);
 		// const_reverse_iterator	rbegin(void) const;

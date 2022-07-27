@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/12 01:15:50 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 00:34:55 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,64 +36,70 @@ namespace ft{
 			typedef ft::bidirectional_iterator_tag			iterator_category;
 
 		private :
-			node_ptr _p;
+			node_ptr	_p;
+			node_ptr	_root;
 
 		public :
-			bidirectional_iterator(void) : _p(NULL) {}
-			bidirectional_iterator(node_ptr p) : _p(p) {}
+			bidirectional_iterator(void) : _p(NULL) , _root(NULL) {}
+			bidirectional_iterator(node_ptr p, node_ptr root) :
+				_p(p),
+				_root(root)
+			{}
+
 			bidirectional_iterator(const bidirectional_iterator& src) { *this = src; }
 			~bidirectional_iterator(void) {}
 
-			bidirectional_iterator& operator=(const bidirectional_iterator& rhs);
+			bidirectional_iterator& operator=(const bidirectional_iterator& rhs)
+			{
+				_p = rhs._p;
+				_root = rhs._root;
+				return *this;
+			}
 
 			node_ptr	base() const { return _p; }
 
 			reference	operator*(void) const { return _p->content; }
 			pointer		operator->(void) const {return &_p->content; }
 
-			operator const_iterator() const  //replace by const_iterator
+			operator const_iterator() const
 			{
-				return const_iterator(_p);
+				return const_iterator(_p, _root);
 			}
 
-			bidirectional_iterator&	operator++(void) { _p = _p->next() ; return *this; }
+			bidirectional_iterator&	operator++(void)
+			{
+				_p = _p->next();
+				return *this;
+			}
+
 			bidirectional_iterator	operator++(int)
 			{
-				bidirectional_iterator tmp(_p);
+				bidirectional_iterator tmp(_p, _root);
 				_p = _p->next();
 				return tmp;
 			}
 
-			bidirectional_iterator&	operator--(void) { _p = _p->previous() ; return *this; }
+			bidirectional_iterator&	operator--(void)
+			{
+				if (!_p)
+					_p = _root->maxi();
+				else
+					_p = _p->previous();
+				return *this;
+			}
+
 			bidirectional_iterator	operator--(int)
 			{
-				bidirectional_iterator tmp(_p);
-				_p = _p->previous();
+				bidirectional_iterator tmp(_p, _root);
+				if (!_p)
+					_p = _root->maxi();
+				else
+					_p = _p->previous();
 				return tmp;
 			}
 
 			bool	operator==(const bidirectional_iterator rhs) const { return _p == rhs._p; }
 			bool	operator!=(const bidirectional_iterator rhs) const { return _p != rhs._p; }
-
-			bool	operator<(const bidirectional_iterator rhs) const
-			{
-				return !rhs._p || (_p && _p->content < rhs._p->content);
-			}
-
-			bool	operator>(const bidirectional_iterator rhs) const
-			{
-				return !_p || (rhs._p && _p->content < rhs._p->content);
-			}
-
-			bool	operator<=(const bidirectional_iterator rhs) const
-			{
-				return !rhs._p || (_p && _p->content <= rhs._p->content);
-			}
-
-			bool	operator>=(const bidirectional_iterator rhs) const
-			{
-				return !_p || (rhs._p && _p->content >= rhs._p->content);
-			}
 
 	};	//class bidirectional_iterator
 

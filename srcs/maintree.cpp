@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/12 01:13:44 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 00:48:38 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,17 @@ std::ostream&	operator<<(std::ostream& os, ft::pair<T1, T2>& rhs)
 	return os;
 }
 
+template < typename T1, typename T2 >
+std::ostream&	operator<<(std::ostream& os, std::pair<T1, T2>& rhs)
+{
+	os << "(" << rhs.first << ", " << rhs.second << ")";
+	return os;
+}
+
 int main(void)
 {
 	ft::RBTree<int> rb;
-	std::map<int, std::string> m;
+	// std::map<int, std::string> m;
 
 	std::cout << "KIKOUrwer" << std::endl;
 	rb.insert(55);
@@ -123,27 +130,36 @@ int main(void)
 		dicTree.insert(dic[i]);
 	dicTree.print();
 
-	// std::cout << *dicTree.getRoot() << " ";
+	std::map<int, std::string> m;
+	for (int i = 0; i < 10; i++)
+		m.insert(std::pair<int, const std::string>(dic[i].first, dic[i].second));
 
-	std::cout << "TESTdsadda" << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << "iterator and operator != test" << std::endl << std::endl;
+	std::cout << "ft :";
 	for (ft::RBTree<ft::pair<int, std::string> >::iterator i = dicTree.begin();
 		i != dicTree.end(); i++)
-	{
 		std::cout << *i << " ";
-	}
-	std::cout << std::endl;
-	for (ft::RBTree<ft::pair<int, std::string> >::const_iterator i = --dicTree.end();
-		i != dicTree.begin(); i--)
-	{
+	std::cout << std::endl << "std:";
+	for (std::map<int, std::string>::iterator i = m.begin();
+		i != m.end(); i++)
 		std::cout << *i << " ";
-	}
 	std::cout << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
+
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << "iterator and operator != test" << std::endl << std::endl;
+	std::cout << "ft :";
 	for (ft::RBTree<ft::pair<int, std::string> >::const_iterator i = dicTree.begin();
-		i < dicTree.end(); i++)
-	{
-		std::cout << *i << " " << std::endl;
-	}
+		i != dicTree.end(); i++)
+		std::cout << *i << " ";
+	std::cout << std::endl << "std:";
+	for (std::map<int, std::string>::const_iterator i = m.begin();
+		i != m.end(); i++)
+		std::cout << *i << " ";
 	std::cout << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
+
 
 	// while(42);
 	return 0;
