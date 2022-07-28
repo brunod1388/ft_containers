@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 04:15:00 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/29 01:24:15 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ namespace ft
     * - Iterators:
     *	begin(): 			Return iterator to beginning
     *	end(): 				Return iterator to end
-     *	rbegin(): 			Return reverse iterator to reverse beginning
-     *	rend(): 			Return reverse iterator to reverse end
+    *	rbegin(): 			Return reverse iterator to reverse beginning
+    *	rend(): 			Return reverse iterator to reverse end
 	*-------------------------------------------------------------------------*/
 
 	template<
 		class T,
-		class Compare = std::less<T>,
+		class Compare = ft::less<T>,
 		class Allocator = std::allocator<T> >
 	class RBTree
 	{
@@ -147,20 +147,6 @@ namespace ft
 				return !(*this == rhs);
 			}
 
-			// RBNode* getRoot(void)
-			// {
-			// 	RBNode*	root = this;
-			// 	RBNode*	parent = root->parent;
-
-			// 	while(parent)
-			// 	{
-			// 		root = parent;
-			// 		parent = parent->parent;
-			// 	}
-
-			// 	return root;
-			// }
-
 			/*===================================================================*/
 			/*====                     Element access                        ====*/
 			/*===================================================================*/
@@ -225,6 +211,7 @@ namespace ft
 	private:
 
 		RBNodeAllocator	_alloc;
+		compare			_comp;
 		node_pointer	_root;
 		size_type		_size;
 
@@ -257,7 +244,7 @@ namespace ft
 				std::cout << "L----";
 				indent += "|  ";
 			}
-			std::cout << root->content << "(" << (root->color == BLACK ? "BLACK" : "RED") << ")" << std::endl;
+			std::cout << root->content << "(" << (root->color == BLACK ? "BLACK" : "\033[0;31mRED\033[0m") << ")" << std::endl;
 			_printNode(root->left, indent, false);
 			_printNode(root->right, indent, true);
 		}
@@ -500,8 +487,9 @@ namespace ft
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		RBTree(void) :
-			_alloc(RBNodeAllocator()),
+		RBTree(const compare& comp = compare(), const RBNodeAllocator alloc = RBNodeAllocator()) :
+			_alloc(alloc),
+			_comp(comp),
 			_root(NULL),
 			_size(0)
 		{}
@@ -519,6 +507,7 @@ namespace ft
 			{
 				_clearNode(_root);
 				_alloc = rhs._alloc;
+				_comp = rhs._comp;
 				_root = rhs._copy(rhs._root);
 				_size = rhs._size;
 			}
@@ -537,7 +526,7 @@ namespace ft
 
 			while (current)
 			{
-				if (current->content == key)
+				if (!(key < current->content) && !(current->content < key))
 					return current;
 				if (key < current->content) // maybe <= because of deletion in case of doubles....
 					current = current->left;
@@ -546,6 +535,22 @@ namespace ft
 			}
 			return current;
 		}
+
+		// node_pointer getNode(const T&key)
+		// {
+		// 	node_pointer current = _root;
+
+		// 	while (current)
+		// 	{
+		// 		if (current->content == key)
+		// 			return current;
+		// 		if (key < current->content) // maybe <= because of deletion in case of doubles....
+		// 			current = current->left;
+		// 		else
+		// 			current = current->right;
+		// 	}
+		// 	return current;
+		// }
 
 		node_pointer	first()	const
 		{

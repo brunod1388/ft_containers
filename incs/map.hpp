@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 04:44:05 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/29 00:29:14 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ namespace ft{
 
 			bool operator()( const value_type& lhs, const value_type& rhs ) const
 			{
-				return comp(lhs.first < rhs.first);
+				return comp(lhs.first, rhs.first);
 			}
 		}
 
@@ -114,6 +114,7 @@ namespace ft{
 		allocator_type	_alloc;
 		size_type		_size;
 		RBTree			_tree;
+		key_compare		_comp;
 
 	public:
 		/*===================================================================*/
