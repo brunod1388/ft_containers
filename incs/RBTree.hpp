@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 00:21:57 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 04:15:00 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,15 +212,15 @@ namespace ft
 
 		}; // struct RBNode -------------------------------------------------------
 
-		typedef struct RBNode										node;
-		typedef struct RBNode*										node_pointer;
+		typedef struct RBNode												node;
+		typedef struct RBNode*												node_pointer;
 
-		typedef typename Allocator::template rebind<node>::other	RBNodeAllocator;
+		typedef typename Allocator::template rebind<node>::other			RBNodeAllocator;
 
-		typedef typename ft::bidirectional_iterator<node, T>		iterator;
-		typedef typename ft::bidirectional_iterator<node, const T>	const_iterator;			//un truc a faire ici avec const
-		// typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-		// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef typename ft::BidirectionalIterator<node, T>					iterator;
+		typedef typename ft::BidirectionalIterator<node, const T>			const_iterator;			//un truc a faire ici avec const
+		typedef typename ft::BidirectionalIterator_reverse<iterator>		reverse_iterator;
+		typedef typename ft::BidirectionalIterator_reverse<const_iterator>	const_reverse_iterator;
 
 	private:
 
@@ -672,10 +672,10 @@ namespace ft
 		const_iterator	begin(void) const	{ return const_iterator(_root->mini(), _root); }
 		const_iterator	end(void) const		{ return const_iterator(NULL , _root); }
 
-		// reverse_iterator		rbegin(void);
-		// const_reverse_iterator	rbegin(void) const;
-		// reverse_iterator		rend(void);
-		// const_reverse_iterator	rend(void) const;
+		reverse_iterator		rbegin(void)		{ return reverse_iterator(--end()); }
+		reverse_iterator		rend(void)			{ return reverse_iterator(--begin()); }
+		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(--end()); }
+		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(--begin()); }
 
 		void	print(void)
 		{

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bidirectional_iterator.hpp                         :+:      :+:    :+:   */
+/*   BidirectionalIterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,20 +19,15 @@
 namespace ft{
 
 	template <typename Node, typename T>
-	class bidirectional_iterator
+	class BidirectionalIterator
 	{
-		//===============================================================
-		//
-		//			TO DO : TOUT
-		//
-		//===============================================================
 		public:
-			typedef ptrdiff_t								difference_type;
-			typedef Node									node_type;
 			typedef Node*									node_ptr;
+			typedef ptrdiff_t								difference_type;
+			typedef T										value_type;
 			typedef T*										pointer;
 			typedef T&										reference;
-			typedef bidirectional_iterator<Node, const T>	const_iterator; // test
+			typedef BidirectionalIterator<Node, const T>	const_iterator; // test
 			typedef ft::bidirectional_iterator_tag			iterator_category;
 
 		private :
@@ -40,16 +35,16 @@ namespace ft{
 			node_ptr	_root;
 
 		public :
-			bidirectional_iterator(void) : _p(NULL) , _root(NULL) {}
-			bidirectional_iterator(node_ptr p, node_ptr root) :
+			BidirectionalIterator(void) : _p(NULL) , _root(NULL) {}
+			BidirectionalIterator(node_ptr p, node_ptr root) :
 				_p(p),
 				_root(root)
 			{}
 
-			bidirectional_iterator(const bidirectional_iterator& src) { *this = src; }
-			~bidirectional_iterator(void) {}
+			BidirectionalIterator(const BidirectionalIterator& src) { *this = src; }
+			~BidirectionalIterator(void) {}
 
-			bidirectional_iterator& operator=(const bidirectional_iterator& rhs)
+			BidirectionalIterator& operator=(const BidirectionalIterator& rhs)
 			{
 				_p = rhs._p;
 				_root = rhs._root;
@@ -66,42 +61,89 @@ namespace ft{
 				return const_iterator(_p, _root);
 			}
 
-			bidirectional_iterator&	operator++(void)
+			BidirectionalIterator&	operator++(void)
 			{
 				_p = _p->next();
 				return *this;
 			}
 
-			bidirectional_iterator	operator++(int)
+			BidirectionalIterator	operator++(int)
 			{
-				bidirectional_iterator tmp(_p, _root);
+				BidirectionalIterator tmp(_p, _root);
 				_p = _p->next();
 				return tmp;
 			}
 
-			bidirectional_iterator&	operator--(void)
+			BidirectionalIterator&	operator--(void)
 			{
-				if (!_p)
-					_p = _root->maxi();
-				else
+				if(_p)
 					_p = _p->previous();
+				else
+					_p = _root->maxi();
 				return *this;
 			}
 
-			bidirectional_iterator	operator--(int)
+			BidirectionalIterator	operator--(int)
 			{
-				bidirectional_iterator tmp(_p, _root);
-				if (!_p)
-					_p = _root->maxi();
-				else
+				BidirectionalIterator tmp(_p, _root);
+				if(_p)
 					_p = _p->previous();
+				else
+					_p = _root->maxi();
 				return tmp;
 			}
 
-			bool	operator==(const bidirectional_iterator rhs) const { return _p == rhs._p; }
-			bool	operator!=(const bidirectional_iterator rhs) const { return _p != rhs._p; }
+			bool	operator==(const BidirectionalIterator rhs) const { return _p == rhs._p; }
+			bool	operator!=(const BidirectionalIterator rhs) const { return _p != rhs._p; }
 
-	};	//class bidirectional_iterator
+	};	//class BidirectionalIterator
+
+	template < class Iter >
+	class BidirectionalIterator_reverse
+	{
+		public:
+			typedef Iter								iterator_type;
+			typedef typename Iter::difference_type		difference_type;
+			typedef typename Iter::value_type			value_type;
+			typedef typename Iter::pointer				pointer;
+			typedef typename Iter::reference			reference;
+			typedef typename Iter::const_iterator		const_iterator; //test
+			typedef typename Iter::iterator_category	iterator_category;
+
+		private :
+			Iter	_current;
+
+		public :
+			BidirectionalIterator_reverse( void ) : _current() {}
+			BidirectionalIterator_reverse( Iter src ) : _current(src) {}
+			BidirectionalIterator_reverse( const BidirectionalIterator_reverse& src ) { *this = src; }
+			~BidirectionalIterator_reverse( void ) {}
+
+			BidirectionalIterator_reverse& operator=(const BidirectionalIterator_reverse& rhs)
+			{
+				_current = rhs._current;
+				return *this;
+			}
+
+			operator BidirectionalIterator_reverse<const_iterator>() const
+			{
+				return BidirectionalIterator_reverse<const_iterator>(_current);
+			}
+
+			pointer	base() const { return _current.base(); }
+
+			reference	operator*( void ) const { return *_current; }
+			pointer		operator->( void ) const { return _current.base(); }
+
+			BidirectionalIterator_reverse&	operator++( void ) { _current--; return *this; }
+			BidirectionalIterator_reverse	operator++( int ) { return BidirectionalIterator_reverse(_current--); }
+			BidirectionalIterator_reverse&	operator--( void ) { _current++; return *this; }
+			BidirectionalIterator_reverse	operator--( int ) { return BidirectionalIterator_reverse(_current++); }
+
+			bool	operator==( const BidirectionalIterator_reverse rhs ) const { return _current == rhs._current; }
+			bool	operator!=( const BidirectionalIterator_reverse rhs ) const { return _current != rhs._current; }
+
+	};	//class BidirectionalIterator_reverse
 
 };	//namespace ft
 

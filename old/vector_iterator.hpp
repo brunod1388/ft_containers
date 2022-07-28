@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator_traits.hpp                                :+:      :+:    :+:   */
+/*   RandomAccessIterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 03:31:59 by brunodeoliv      ###   ########.fr       */
+/*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
+/*   Updated: 2022/07/28 01:18:55 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_TRAITS_HPP
-# define ITERATOR_TRAITS_HPP
-#include <typeinfo>
-#include <cstddef>
+#ifndef RANDOMACCESSITERATOR_ITERATOR_HPP
+# define RANDOMACCESSITERATOR_ITERATOR_HPP
+
+#include "iterator_traits.hpp"
 
 namespace ft{
-
-	struct input_iterator_tag { };
-	struct output_iterator_tag { };
-	struct forward_iterator_tag : public input_iterator_tag { };
-	struct bidirectional_iterator_tag : public forward_iterator_tag { };
-	struct random_access_iterator_tag : public bidirectional_iterator_tag { };
-
-	template < class Iter >
-	class iterator_traits{
-
-		public :
-			typedef typename Iter::difference_type		difference_type;
-			typedef typename Iter::value_type			value_type;
-			typedef typename Iter::pointer				pointer;
-			typedef typename Iter::reference			reference;
-			typedef typename Iter::iterator_category	iterator_category;
-	};	//class iterator_traits
 
 	template <typename T>
 	class RandomAccessIterator
@@ -42,7 +25,7 @@ namespace ft{
 			typedef T								value_type;
 			typedef T*								pointer;
 			typedef T&								reference;
-			typedef RandomAccessIterator<const T>	const_iterator; // test
+			typedef RandomAccessIterator<const T>		const_iterator; // test
 			typedef ft::random_access_iterator_tag	iterator_category;
 
 		private :
@@ -151,7 +134,7 @@ namespace ft{
 				return RandomAccessIterator_reverse<const_Iter>(current);
 			}
 
-			pointer	base() const { return current.base(); }
+			iterator_type	base() const { return current; }
 
 			reference			operator*(void) const { return *current; }
 			pointer				operator->(void) const { return current; }
@@ -201,7 +184,7 @@ namespace ft{
 				return *this;
 			}
 
-			reference	operator[](size_t i) const { return *(current - i - 1); }
+			reference			operator[](size_t i) const { return *(current - i - 1); }
 
 	}; // class RandomAccessIterator_reverse
 
@@ -221,28 +204,6 @@ namespace ft{
 		return RandomAccessIterator<T>(lhs + rhs[0]);
 	}
 
-	template< class InputIt >
-	typename InputIt::difference_type
-	distance (InputIt first, InputIt last)
-	{
-		typename InputIt::difference_type n = 0;
-
-		while (first++ != last)
-			n++;
-		return n;
-	}
-
-	template <class InputIt, class Distance>
-	void advance (InputIt& it, Distance n)
-	{
-		if (typeid(typename iterator_traits<InputIt>::iterator_category)
-			== typeid(random_access_iterator_tag))
-			it += n;
-		else
-			while (n--)
-				it++;
-	}
-
-}; // namespace ft
+};	//namespace ft
 
 #endif

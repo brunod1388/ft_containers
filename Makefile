@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/07/09 03:46:15 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/07/28 04:33:27 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ test:	fclean
 		./test
 
 tree:
-		@$(CC) $(CFLAGS) srcs/maintree.cpp -g3 -o tree_test
+		@clang++  $(CFLAGS) srcs/maintree.cpp -g3 -o tree_test -fsanitize=address
 		./tree_test
 
 re:	fclean all

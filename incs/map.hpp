@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 05:13:23 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 04:44:05 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ namespace ft{
 	template<
 		class Key,
 		class T,
-		class Compare = std::less<Key>,
+		class Compare = ft::less<Key>,
 		class Allocator = std::allocator<std::pair<const Key, T> > >
 	class map
 	{

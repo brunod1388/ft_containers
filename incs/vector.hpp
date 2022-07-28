@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 02:34:21 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 22:02:43 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <memory>
 #include <ostream>
 #include <cstddef>
-#include "vector_iterator.hpp"
+#include "iterator_traits.hpp"
 #include "utility.hpp"
 #include "algorithm.hpp"
 #include "type_traits.hpp"
@@ -97,10 +97,10 @@ namespace ft{
 		typedef T*											pointer;
 		typedef const T*									const_pointer;
 
-		typedef typename ft::vector_iterator<T>							iterator;
-		typedef typename ft::vector_iterator<const T>					const_iterator;			//un truc a faire ici avec const
-		typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-		typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;	//un truc a faire ici avec const
+		typedef typename ft::RandomAccessIterator<T>						iterator;
+		typedef typename ft::RandomAccessIterator<const T>					const_iterator;			//un truc a faire ici avec const
+		typedef typename ft::RandomAccessIterator_reverse<iterator>			reverse_iterator;
+		typedef typename ft::RandomAccessIterator_reverse<const_iterator>	const_reverse_iterator;	//un truc a faire ici avec const
 
 	private:
 		allocator_type	_alloc;

@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/16 23:07:37 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/28 04:42:13 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include <ostream>
 
 namespace ft{
+
+	template< class T >
+	struct less
+	{
+		typedef bool				result_type;
+		typedef T					first_argument_type;
+		typedef T					second_argument_type;
+
+		bool operator() ( const T& lhs, const T& rhs ) const { return lhs < rhs; }
+	};
 
 	template <class T1, class T2>
 	struct pair{
