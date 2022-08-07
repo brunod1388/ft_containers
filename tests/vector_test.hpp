@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/09 02:35:17 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/07/30 00:24:59 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void print_vector(V1 &v,
 				  std::string name1 = "ft",
 				  std::string name2 = "std")
 {
-	std::cout << std::endl << BOLDRED << "FAIL on " << testName << RESET << std::endl;
+	std::cout << std::endl << STR_BOLDRED << "FAIL on " << testName << STR_RESET << std::endl;
 	std::cout << "Details:" <<std::endl;
 	std::cout << std::left << std::setw(10) << name1 + "::v : " << v << std:: endl;
 	std::cout << std::left << std::setw(10) << name2 + "::v : "<< v2 << std::endl;
@@ -147,7 +147,7 @@ void	constructVector(int (*f) (V1& , V2&, std::string),
 
 	if (!isOk)
 		std::cout << std::endl;
-	std::cout << BLUE << std::left << std::setw(30) << testName + " : " << (isOk ? OK : NOTOK) << RESET << std::endl;
+	std::cout << STR_BLUE << std::left << std::setw(30) << testName + " : " << (isOk ? OK : NOTOK) << STR_RESET << std::endl;
 }
 
 /*===================================================================*/
@@ -308,7 +308,7 @@ int	vectorTest_reverseIterator(V1& v1, V2& v2, std::string testName)
 			}
 			if (*(rit1++) != *(rit2++))
 			{
-				std::cout << std::endl << BOLDRED << "FAIL on rit++" << RESET << std::endl;
+				std::cout << std::endl << STR_BOLDRED << "FAIL on rit++" << STR_RESET << std::endl;
 				print_It<V1, V2>(rit1, rit2);
 				isOk = false;
 				break;
@@ -331,7 +331,7 @@ int	vectorTest_reverseIterator(V1& v1, V2& v2, std::string testName)
 			}
 			if (*(rit1++) != *(rit2++))
 			{
-				std::cout << std::endl << BOLDRED << "FAIL on const_rit++" << RESET << std::endl;
+				std::cout << std::endl << STR_BOLDRED << "FAIL on const_rit++" << STR_RESET << std::endl;
 				print_It<V1, V2>(rit1, rit2);
 				isOk = false;
 				break;
@@ -354,7 +354,7 @@ int	vectorTest_reverseIterator(V1& v1, V2& v2, std::string testName)
 			}
 			if (*(rit1--) != *(rit2--))
 			{
-				std::cout << std::endl << BOLDRED << "FAIL on rit--" << RESET << std::endl;
+				std::cout << std::endl << STR_BOLDRED << "FAIL on rit--" << STR_RESET << std::endl;
 				print_It<V1, V2>(rit1, rit2);
 				isOk = false;
 				break;
@@ -377,7 +377,7 @@ int	vectorTest_reverseIterator(V1& v1, V2& v2, std::string testName)
 			}
 			if (*(rit1--) != *(rit2--))
 			{
-				std::cout << std::endl << BOLDRED << "FAIL on const_rit--" << RESET << std::endl;
+				std::cout << std::endl << STR_BOLDRED << "FAIL on const_rit--" << STR_RESET << std::endl;
 				print_It<V1, V2>(rit1, rit2);
 				isOk = false;
 				break;
@@ -391,7 +391,7 @@ template <class V1, class V2>
 int	error(std::string testMsg, std::string test, V1& v1, V2& v2)
 {
 	print_vector(v1, v2, testMsg);
-	std::cout << BLUE << std::left << std::setw(30) << test + " : " << NOTOK << RESET << std::endl;
+	std::cout << STR_BLUE << std::left << std::setw(30) << test + " : " << NOTOK << STR_RESET << std::endl;
 	return 1;
 }
 
@@ -430,7 +430,7 @@ int	constructor_test(T* tab, size_t size, std::string type)
 	if (!isEqual(vft, vstd))
 		return error(testName, "FAIL on constructor vector(lst.begin(), lst.begin())", vft, vstd);
 
-	std::cout << BLUE << std::left << std::setw(30) << testName + " : " << OK << RESET << std::endl;
+	std::cout << STR_BLUE << std::left << std::setw(30) << testName + " : " << OK << STR_RESET << std::endl;
 	return 0;
 }
 
@@ -467,7 +467,7 @@ int	assign_test(T* tab, size_t size, std::string type)
 	if (!isEqual(vft, vstd))
 		return error(testName, "FAIL on constructor assign(lst.begin(), lst.begin())", vft, vstd);
 
-	std::cout << BLUE << std::left << std::setw(30) << testName + " : " << OK << RESET << std::endl;
+	std::cout << STR_BLUE << std::left << std::setw(30) << testName + " : " << OK << STR_RESET << std::endl;
 	return 0;
 }
 
@@ -480,7 +480,7 @@ void vectorTest(T* tab, size_t size, std::string type)
 	if (constructor_test(tab, size, type)
 		|| assign_test(tab,size,type))
 	{
-		std::cout << std::endl << BOLDRED << "FAIL on pre-requisit, can't go further for vectors" << RESET << std::endl;
+		std::cout << std::endl << STR_BOLDRED << "FAIL on pre-requisit, can't go further for vectors" << STR_RESET << std::endl;
 		return ;
 	}
 

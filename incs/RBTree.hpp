@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/29 01:24:15 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/07 18:49:19 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ namespace ft
 	*	insert(const T&)	insert node by key
 	*	delete(const T&)	delete node by key
 	*	clear()				clear TBTree
-     *	erase(): 			Erase elements
      *	swap(): 			Swap content
 	*
 	*	print()				print RBTree
@@ -66,22 +65,11 @@ namespace ft
 		class Allocator = std::allocator<T> >
 	class RBTree
 	{
-	public:
-		typedef T												value_type;
-		typedef size_t											size_type;
-		typedef ptrdiff_t										difference_type;
-		typedef Compare											compare;
-		typedef Allocator										allocator_type;
-
-		typedef T&												reference;
-		typedef const T&										const_reference;
-		typedef T*												pointer;
-		typedef const T*										const_pointer;
-
-		typedef enum {BLACK, RED} 								color_type;
+	private:
+		typedef enum {BLACK, RED} 		_color_type;
 
 		/*-------------------------------------------------------------------------
-		*                       ft::RBNode fct list
+		*                       ft::_RBNode fct list
 		*
 		* - Coplien form
 		*	(constructor):		Constructs the RBTree
@@ -91,26 +79,30 @@ namespace ft
 		* - Element Access
 		*	getRoot():			returns root
 		*	next():				return the next node
-		*	prev():				return the prev node
+		*	previous():			return the prev node
+		*	mini():				return the min node
+		*	maxi():				return the max node
 		*
 		* - Operator:
-		*	== / !=				relational operator for RBNodes
+		*	== / !=				relational operator for _RBNodes
 		*-------------------------------------------------------------------------*/
-		struct RBNode
+		struct _RBNode
 		{
 			typedef T									value_type;
+			typedef T&									reference;
+			typedef T*									pointer;
 
 			T			content;
-			RBNode*		parent;
-			color_type	color;
-			RBNode*		left;
-			RBNode*		right;
+			_RBNode*	parent;
+			_color_type	color;
+			_RBNode*	left;
+			_RBNode*	right;
 
-			RBNode(T content = T(),
-				   RBNode *parent = NULL,
-				   color_type color = BLACK,
-				   RBNode *left = NULL,
-				   RBNode *right = NULL) :
+			_RBNode(T content = T(),
+				   _RBNode *parent = NULL,
+				   _color_type color = BLACK,
+				   _RBNode *left = NULL,
+				   _RBNode *right = NULL) :
 				content(content),
 				parent(parent),
 				color(color),
@@ -118,10 +110,10 @@ namespace ft
 				right(right)
 			{}
 
-			RBNode(const RBNode &src) { *this = src; }
-			~RBNode(void) {}
+			_RBNode(const _RBNode &src) { *this = src; }
+			~_RBNode(void) {}
 
-			RBNode&	operator=(const RBNode &rhs)
+			_RBNode&	operator=(const _RBNode &rhs)
 			{
 				if (this != &rhs)
 				{
@@ -137,12 +129,12 @@ namespace ft
 			reference	operator*(void) const { return content; }
 			pointer		operator->(void) const { return &content; }
 
-			bool	operator==(const RBNode &rhs)
+			bool	operator==(const _RBNode &rhs)
 			{
 				return (parent == rhs.parent) && (left == rhs.left) && (right == rhs.right);
 			}
 
-			bool	operator!=(const RBNode &rhs)
+			bool	operator!=(const _RBNode &rhs)
 			{
 				return !(*this == rhs);
 			}
@@ -150,27 +142,27 @@ namespace ft
 			/*===================================================================*/
 			/*====                     Element access                        ====*/
 			/*===================================================================*/
-			RBNode*	mini(void)
+			_RBNode*	mini(void)
 			{
 				if (left)
 					return left->mini();
 				return this;
 			}
 
-			RBNode*	maxi(void)
+			_RBNode*	maxi(void)
 			{
 				if (right)
 					return right->maxi();
 				return this;
 			}
 
-			RBNode*	previous(void)
+			_RBNode*	previous(void)
 			{
 				if (left)
 					return left->maxi();
 
-				RBNode* n = this;
-				RBNode* p = n->parent;
+				_RBNode* n = this;
+				_RBNode* p = n->parent;
 
 				while (p && n == p->left)
 				{
@@ -180,13 +172,13 @@ namespace ft
 				return (p == this ? NULL : p);
 			}
 
-			RBNode*	next(void)
+			_RBNode*	next(void)
 			{
 				if (right)
 					return right->mini();
 
-				RBNode* n = this;
-				RBNode* p = n->parent;
+				_RBNode* n = this;
+				_RBNode* p = n->parent;
 
 				while (p && n == p->right)
 				{
@@ -196,12 +188,23 @@ namespace ft
 				return (p == this ? NULL : p);
 			}
 
-		}; // struct RBNode -------------------------------------------------------
+		}; // struct _RBNode -------------------------------------------------------
 
-		typedef struct RBNode												node;
-		typedef struct RBNode*												node_pointer;
+	public:
+		typedef T															value_type;
+		typedef size_t														size_type;
+		typedef ptrdiff_t													difference_type;
+		typedef Compare														key_compare;
+		typedef Allocator													allocator_type;
 
-		typedef typename Allocator::template rebind<node>::other			RBNodeAllocator;
+		typedef T&															reference;
+		typedef const T&													const_reference;
+		typedef T*															pointer;
+		typedef const T*													const_pointer;
+		typedef struct _RBNode												node;
+		typedef struct _RBNode*												node_pointer;
+
+		typedef typename Allocator::template rebind<node>::other			_RBNodeAllocator;
 
 		typedef typename ft::BidirectionalIterator<node, T>					iterator;
 		typedef typename ft::BidirectionalIterator<node, const T>			const_iterator;			//un truc a faire ici avec const
@@ -210,20 +213,20 @@ namespace ft
 
 	private:
 
-		RBNodeAllocator	_alloc;
-		compare			_comp;
+		_RBNodeAllocator	_alloc;
+		key_compare			_comp;
 		node_pointer	_root;
 		size_type		_size;
 
-		node_pointer	_newNode(T content, RBNodeAllocator &alloc)
+		node_pointer	_newNode(T content, _RBNodeAllocator &alloc)
 		{
 			node_pointer	n = alloc.allocate(1);
-			alloc.construct(n, RBNode(content));
+			alloc.construct(n, _RBNode(content));
 
 			return n;
 		}
 
-		void _delRBNode(RBNodeAllocator &alloc, node_pointer n)
+		void _del_RBNode(_RBNodeAllocator &alloc, node_pointer n)
 		{
 			alloc.destroy(n);
 			alloc.deallocate(n, 1);
@@ -312,173 +315,169 @@ namespace ft
 			y->parent = x;
 		}
 
-		void _insertFix(node *newNode)
+		void _insertFix(node_pointer newNode)
 		{
-			node_pointer	uncle;
-			node_pointer	parent;
+			node_pointer uncle;
 
 			while (newNode->parent->color == RED)
 			{
-				parent = newNode->parent;
-
-				if (parent == parent->parent->left)
+				if (newNode->parent == newNode->parent->parent->right)
 				{
-					uncle = parent->parent->right;
-
+					uncle = newNode->parent->parent->left;
 					if (uncle && uncle->color == RED)
 					{
 						uncle->color = BLACK;
-						parent->color = BLACK;
-						parent->parent->color = RED;
-						newNode = parent->parent;
+						newNode->parent->color = BLACK;
+						newNode->parent->parent->color = RED;
+						newNode = newNode->parent->parent;
 					}
 					else
 					{
-						if (newNode == parent->right)
+						if (newNode == newNode->parent->left)
 						{
-							newNode = parent;
-							_leftRotate(newNode);
+							newNode = newNode->parent;
+							_rightRotate(newNode);
 						}
-						parent->color = BLACK;
-						parent->parent->color = RED;
-						_rightRotate(parent->parent);
+						newNode->parent->color = BLACK;
+						newNode->parent->parent->color = RED;
+						_leftRotate(newNode->parent->parent);
 					}
 				}
 				else
 				{
-					uncle = parent->parent->left;
+					uncle = newNode->parent->parent->right;
 
 					if (uncle && uncle->color == RED)
 					{
 						uncle->color = BLACK;
-						parent->color = BLACK;
-						parent->parent->color = RED;
-						newNode = parent->parent;
+						newNode->parent->color = BLACK;
+						newNode->parent->parent->color = RED;
+						newNode = newNode->parent->parent;
 					}
 					else
 					{
-						if (newNode == parent->left)
-						{
-							newNode = parent;
-							_rightRotate(newNode);
+						if (newNode == newNode->parent->right) {
+							newNode = newNode->parent;
+							_leftRotate(newNode);
 						}
-						parent->color = BLACK;
-						parent->parent->color = RED;
-						_leftRotate(parent->parent);
+						newNode->parent->color = BLACK;
+						newNode->parent->parent->color = RED;
+						_rightRotate(newNode->parent->parent);
 					}
 				}
 				if (newNode == _root)
 					break;
 			}
-			_root->color = BLACK;
-		}
+   		_root->color = BLACK;
+  		}
 
-	void	_deleteFix(node_pointer x)
-	{
-		node_pointer	bro;
-
-		while (x && x != _root && x->color == BLACK)
+		void	_deleteFix(node_pointer x)
 		{
-			if (x == x->parent->left)
+			node_pointer	bro;
+
+			while (x && x != _root && x->color == BLACK)
 			{
-				bro = x->parent->right;
-				if (bro->color == RED)
+				if (x == x->parent->left)
 				{
-					bro->color = BLACK;
-					x->parent->color = RED;
-					_leftRotate(x->parent);
 					bro = x->parent->right;
-				}
-				if (bro->right->color == BLACK && bro->left->color == BLACK)
-				{
-					bro->color = RED;
-					x = x->parent;
-				}
-				else if (bro->right->color == BLACK)
-				{
-					bro->left->color = BLACK;
-					bro->color = RED;
-					_rightRotate(bro);
-					bro = x->parent->right;
+					if (bro->color == RED)
+					{
+						bro->color = BLACK;
+						x->parent->color = RED;
+						_leftRotate(x->parent);
+						bro = x->parent->right;
+					}
+
+					if (bro->right->color == BLACK && bro->left->color == BLACK)
+					{
+						bro->color = RED;
+						x = x->parent;
+					}
+					else
+					{
+						if (bro->right->color == BLACK)
+						{
+							bro->left->color = BLACK;
+							bro->color = RED;
+							_rightRotate(bro);
+							bro = x->parent->right;
+						}
+						bro->color = x->parent->color;
+						x->parent->color = BLACK;
+						bro->right->color = BLACK;
+						_leftRotate(x->parent);
+						x = _root;
+					}
 				}
 				else
 				{
-					bro->color = x->parent->color;
-					x->parent->color = BLACK;
-					bro->right->color = BLACK;
-					_leftRotate(x);
-					x = _root;
+					bro = x->parent->left;
+					if (bro->color == RED)
+					{
+						bro->color = BLACK;
+						x->parent->color = RED;
+						_rightRotate(x->parent);
+						bro = x->parent->left;
+					}
+					if (bro->right->color == BLACK && bro->right->color == BLACK)
+					{
+						bro->color = RED;
+						x = x->parent;
+					}
+					else
+					{
+						if (bro->left->color == BLACK)
+						{
+							bro->right->color = BLACK;
+							bro->color = RED;
+							_leftRotate(bro);
+							bro = x->parent->left;
+						}
+						bro->color = x->parent->color;
+						x->parent->color = BLACK;
+						bro->left->color = BLACK;
+						_rightRotate(x->parent);
+						x = _root;
+					}
 				}
 			}
-			else
-			{
-				bro = x->parent->left;
-				if (bro->color == RED)
-				{
-					bro->color = BLACK;
-					x->parent->color = RED;
-					_rightRotate(x->parent);
-					bro = x->parent->left;
-				}
-				if (bro->left->color == BLACK && bro->right->color == BLACK)
-				{
-					bro->color = RED;
-					x = x->parent;
-				}
-				else if (bro->left->color == BLACK)
-				{
-					bro->right->color = BLACK;
-					bro->color = RED;
-					_leftRotate(bro);
-					bro = x->parent->left;
-				}
-				else
-				{
-					bro->color = x->parent->color;
-					x->parent->color = BLACK;
-					bro->left->color = BLACK;
-					_rightRotate(x);
-					x = _root;
-				}
-			}
+			if (x)
+				x->color = BLACK;
 		}
-		if (x)
-			x->color = BLACK;
-	}
 
-	void	_transplant(node_pointer x, node_pointer y)
-	{
-		if (!x->parent)
-			_root = y;
-		else if (x->parent->left == x)
-			x->parent->left = y;
-		else
-			x->parent->right = y;
-		if (y)
-			y->parent = x->parent;
-	}
+		void	_transplant(node_pointer x, node_pointer y)
+		{
+			if (!x->parent)
+				_root = y;
+			else if (x->parent->left == x)
+				x->parent->left = y;
+			else
+				x->parent->right = y;
+			if (y)
+				y->parent = x->parent;
+		}
 
-	node_pointer _copy(node_pointer n)
-	{
-		if (n == NULL)
-			return NULL;
+		node_pointer _copy(node_pointer n)
+		{
+			if (n == NULL)
+				return NULL;
 
-		node_pointer newNode = new node(n);
-		newNode->left = copy(n->left);
-		newNode->right = copy(n->right);
-		newNode->left->parent = newNode;
-		newNode->right->parent = newNode;
-		return newNode;
-	}
+			node_pointer newNode = new node(n);
+			newNode->left = copy(n->left);
+			newNode->right = copy(n->right);
+			newNode->left->parent = newNode;
+			newNode->right->parent = newNode;
+			return newNode;
+		}
 
-	void	_clearNode(RBNodeAllocator &alloc, node_pointer n)
-	{
-		if (n->left)
-			_clearNode(alloc, n->left);
-		if (n->right)
-			_clearNode(alloc, n->right);
-		_delRBNode(alloc, n);
-	}
+		void	_clearNode(_RBNodeAllocator &alloc, node_pointer n)
+		{
+			if (n->left)
+				_clearNode(alloc, n->left);
+			if (n->right)
+				_clearNode(alloc, n->right);
+			_del_RBNode(alloc, n);
+		}
 
 	public:
 		/*===================================================================*/
@@ -487,7 +486,7 @@ namespace ft
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		RBTree(const compare& comp = compare(), const RBNodeAllocator alloc = RBNodeAllocator()) :
+		RBTree(const key_compare& comp = key_compare(), const _RBNodeAllocator alloc = _RBNodeAllocator()) :
 			_alloc(alloc),
 			_comp(comp),
 			_root(NULL),
@@ -518,23 +517,7 @@ namespace ft
 		/*====                     Element access                        ====*/
 		/*===================================================================*/
 
-		node_pointer getRoot(void) { return _root; }
-
-		node_pointer getNode(const T&key)
-		{
-			node_pointer current = _root;
-
-			while (current)
-			{
-				if (!(key < current->content) && !(current->content < key))
-					return current;
-				if (key < current->content) // maybe <= because of deletion in case of doubles....
-					current = current->left;
-				else
-					current = current->right;
-			}
-			return current;
-		}
+		// node_pointer getRoot(void) { return _root; }
 
 		// node_pointer getNode(const T&key)
 		// {
@@ -542,9 +525,9 @@ namespace ft
 
 		// 	while (current)
 		// 	{
-		// 		if (current->content == key)
+		// 		if (!_comp(key, current->content) && !_comp(current->content, key))
 		// 			return current;
-		// 		if (key < current->content) // maybe <= because of deletion in case of doubles....
+		// 		if (_comp(key, current->content)) // maybe <= because of deletion in case of doubles....
 		// 			current = current->left;
 		// 		else
 		// 			current = current->right;
@@ -552,52 +535,51 @@ namespace ft
 		// 	return current;
 		// }
 
-		node_pointer	first()	const
-		{
-			if (!_root)
-				return NULL;
-			return _root->mini();
-		}
+		// node_pointer	first()	const
+		// {
+		// 	if (!_root)
+		// 		return NULL;
+		// 	return _root->mini();
+		// }
 
-		node_pointer	last() const
-		{
-			if (!_root)
-				return NULL;
-			return _root->maxi();
-		}
+		// node_pointer	last() const
+		// {
+		// 	if (!_root)
+		// 		return NULL;
+		// 	return _root->maxi();
+		// }
 		/*===================================================================*/
 		/*====                     Element access                        ====*/
 		/*===================================================================*/
 
-		bool		empty(void) { return _root ? true : false; }
-		size_type	size(void) { return _size; }
-		size_type	max_size() const { return _alloc.max_size(); }  //maybe add ram available?
+		bool		empty(void) const	{ return _root ? true : false; }
+		size_type	size(void) const	{ return _size; }
+		size_type	max_size() const	{ return _alloc.max_size(); }  //maybe add ram available?
 
 		/*===================================================================*/
 		/*====                        Modifiers                          ====*/
 		/*===================================================================*/
 
-		void insert(const T& key)
+		iterator insert(const T& key)
 		{
-			node_pointer newNode = _newNode(key, _alloc);
 			node_pointer current = _root;
 			node_pointer parent = NULL;
+			node_pointer newNode = _newNode(key, _alloc);
 
 			_size++;
 			newNode->color = RED;
 			while (current)
 			{
 				parent = current;
-				if (key < current->content)
+				if (_comp(key, current->content))
 					current = current->left;
 				else
 					current = current->right;
 			}
-
 			newNode->parent = parent;
 			if (!parent)
 				_root = newNode;
-			else if (newNode->content < parent->content)
+			else if (_comp(newNode->content, parent->content))
 				parent->left = newNode;
 			else
 				parent->right = newNode;
@@ -605,18 +587,19 @@ namespace ft
 			if (!parent)
 			{
 				newNode->color = BLACK;
-				return ;
+				return iterator(newNode, _root);
 			}
 			if (!parent->parent)
-				return ;
+				return iterator(newNode, _root);
 
 			_insertFix(newNode);
+			return iterator(newNode, _root);
 		}
 
 		bool	deleteKey(const T&key)
 		{
 			node_pointer		toDelete = getNode(key);
-			color_type			original_color;
+			_color_type			original_color;
 			node_pointer		x, y;
 
 			if (!toDelete)
@@ -652,7 +635,7 @@ namespace ft
 				y->left->parent = y;
 				y->color = toDelete->color;
 			}
-			_delRBNode(_alloc, toDelete);
+			_del_RBNode(_alloc, toDelete);
 			if (original_color == BLACK)
 				_deleteFix(x);
 			_size--;
@@ -661,6 +644,8 @@ namespace ft
 
 		void	clear(void)
 		{
+			if (!_root)
+				return ;
 			_clearNode(_alloc, _root);
 			_root = NULL;
 			_size = 0;

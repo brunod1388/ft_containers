@@ -8,18 +8,15 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Thu Jul 28 04:33:41 2022
+# Make data base, printed on Sat Aug  6 20:02:35 2022
 
 # Variables
 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
+ 
 ?F = $(notdir $?)
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
-# environment
-LC_CTYPE = UTF-8
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -32,7 +29,7 @@ I = incs/
 CURDIR := /Users/brunodeoliveira/Desktop/ft_container
 # makefile
 SHELL = /bin/sh
-# makefile (from `Makefile', line 29)
+# makefile (from `Makefile', line 30)
 RM = /bin/rm -rf
 # makefile (from `Makefile', line 14)
 O = objs/
@@ -42,7 +39,7 @@ S = srcs/
 VSCODE_NLS_CONFIG = {"locale":"en-gb","availableLanguages":{},"_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
-# makefile (from `Makefile', line 25)
+# makefile (from `Makefile', line 26)
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g  -I$I 
 # makefile (from `Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
@@ -53,7 +50,7 @@ INFOPATH = /opt/homebrew/share/info:
 # environment
 P9K_SSH = 0
 # environment
-VSCODE_CWD = /Users/brunodeoliveira/Desktop/test/test
+VSCODE_CWD = /
 # environment
 PATH = /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin:/Library/Python/3.8/bini
 # environment
@@ -69,14 +66,14 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.swp=00;90:*.tmp=00;90:*.dpkg-dist=00;90:*.dpkg-old=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.h1XdgZp6Pq/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.FEFdrOhs8D/Listeners
 # environment
 CPLUS_INCLUDE_PATH = /usr/local/include
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.9XN5J61r3D/org.xquartz:0
-# makefile (from `Makefile', line 27)
+DISPLAY = /private/tmp/com.apple.launchd.E5dNobulBR/org.xquartz:0
+# makefile (from `Makefile', line 28)
 OBJS = $(SRCS:$S%=$O%.o)
 # environment
 PWD = /Users/brunodeoliveira/Desktop/ft_container
@@ -93,8 +90,6 @@ HOME = /Users/brunodeoliveira
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
-VSCODE_CLI = 1
-# environment
 VSCODE_CODE_CACHE_PATH = /Users/brunodeoliveira/Library/Application Support/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = brunodeoliveira
@@ -108,16 +103,14 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
 XPC_FLAGS = 0x0
-# environment
-COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
-# environment
-LC_TERMINAL = iTerm2
-# makefile (from `Makefile', line 26)
+# default
+MAKECMDGOALS := all
+# makefile (from `Makefile', line 27)
 SRCS := srcs/main.cpp
 # environment
-SHLVL = 3
+SHLVL = 1
 # makefile (from `Makefile', line 21)
 CC = c++-11
 # default
@@ -126,10 +119,6 @@ MAKE_VERSION := 3.81
 USER = brunodeoliveira
 # makefile
 .DEFAULT_GOAL := all
-# default
-MAKECMDGOALS := all
-# environment
-TERM_SESSION_ID = w1t0p0:8570D7CB-FAF9-4A1B-B1B3-A9590BDF64D9
 # makefile (from `Makefile', line 17)
 NAME = ft_containers
 # environment
@@ -138,8 +127,6 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
-# environment
-TERM_PROGRAM = iTerm.app
 # default
 .VARIABLES := 
 # environment
@@ -157,11 +144,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-TERM_PROGRAM_VERSION = 3.4.15
-# environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.4102101.4102107.FF4AD27D-F270-4AFF-993F-0F2BB04124F8
-# environment
-LC_TERMINAL_VERSION = 3.4.15
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.4102101.4102107
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -169,30 +152,23 @@ HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +F = $(notdir $+)
 # environment
-ITERM_SESSION_ID = w1t0p0:8570D7CB-FAF9-4A1B-B1B3-A9590BDF64D9
-# environment
 HOMEBREW_REPOSITORY = /opt/homebrew
-# environment
-COLORFGBG = 15;0
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
 COMMAND_MODE = unix2003
+ 
 # default
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
 # environment
-ITERM_PROFILE = flightWin
-# environment
 PAGER = less
 # environment
 LC_ALL = C
-# environment
-P9K_TTY = old
 # automatic
 ^F = $(notdir $^)
-# makefile (from `Makefile', line 28)
+# makefile (from `Makefile', line 29)
 DEPS = $(SRCS:$S%=$D%.d)
 # default
 SUFFIXES := 
@@ -203,13 +179,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-TERM = xterm-256color
-# environment
-_P9K_TTY = /dev/ttys000
-# environment
-VSCODE_PID = 49961
+VSCODE_PID = 5720
 # variable set hash-table stats:
-# Load=98/1024=10%, Rehash=0, Collisions=13/148=9%
+# Load=83/1024=8%, Rehash=0, Collisions=10/133=8%
 
 # Pattern-specific Variable Values
 
@@ -217,9 +189,9 @@ VSCODE_PID = 49961
 
 # Directories
 
-# . (device 16777233, inode 2014203): 19 files, no impossibilities.
+# . (device 16777231, inode 2014203): 18 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -252,7 +224,7 @@ tree:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 64):
+#  commands to execute (from `Makefile', line 65):
 	@clang++  $(CFLAGS) srcs/maintree.cpp -g3 -o tree_test -fsanitize=address
 	./tree_test
 	
@@ -260,7 +232,7 @@ tree:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 04:33:27
+#  Last modified 2022-08-06 20:02:23
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -269,10 +241,9 @@ Makefile:
 test: fclean
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
- 
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 60):
+#  commands to execute (from `Makefile', line 61):
 	@$(CC) $(CFLAGS) -I tests/ srcs/main666.cpp -o test
 	./test
 	
@@ -301,7 +272,7 @@ objs:
 # ? := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
-#  commands to execute (from `Makefile', line 35):
+#  commands to execute (from `Makefile', line 36):
 	@mkdir $@
 	
 
@@ -310,7 +281,7 @@ fclean: clean
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 56):
+#  commands to execute (from `Makefile', line 57):
 	@echo "Everything!"
 	@$(RM) $(NAME)
 	
@@ -318,7 +289,7 @@ fclean: clean
 # Not a target:
 srcs/main.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-10 21:24:56
+#  Last modified 2022-07-28 22:04:20
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -337,7 +308,7 @@ ft_containers: objs/main.cpp.o
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
-#  commands to execute (from `Makefile', line 48):
+#  commands to execute (from `Makefile', line 49):
 	@echo "Assembling $(NAME)"
 	@$(CC) $(LDFLAGS) $^ -o $@
 	
@@ -350,7 +321,7 @@ objs/main.cpp.o: srcs/main.cpp | objs
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
-#  commands to execute (from `Makefile', line 40):
+#  commands to execute (from `Makefile', line 41):
 	@echo "Compiling $^: "
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "✓"
@@ -367,7 +338,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 52):
+#  commands to execute (from `Makefile', line 53):
 	@echo "Cleaning up..."
 	@$(RM) $D $O
 	
@@ -385,6 +356,6 @@ clean:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Thu Jul 28 04:33:41 2022
+# Finished Make data base on Sat Aug  6 20:02:35 2022
 
  

@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/07/28 04:33:27 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/06 20:02:23 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME	= ft_containers
 SRCS	= main.cpp 
 
 CC		= c++-11
+# CC		= clang++
 
 CFLAGS	= -Wall -Wextra -Werror -std=c++98 -g #-fsanitize=address 
 

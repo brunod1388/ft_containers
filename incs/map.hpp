@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/29 00:29:14 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/07 18:47:29 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,41 +62,45 @@ namespace ft{
      *	lower_bound: 	Return iterator to lower bound
      *	upper_bound: 	Return iterator to upper bound
      *	equal_range  	Get range of equal elements
+	 *
+	 * - optional:
+	 * 	printTree:			print Tree
+	 *	print:				print map
      * ------------------------------------------------------------- */
 	template<
 		class Key,
 		class T,
 		class Compare = ft::less<Key>,
-		class Allocator = std::allocator<std::pair<const Key, T> > >
+		class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
+	private:
+		typedef RBTree<ft::pair<Key, T>, Compare, Allocator>	_RBTree;
 	public:
 		typedef Key												key_type;
 		typedef T												mapped_type;
-		typedef std::pair<const Key, T>							value_type;
+		typedef ft::pair<const Key, T>							value_type;
 
 		typedef size_t											size_type;
 		typedef ptrdiff_t										difference_type;
 		typedef Compare											key_compare;
 		typedef Allocator										allocator_type;
 
-		typedef std::pair<const Key, T>&						reference;
-		typedef const std::pair<const Key, T>&					const_reference;
+		typedef ft::pair<const Key, T>&							reference;
+		typedef const ft::pair<const Key, T>&					const_reference;
 		typedef T*												pointer;
 		typedef const T*										const_pointer;
 
-		typedef typename ft::bidirectional_iterator<T>			iterator;
-		typedef typename ft::bidirectional_iterator<const T>	const_iterator;			//un truc a faire ici avec const
-
-		typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;	//un truc a faire ici avec const
-
+		typedef typename _RBTree::iterator						iterator;
+		typedef typename _RBTree::const_iterator				const_iterator;			//un truc a faire ici avec const
+		typedef typename _RBTree::reverse_iterator				reverse_iterator;
+		typedef typename _RBTree::const_reverse_iterator		const_reverse_iterator;	//un truc a faire ici avec const
 
 		class value_compare
 		{
+			friend class map;
 		protected:
 			key_compare comp;
-
 			value_compare( Compare c) : comp(c) {}
 
 		public:
@@ -108,13 +112,12 @@ namespace ft{
 			{
 				return comp(lhs.first, rhs.first);
 			}
-		}
+		};
 
 	private:
 		allocator_type	_alloc;
-		size_type		_size;
-		RBTree			_tree;
 		key_compare		_comp;
+		_RBTree			_tree;
 
 	public:
 		/*===================================================================*/
@@ -123,23 +126,21 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		map( void ) :
-			_alloc(Allocator()),
-			_size(0),
-			_tree(RBTree< ft::pair< Key, T >, Compare, Allocator >())
-		{}
-
-		explicit map( const Compare& comp,
-              const Allocator& alloc = Allocator() ) :
+		explicit map( const Compare& comp = key_compare(),
+					  const Allocator& alloc = allocator_type()) :
 			_alloc(alloc),
-			_size(0),
-			_tree(RBTree< ft::pair< Key, T >, , Allocator >())
+			_comp(value_compare(comp)),
+			_tree(_RBTree(_comp, _alloc))
 		{}
 
 		template< class InputIt >
 		map( InputIt first, InputIt last,
-			const Compare& comp = Compare(),
-			const Allocator& alloc = Allocator() );
+			const Compare& comp = value_compare(Compare()),
+			const Allocator& alloc = Allocator() )
+			_alloc(alloc),
+			_comp(value_comapre(comp)),
+			_tree(_RBTree(_comp, _alloc))
+		{}
 
 		map( const map& other );
 
@@ -169,15 +170,15 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		iterator				begin()		{}
-		iterator				end()		{}
-		reverse_iterator		rbegin()	{}
-		reverse_iterator		rend()		{}
+		iterator				begin()		{ return _tree.begin(); }
+		iterator				end()		{ return _tree.end(); }
+		reverse_iterator		rbegin()	{ return _tree.rbegin(); }
+		reverse_iterator		rend()		{ return _tree.rend(); }
 
-		const_iterator			begin() const	{}
-		const_iterator			end() const		{}
-		const_reverse_iterator	rbegin() const	{}
-		const_reverse_iterator	rend() const	{}
+		const_iterator			begin() const	{ return _tree.begin(); }
+		const_iterator			end() const		{ return _tree.end(); }
+		const_reverse_iterator	rbegin() const	{ return _tree.rbegin(); }
+		const_reverse_iterator	rend() const	{ return _tree.rend(); }
 
 		/*===================================================================*/
 		/*====                                                           ====*/
@@ -185,8 +186,8 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		bool		empty() const		{ return _size == 0; }
-		size_type	size() const		{ return _size; }
+		bool		empty() const		{ return _tree.size() == 0; }
+		size_type	size() const		{ return _tree.size(); }
 		size_type	max_size() const	{ return _alloc.max_size(); }  // should be corrected
 
 
@@ -198,7 +199,13 @@ namespace ft{
 
 		void clear();
 
-		std::pair<iterator, bool> insert( const value_type& value );
+		ft::pair<iterator, bool> insert( const value_type& value )
+		{
+			iterator	it = _tree.insert(value);
+			bool		b = it.base();
+
+			return ft::pair<iterator, bool>(it, b);
+		}
 		iterator insert( iterator hint, const value_type& value );
 
 		template< class InputIt >
@@ -236,9 +243,26 @@ namespace ft{
 		/*====                                                           ====*/
 		/*===================================================================*/
 
-		key_compare key_comp() const;
-		std::map::value_compare value_comp() const;
-	
+		key_compare key_comp() const { return _comp; }
+		value_compare value_comp() const { return value_compare(_comp); }
+
+		/*===================================================================*/
+		/*====                                                           ====*/
+		/*====                       Optional                            ====*/
+		/*====                                                           ====*/
+		/*===================================================================*/
+
+		void	printTree() const { _tree.print(); }
+		void	print() const
+		{
+			for (iterator i = begin(); i != end(); i++)
+			{
+				std::cout << *i << " ";
+			}
+			std::cout << std::endl;
+			std::cout << "size :" << _tree.size() << std::endl;
+		}
+
 	};	//class map
 
 	/*===================================================================*/
