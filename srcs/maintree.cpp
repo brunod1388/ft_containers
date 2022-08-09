@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/29 23:36:13 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/08 00:16:26 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include "RBTree.hpp"
 #include <iostream>
 #include <map>
-
-// template < typename T1, typename T2 >
-// std::ostream&	operator<<(std::ostream& os, const ft::pair<T1, T2>& rhs)
-// {
-// 	os << "(" << rhs.first << ", " << rhs.second << ")";
-// 	return os;
-// }
 
 template < typename T1, typename T2 >
 std::ostream&	operator<<(std::ostream& os, const std::pair<T1, T2>& rhs)

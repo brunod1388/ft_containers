@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   map2.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 18:24:39 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/09 18:30:35 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ namespace ft{
 		class T,
 		class Compare = ft::less<Key>,
 		class Allocator = std::allocator<ft::pair<const Key, T> > >
-	class map
+	class map : public RBTree
 	{
 	public:
 		typedef Key												key_type;

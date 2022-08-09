@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/06 20:21:43 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/07 21:54:49 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,66 +23,92 @@
 #include "utility.hpp"
 #include "tests.hpp"
 
-// template< class T1, class T2 >
-// std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
-// {
-// 	os << "(" << rhs.first << ", " << rhs.second << ")";
-// 	return os;
-// }
+#define STDMAP typename std::map<K, T, std::less<K>, std::allocator<std::pair<const K, T> > >
+#define FTMAP typename ft::map<K, T>
 
-template <typename K, typename T>
-void	print(const std::map<K, T>& m)
+template< class T1, class T2 >
+std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
 {
-	for (typename std::map<K, T>::iterator i = m.begin(); i != m.end(); i++)
-		std::cout << *i << " ";
-	std::cout << std::endl;
-	std::cout << "size :" << m.size();
+	os << "(" << rhs.first << ", " << rhs.second << ")";
+	return os;
 }
 
-// template <class M>
-// void	print(const M& m)
-// {
-// 	for (typename M::const_iterator i = m.begin(); i != m.end(); i++)
-// 		std::cout << *i << " ";
-// 	std::cout << std::endl;
-// 	std::cout << "size :" << m.size();
-//	}
-
-		// void	print() const
-		// {
-		// 	for (iterator i = begin(); i != end(); i++)
-		// 	{
-		// 		std::cout << *i << " ";
-		// 	}
-		// 	std::cout << std::endl;
-		// 	std::cout << "size :" << _tree.size() << std::endl;
-		// }
+template <class M>
+void	print(const M& m)
+{
+	for (typename M::const_iterator i = m.begin(); i != m.end(); i++)
+		std::cout << *i << " ";
+	std::cout << std::endl;
+	std::cout << "size    :" << m.size() << std::endl;
+	std::cout << "empty   :" << m.empty() << std::endl;
+	std::cout << "maxSize :" << m.max_size() << std::endl;
+}
 
 template <typename K, typename T>
-void capacityTest(K* ktab, T* vtab, size_t size)
+void printMaps(const STDMAP& stdm, const FTMAP& ftm)
 {
-	ft::map<K, T>	ftmap;
-	std::map<K, T>	stdmap;
+	std::cout << "--------------------------------------------------" << std::endl;
+	std::cout << "ft  : ";
+	print(ftm);
+	std::cout << "std : ";
+	print(stdm);
+	std::cout << "--------------------------------------------------" << std::endl;
+}
 
-	for (size_t i = 0; i < size; i++)
+void	printTest(std::string str, bool ok)
+{
+	std::cout << std::setw(30) << STR_BLUE + str + ":" << (ok ? OK : NOTOK) << STR_RESET << std::endl;
+}
+
+template <typename K, typename T>
+void capacityTest(const K* ktab, T* vtab, size_t size)
+{
+	FTMAP				ftmap;
+	STDMAP				stdmap;
+	bool				isSizeOk = true;
+	bool				isEmptyOk = true;
+	bool				isMaxSizeOk = true;
+	FTMAP::size_type	ftMax = ftmap.max_size();
+	STDMAP::size_type	stdMax = stdmap.max_size();
+
+	for (size_t i = 0; i < size && isSizeOk && isEmptyOk && isMaxSizeOk; i++)
 	{
-		// stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
+		stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
 		ftmap.insert(ft::pair<K, T>(ktab[i], vtab[i]));
-		// if (ftmap.size() != stdmap.size())
-		// {
-		// 	print(stdmap);
-		// 	print(ftmap);
-		// }
+		if (ftmap.size() != stdmap.size())
+			isSizeOk = false;
+		if (ftmap.empty() != stdmap.empty())
+			isEmptyOk = false;
+		if (ftmap.max_size() != ftMax || stdmap.max_size() != stdMax)
+			isMaxSizeOk = false;
 	}
-
-	std::cout << "ftmap  size: " << ftmap.size() << std::endl;
-	std::cout << "stdmap size: " << stdmap.size() << std::endl;
-
+	for (size_t i = 0; i < size && isSizeOk && isEmptyOk && isMaxSizeOk; i++)
+	{
+		stdmap.erase(stdmap.begin());
+		ftmap.erase(ftmap.begin());
+		if (ftmap.size() != stdmap.size())
+			isSizeOk = false;
+		if (ftmap.empty() != stdmap.empty())
+			isEmptyOk = false;
+		if (ftmap.max_size() != ftMax || stdmap.max_size() != stdMax)
+			isMaxSizeOk = false;
+	}
+	if (!(isSizeOk && isEmptyOk && isMaxSizeOk))
+		printMaps(stdmap, ftmap);
+	printTest("size", isSizeOk);
+	printTest("empty", isEmptyOk);
+	printTest("MaxSize", isMaxSizeOk);
 }
 
 template <typename K, typename T>
 void mapTest(K* ktab, T* vtab, size_t size)
 {
+
+	std::cout << std::endl << "===================================================================" << std::endl
+			  << "===================================================================" << std::endl
+			  << "====                         MAP                               ====" << std::endl
+			  << "===================================================================" << std::endl
+			  << "===================================================================" << std::endl << std::endl;
 
 	std::cout << "===================================================================" <<std::endl
 			  << "====                        Capacity                           ====" <<std::endl

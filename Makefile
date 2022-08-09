@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/08/06 20:02:23 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/09 18:28:24 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,11 +58,15 @@ fclean: clean
 		@$(RM) $(NAME)
 
 test:	fclean
-		@$(CC) $(CFLAGS) -I tests/ srcs/main666.cpp -o test
+		@$(CC) $(CFLAGS) -I tests/ srcs/main_test.cpp -o test
 		./test
 
 tree:
 		@clang++  $(CFLAGS) srcs/maintree.cpp -g3 -o tree_test -fsanitize=address
 		./tree_test
+
+minitest:	fclean
+			@$(CC) $(CFLAGS) -I tests/ srcs/test.cpp -o minitest
+			./minitest
 
 re:	fclean all

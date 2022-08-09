@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 04:42:13 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/08 00:18:29 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft{
 
 	template <class T1, class T2>
 	struct pair{
-		typedef T1	firs_type;
+		typedef T1	first_type;
 		typedef T2	seconde_type;
 
 		T1	first;
@@ -39,12 +39,12 @@ namespace ft{
 
 		pair( const T1& x, const T2& y ) : first(x), second(y) {}
 
-		pair( const pair<T1, T2>& p ) : first(p.first), second(p.second) {} //not sur i need this one
+		pair( const pair& p ) : first(p.first), second(p.second) {} //not sur i need this one
 
 		template< class U1, class U2 >
 		pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
 
-		pair& operator=( const pair& rhs ) 
+		pair& operator=( const pair& rhs )
 		{
 			if (this != &rhs)
 			{
