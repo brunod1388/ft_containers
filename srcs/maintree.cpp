@@ -6,10 +6,11 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/08 00:16:26 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/11 03:52:24 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define TEST 1
 #include "utility.hpp"
 #include "RBTree.hpp"
 #include <iostream>
@@ -22,9 +23,10 @@ std::ostream&	operator<<(std::ostream& os, const std::pair<T1, T2>& rhs)
 	return os;
 }
 
+
 int main(void)
 {
-	ft::RBTree<int> rb;
+	ft::_RBTree<int> rb;
 	int				insertTab[22] = {55, 40, 65, 60, 75, 57, 13, 56, 98, 12,
 									 8, 45, 5, 4, 3, 2, 1, 105, 104, 103,
 									102, 101};
@@ -34,20 +36,20 @@ int main(void)
 	{
 		std::cout << i << " Insert " << insertTab[i] << std::endl;
 		rb.insert(insertTab[i]);
-		rb.print();
+		rb.printTree();
 	}
 	for (int i = 0; i < 22; i++)
 	{
 		std::cout << i << " Insert " << insertTab[i] << std::endl;
 		rb.insert(insertTab[i] + 1000);
-		rb.print();
+		rb.printTree();
 	}
   	std::cout << std::endl << "After deleting----------------" << std::endl;
 	for (int i = 0; i < 5; i++)
 	{
 		std::cout << i << " Delete " << deleteTab[i] << std::endl;
 		rb.insert(deleteTab[i]);
-		rb.print();
+		rb.printTree();
 	}
 
 	rb.clear();
@@ -63,10 +65,10 @@ int main(void)
 										ft::pair<int, std::string>(8, "huit"),
 										ft::pair<int, std::string>(9, "neuf")};
 
-	ft::RBTree< ft::pair<int, std::string> > dicTree;
+	ft::_RBTree< ft::pair<int, std::string> > dicTree;
 	for (size_t i = 0; i < 10; i++)
 		dicTree.insert(dic[i]);
-	dicTree.print();
+	dicTree.printTree();
 
 	std::map<int, std::string> m;
 	for (int i = 0; i < 10; i++)
@@ -75,7 +77,7 @@ int main(void)
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "iterator and operator != test" << std::endl << std::endl;
 	std::cout << "ft :";
-	for (ft::RBTree<ft::pair<int, std::string> >::iterator i = dicTree.begin();
+	for (ft::_RBTree<ft::pair<int, std::string> >::iterator i = dicTree.begin();
 		i != dicTree.end(); i++)
 		std::cout << *i << " ";
 	std::cout << std::endl << "std:";
@@ -88,7 +90,7 @@ int main(void)
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "const iterator and operator != test" << std::endl << std::endl;
 	std::cout << "ft :";
-	for (ft::RBTree<ft::pair<int, std::string> >::const_iterator i = dicTree.begin();
+	for (ft::_RBTree<ft::pair<int, std::string> >::const_iterator i = dicTree.begin();
 		i != dicTree.end(); i++)
 		std::cout << *i << " ";
 	std::cout << std::endl << "std:";
@@ -101,7 +103,7 @@ int main(void)
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "reverse iterator and operator != test" << std::endl << std::endl;
 	std::cout << "ft :";
-	for (ft::RBTree<ft::pair<int, std::string> >::reverse_iterator i = dicTree.rbegin();
+	for (ft::_RBTree<ft::pair<int, std::string> >::reverse_iterator i = dicTree.rbegin();
 		i != dicTree.rend(); i++)
 		std::cout << *i << " ";
 	std::cout << std::endl << "std:";
@@ -114,7 +116,7 @@ int main(void)
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "const reverse iterator and operator != test" << std::endl << std::endl;
 	std::cout << "ft :";
-	for (ft::RBTree<ft::pair<int, std::string> >::const_reverse_iterator i = dicTree.rbegin();
+	for (ft::_RBTree<ft::pair<int, std::string> >::const_reverse_iterator i = dicTree.rbegin();
 		i != dicTree.rend(); i++)
 		std::cout << *i << " ";
 	std::cout << std::endl << "std:";
@@ -124,6 +126,15 @@ int main(void)
 	std::cout << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "END" << std::endl;
+
+	ft::_RBTree<ft::pair<int, std::string> > mcpy(dicTree);
+	ft::_RBTree<ft::pair<int, std::string> > mcpy2 = dicTree;
+	dicTree.insert(ft::pair<int, std::string>(12,"dadsd"));
+	mcpy.printTree();
+	
+	mcpy2.printTree();
+	dicTree.erase(ft::pair<int, std::string>(12,"dadsd"));
+	dicTree.printTree();
 
 	// while(42);
 	return 0;

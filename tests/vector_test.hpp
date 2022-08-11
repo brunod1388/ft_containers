@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/30 00:24:59 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/09 20:19:38 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -474,9 +474,9 @@ int	assign_test(T* tab, size_t size, std::string type)
 template <typename T>
 void vectorTest(T* tab, size_t size, std::string type)
 {
-	std::cout << "=====================================================================" <<std::endl
-			  << "====                         pre-requisit                        ====" <<std::endl
-			  << "=====================================================================" <<std::endl;
+	printTitle("Vector(" + type + ")", STR_MAGENTA, 1);
+
+	printTitle("pre-requisit", STR_BLUE, 0);
 	if (constructor_test(tab, size, type)
 		|| assign_test(tab,size,type))
 	{
@@ -484,9 +484,7 @@ void vectorTest(T* tab, size_t size, std::string type)
 		return ;
 	}
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                        Capacity                           ====" <<std::endl
-			  << "===================================================================" <<std::endl;
+	printTitle("capacity", STR_BLUE, 0);
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_size< ft::vector<T>, std::vector<T> >, tab, size, "size(" + type + ")");
 	constructVector<ft::vector<T>, std::vector<T>, T>(
@@ -498,17 +496,13 @@ void vectorTest(T* tab, size_t size, std::string type)
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_reserve< ft::vector<T>, std::vector<T> >, tab, size, "reserve(" + type + ")");
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                        Modifiers                          ====" <<std::endl
-			  << "===================================================================" <<std::endl;
+	printTitle("modifiers", STR_BLUE, 0);
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")");
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")");
 
-	std::cout << "===================================================================" <<std::endl
-			  << "====                     Reverse Iterator                      ====" <<std::endl
-			  << "===================================================================" <<std::endl;
+	printTitle("reverse_iterator", STR_BLUE, 0);
 	constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")");
 	

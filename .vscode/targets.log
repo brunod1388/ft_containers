@@ -8,14 +8,19 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Tue Aug  9 18:29:15 2022
+# Make data base, printed on Thu Aug 11 02:53:07 2022
 
 # Variables
 
 # automatic
+ 
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+LC_CTYPE = UTF-8
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -24,9 +29,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 @F = $(notdir $@)
 # makefile (from `Makefile', line 15)
 I = incs/
- 
 # makefile
-CURDIR := /Users/brunodeoliveira/Desktop/ft_container
+CURDIR := /Users/brunodeoliveira/Desktop/ft_container_V2
 # makefile
 SHELL = /bin/sh
 # makefile (from `Makefile', line 30)
@@ -50,7 +54,7 @@ INFOPATH = /opt/homebrew/share/info:
 # environment
 P9K_SSH = 0
 # environment
-VSCODE_CWD = /
+VSCODE_CWD = /Users/brunodeoliveira/Desktop/ft_container_V2
 # environment
 PATH = /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin:/Library/Python/3.8/bini
 # environment
@@ -73,10 +77,12 @@ CPLUS_INCLUDE_PATH = /usr/local/include
 %F = $(notdir $%)
 # environment
 DISPLAY = /private/tmp/com.apple.launchd.E5dNobulBR/org.xquartz:0
+# environment
+SQLITE_EXEMPT_PATH_FROM_VNODE_GUARDS = /Users/brunodeoliveira/Library/WebKit/Databases
 # makefile (from `Makefile', line 28)
 OBJS = $(SRCS:$S%=$O%.o)
 # environment
-PWD = /Users/brunodeoliveira/Desktop/ft_container
+PWD = /Users/brunodeoliveira/Desktop/ft_container_V2
 # environment
 HOMEBREW_CELLAR = /opt/homebrew/Cellar
 # environment
@@ -90,6 +96,8 @@ HOME = /Users/brunodeoliveira
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
+VSCODE_CLI = 1
+# environment
 VSCODE_CODE_CACHE_PATH = /Users/brunodeoliveira/Library/Application Support/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = brunodeoliveira
@@ -100,17 +108,20 @@ ZSH = /Users/brunodeoliveira/.oh-my-zsh
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
+ 
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
 XPC_FLAGS = 0x0
+# environment
+COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
-# default
-MAKECMDGOALS := all
+# environment
+LC_TERMINAL = iTerm2
 # makefile (from `Makefile', line 27)
 SRCS := srcs/main.cpp
 # environment
-SHLVL = 1
+SHLVL = 3
 # makefile (from `Makefile', line 21)
 CC = c++-11
 # default
@@ -119,6 +130,10 @@ MAKE_VERSION := 3.81
 USER = brunodeoliveira
 # makefile
 .DEFAULT_GOAL := all
+# default
+MAKECMDGOALS := all
+# environment
+TERM_SESSION_ID = w0t4p0:085C87A8-AFB2-40D1-ABF8-4D1AC616B419
 # makefile (from `Makefile', line 17)
 NAME = ft_containers
 # environment
@@ -127,6 +142,8 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+# environment
+TERM_PROGRAM = iTerm.app
 # default
 .VARIABLES := 
 # environment
@@ -144,7 +161,11 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.4102101.4102107
+TERM_PROGRAM_VERSION = 3.4.15
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.4102101.4102107.0C3C7D6A-83AC-45CA-A88E-2DC62B159856
+# environment
+LC_TERMINAL_VERSION = 3.4.15
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -152,7 +173,11 @@ HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +F = $(notdir $+)
 # environment
+ITERM_SESSION_ID = w0t4p0:085C87A8-AFB2-40D1-ABF8-4D1AC616B419
+# environment
 HOMEBREW_REPOSITORY = /opt/homebrew
+# environment
+COLORFGBG = 15;0
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
 # environment
@@ -162,9 +187,13 @@ MAKEFILES :=
 # automatic
 <F = $(notdir $<)
 # environment
+ITERM_PROFILE = Default
+# environment
 PAGER = less
 # environment
 LC_ALL = C
+# environment
+P9K_TTY = old
 # automatic
 ^F = $(notdir $^)
 # makefile (from `Makefile', line 29)
@@ -178,20 +207,23 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
+TERM = xterm-256color
+# environment
+_P9K_TTY = /dev/ttys012
+# environment
 VSCODE_PID = 5720
 # variable set hash-table stats:
-# Load=83/1024=8%, Rehash=0, Collisions=10/133=8%
+# Load=99/1024=10%, Rehash=0, Collisions=13/149=9%
 
 # Pattern-specific Variable Values
 
- 
 # No pattern-specific variable values.
 
 # Directories
 
-# . (device 16777231, inode 2014203): 21 files, no impossibilities.
+# . (device 16777231, inode 5797257): 18 files, no impossibilities.
 
-# 21 files, no impossibilities in 1 directories.
+# 18 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -207,6 +239,7 @@ all: ft_containers
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
+ 
 # Load=0/32=0%, Rehash=0, Collisions=0/2=0%
 
 .PHONY: all clean fclean re test
@@ -232,7 +265,7 @@ tree:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-09 18:28:24
+#  Last modified 2022-08-11 02:52:53
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -298,9 +331,10 @@ fclean: clean
 # Not a target:
 srcs/main.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 22:04:20
+#  Last modified 2022-08-09 18:34:49
 #  File has been updated.
 #  Successfully updated.
+ 
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -365,6 +399,6 @@ clean:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Tue Aug  9 18:29:15 2022
+# Finished Make data base on Thu Aug 11 02:53:07 2022
 
  

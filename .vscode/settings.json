@@ -1,4 +1,7 @@
 {
+
+	"workbench.colorTheme": "Nord Aurora"
+
 	"files.associations": {
 		"vector": "cpp",
 		"iosfwd": "cpp",

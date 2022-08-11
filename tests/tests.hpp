@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/30 00:14:58 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/11 01:39:18 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,30 @@
 #define STR_BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define STR_BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define STR_BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+
+#include <string>
+#include <iostream>
+
+std::string
+centered( std::string const& original, size_t targetSize )
+{
+    size_t padding = targetSize - original.length();
+    if (padding > 0)
+        return std::string( padding / 2, ' ' )  + original + std::string( padding - (padding / 2), ' ' );
+    return original;
+}
+
+void printTitle(std::string title, std::string color = STR_MAGENTA, int height = 0)
+{
+	std::cout << color;
+	std::cout << "==================================================================" << std::endl;
+	for (int i = 0; i < height; i++)
+		std::cout << "===                                                            ===" << std::endl;
+	std::cout << "===" << centered(title, 60) << "===" <<std::endl;
+	for (int i = 0; i < height; i++)
+		std::cout << "===                                                            ===" << std::endl;
+	std::cout << "==================================================================";
+	std::cout << STR_RESET << std::endl;
+}
 
 #endif

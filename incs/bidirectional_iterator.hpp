@@ -25,8 +25,8 @@ namespace ft{
 			typedef Node*									node_ptr;
 			typedef ptrdiff_t								difference_type;
 			typedef T										value_type;
-			typedef T*										pointer;
-			typedef T&										reference;
+			typedef value_type*								pointer;
+			typedef value_type&								reference;
 			typedef BidirectionalIterator<Node, const T>	const_iterator; // test
 			typedef ft::bidirectional_iterator_tag			iterator_category;
 

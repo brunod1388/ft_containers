@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RBTree.hpp                                         :+:      :+:    :+:   */
+/*   _RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:46:42 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 18:22:04 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/09 19:33:51 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,56 +25,75 @@
 namespace ft
 {
 	/*-------------------------------------------------------------------------
-	*                       ft::RBTree fct list
-	*
-	* - Coplien form
-	*	(constructor):				Constructs the RBTree
-	*	(destructor)				Destructs the RBtree
-	*	operator=:					assigns values to the container
+	*                       ft::_RBTree fct list
 	*
 	* - Element Access
-	*	operator[]:					access or insert element
+	*	operator[]:					access or insertNode element
 	*	getRoot():					returns root
-	*	getNode(const T&):			returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
+	*	getNode(const Key&):			returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
 	*	first():					returns smallest node
 	*	last():						returns biggest node
+	*
+	* - Modifiers
+	*	insertNode(const Key&)			insertNode node by key
+	*	deleteKey(const Key&)			delete node by key
+	*	deleteNode(const node_ptr&)	delete node by node_ptr
+    *
+	*	PUBLIC
+	*
+	* - Coplien form
+	*	(constructor):				Constructs the _RBTree
+	*	(destructor)				Destructs the _RBTree
 	*
     * - Capacity:
     *	empty(): 					Test whether container is empty
     *	size(): 					Return container size
      *	max_size(): 				Return maximum size
+	*	operator=:					assigns values to the container
 	*
-	* - Modifiers
-	*	insert(const T&)			insert node by key
-	*	deleteKey(const T&)			delete node by key
-	*	deleteNode(const node_ptr&)	delete node by node_ptr
-	*	clear()						clear TBTree
-     *	swap(): 					Swap content
+	 * - Modifiers:
+     *	insert: 		Insert elements
+     *	erase: 			Erase elements
+     *	swap: 			Swap content
+     *	clear: 			Clear content
 	*
-	*	print()						print RBTree
+     * - Operations:
+     *	find: 			Get iterator to element
+     *	count: 			Count elements with a specific key
+     *	lower_bound: 	Return iterator to lower bound
+     *	upper_bound: 	Return iterator to upper bound
+     *	equal_range  	Get range of equal elements
 	*
-    * - Iterators:
-    *	begin(): 					Return iterator to beginning
+     * - Observers:
+     *	key_comp: 		Return key comparison object
+     *	value_comp: 	Return value comparison object   * - Iterators:
+    *
+	* - Iterators:
+	*	begin(): 					Return iterator to beginning
     *	end(): 						Return iterator to end
     *	rbegin(): 					Return reverse iterator to reverse beginning
     *	rend(): 					Return reverse iterator to reverse end
+	*
+	* - Optional (must define TEST)
+	*	printTree()					print _RBTree
+	*	print()						print _RBTree
 	*-------------------------------------------------------------------------*/
 
 	template<
-		class T,
-		class Compare = ft::less<T>,
-		class Allocator = std::allocator<T> >
-	class RBTree
+		class Key,
+		class Compare = ft::less<Key>,
+		class Allocator = std::allocator<Key> >
+	class _RBTree
 	{
-	private:
+	protected:
 		typedef enum {BLACK, RED} 		_color_type;
 
 		/*-------------------------------------------------------------------------
 		*                       ft::_RBNode fct list
 		*
 		* - Coplien form
-		*	(constructor):		Constructs the RBTree
-		*	(destructor)		Destructs the RBtree
+		*	(constructor):		Constructs the _RBTree
+		*	(destructor)		Destructs the _RBTree
 		*	operator=:			assigns values to the container
 		*
 		* - Element Access
@@ -89,17 +108,17 @@ namespace ft
 		*-------------------------------------------------------------------------*/
 		struct _RBNode
 		{
-			typedef T									value_type;
-			typedef T&									reference;
-			typedef T*									pointer;
+			typedef Key		value_type;
+			typedef Key&	reference;
+			typedef Key*	pointer;
 
-			T			content;
+			Key			content;
 			_RBNode*	parent;
 			_color_type	color;
 			_RBNode*	left;
 			_RBNode*	right;
 
-			_RBNode(T content = T(),
+			_RBNode(Key content = Key(),
 				   _RBNode *parent = NULL,
 				   _color_type color = BLACK,
 				   _RBNode *left = NULL,
@@ -121,27 +140,13 @@ namespace ft
 				return (parent == rhs.parent) && (left == rhs.left) && (right == rhs.right);
 			}
 
-			bool	operator!=(const _RBNode &rhs)
-			{
-				return !(*this == rhs);
-			}
+			bool	operator!=(const _RBNode &rhs) { return !(*this == rhs); }
 
 			/*===================================================================*/
 			/*====                     Element access                        ====*/
 			/*===================================================================*/
-			_RBNode*	mini(void)
-			{
-				if (left)
-					return left->mini();
-				return this;
-			}
-
-			_RBNode*	maxi(void)
-			{
-				if (right)
-					return right->maxi();
-				return this;
-			}
+			_RBNode*	mini(void) { return (left ? left->mini() : this); }
+			_RBNode*	maxi(void) { return (right ? right->maxi() : this); }
 
 			_RBNode*	previous(void)
 			{
@@ -177,43 +182,44 @@ namespace ft
 
 		}; // struct _RBNode -------------------------------------------------------
 
+
 	public:
-		typedef T															value_type;
-		typedef size_t														size_type;
-		typedef ptrdiff_t													difference_type;
-		typedef Compare														key_compare;
-		typedef Allocator													allocator_type;
+		typedef Key																value_type;
+		typedef size_t															size_type;
+		typedef ptrdiff_t														difference_type;
+		typedef Compare															key_compare;
+		typedef Allocator														allocator_type;
 
-		typedef T&															reference;
-		typedef const T&													const_reference;
-		typedef T*															pointer;
-		typedef const T*													const_pointer;
-		typedef struct _RBNode												node_type;
-		typedef struct _RBNode*												node_pointer;
+		typedef value_type&														reference;
+		typedef const value_type&												const_reference;
+		typedef value_type*														pointer;
+		typedef const value_type*												const_pointer;
 
-		typedef typename Allocator::template rebind<node_type>::other		_RBNodeAllocator;
+		typedef struct _RBNode													node_type;
+		typedef struct _RBNode*													node_ptr;
+		typedef typename Allocator::template rebind<node_type>::other			_RBNodeAllocator;
 
-		typedef typename ft::BidirectionalIterator<node_type, T>			iterator;
-		typedef typename ft::BidirectionalIterator<node_type, const T>		const_iterator;			//un truc a faire ici avec const
-		typedef typename ft::BidirectionalIterator_reverse<iterator>		reverse_iterator;
-		typedef typename ft::BidirectionalIterator_reverse<const_iterator>	const_reverse_iterator;
+		typedef typename ft::BidirectionalIterator<node_type, value_type>		iterator;
+		typedef typename ft::BidirectionalIterator<node_type, const value_type>	const_iterator;			//un truc a faire ici avec const
+		typedef typename ft::BidirectionalIterator_reverse<iterator>			reverse_iterator;
+		typedef typename ft::BidirectionalIterator_reverse<const_iterator>		const_reverse_iterator;
 
 	private:
-
-		_RBNodeAllocator	_alloc;
+		_RBNodeAllocator	_nodeAlloc;
+		allocator_type		_alloc;
 		key_compare			_comp;
-		node_pointer		_root;
+		node_ptr			_root;
 		size_type			_size;
 
-		node_pointer	_newNode(T content, _RBNodeAllocator &alloc)
+		node_ptr	_newNode(Key content)
 		{
-			node_pointer	n = alloc.allocate(1);
-			alloc.construct(n, _RBNode(content));
+			node_ptr	n = _nodeAlloc.allocate(1);
+			_nodeAlloc.construct(n, _RBNode(content));
 
 			return n;
 		}
 
-		void _del_RBNode(_RBNodeAllocator &alloc, node_pointer n)
+		void _del_RBNode(_RBNodeAllocator &alloc, node_ptr n)
 		{
 			alloc.destroy(n);
 			alloc.deallocate(n, 1);
@@ -239,23 +245,12 @@ namespace ft
 			_printNode(root->right, indent, true);
 		}
 
-		/*========================================================*/
-		/*==				  Left Rotation						==*/
-		/*==        p								p			==*/
-		/*==		|								|			==*/
-		/*==		X								Y			==*/
-		/*==	   / \							   / \			==*/
-		/*==      a   Y				=>			  X   c			==*/
-		/*==		 / \						 / \			==*/
-		/*==		b   c						a   b			==*/
-		/*========================================================*/
-
-		void	_leftRotate(node_pointer n)
+		void	_leftRotate(node_ptr n)
 		{
-			node_pointer	x = n;
-			node_pointer	y = n->right;
-			node_pointer	p = x->parent;
-			node_pointer	b = y->left;
+			node_ptr	x = n;
+			node_ptr	y = n->right;
+			node_ptr	p = x->parent;
+			node_ptr	b = y->left;
 
 			x->right = b;
 			if (b)
@@ -271,22 +266,12 @@ namespace ft
 			x->parent = y;
 		}
 
-		/*========================================================*/
-		/*==				  Right Rotation					==*/
-		/*==        p								p			==*/
-		/*==		|								|			==*/
-		/*==		Y								X			==*/
-		/*==	   / \							   / \			==*/
-		/*==      X   a				=>			  c   Y			==*/
-		/*==	 / \								 / \		==*/
-		/*==	c   b								b   a		==*/
-		/*========================================================*/
-		void	_rightRotate(node_pointer n)
+		void	_rightRotate(node_ptr n)
 		{
-			node_pointer	x = n->left;
-			node_pointer	y = n;
-			node_pointer	p = y->parent;
-			node_pointer	b = x->right;
+			node_ptr	x = n->left;
+			node_ptr	y = n;
+			node_ptr	p = y->parent;
+			node_ptr	b = x->right;
 
 			x->right = y;
 			if (b)
@@ -302,9 +287,9 @@ namespace ft
 			y->parent = x;
 		}
 
-		void _insertFix(node_pointer newNode)
+		void _insertFix(node_ptr newNode)
 		{
-			node_pointer uncle;
+			node_ptr uncle;
 
 			while (newNode->parent->color == RED)
 			{
@@ -358,9 +343,9 @@ namespace ft
    		_root->color = BLACK;
   		}
 
-		void	_deleteFix(node_pointer x)
+		void	_deleteFix(node_ptr x)
 		{
-			node_pointer	bro;
+			node_ptr	bro;
 
 			while (x && x != _root && x->color == BLACK)
 			{
@@ -432,7 +417,7 @@ namespace ft
 				x->color = BLACK;
 		}
 
-		void	_transplant(node_pointer x, node_pointer y)
+		void	_transplant(node_ptr x, node_ptr y)
 		{
 			if (!x->parent)
 				_root = y;
@@ -444,22 +429,7 @@ namespace ft
 				y->parent = x->parent;
 		}
 
-		node_pointer _copy(node_pointer n)
-		{
-			if (n == NULL)
-				return NULL;
-
-			node_pointer newNode = new node_type(n);
-			newNode->left = _copy(n->left);
-			newNode->right = _copy(n->right);
-			if (newNode->left)
-				newNode->left->parent = newNode;
-			if (newNode->right)
-			newNode->right->parent = newNode;
-			return newNode;
-		}
-
-		void	_clearNode(_RBNodeAllocator &alloc, node_pointer n)
+		void	_clearNode(_RBNodeAllocator &alloc, node_ptr n)
 		{
 			if (n->left)
 				_clearNode(alloc, n->left);
@@ -469,64 +439,24 @@ namespace ft
 		}
 
 	public:
-		/*===================================================================*/
-		/*====                                                           ====*/
-		/*====                     Constructor                           ====*/
-		/*====                                                           ====*/
-		/*===================================================================*/
-
-		RBTree(const key_compare& comp = key_compare(), const _RBNodeAllocator alloc = _RBNodeAllocator()) :
-			_alloc(alloc),
-			_comp(comp),
-			_root(NULL),
-			_size(0)
-		{}
-
-		template< class InputIt >
-		RBTree( InputIt first, InputIt last,
-			const key_compare& comp = key_compare(),
-			const Allocator& alloc = Allocator() ) :
-			_alloc(alloc),
-			_comp(comp),
-			_root(NULL),
-			_size(0)
+		node_ptr copy(node_ptr n) const
 		{
-			while (first != last)
-			{
-				insert(*first);
-				first++;
-			}
+			if (n == NULL)
+				return NULL;
+
+			node_ptr newNode = _newNode(n->content);
+			newNode->left = copy(n->left);
+			newNode->right = copy(n->right);
+			if (newNode->left)
+				newNode->left->parent = newNode;
+			if (newNode->right)
+				newNode->right->parent = newNode;
+			return newNode;
 		}
 
-		RBTree(const T& src)
+		node_ptr getNode(const_reference key) const
 		{
-			*this = src;
-		}
-
-		~RBTree(void) { clear(); }
-
-		RBTree&	operator=(const RBTree& rhs)
-		{
-			if (this == &rhs)
-				return *this;
-
-			_clearNode(_root);
-			_alloc = rhs._alloc;
-			_comp = rhs._comp;
-			_root = rhs._copy(rhs._root);
-			_size = rhs._size;
-			return *this;
-		}
-
-		/*===================================================================*/
-		/*====                     Element access                        ====*/
-		/*===================================================================*/
-
-		// node_pointer getRoot(void) { return _root; }
-
-		node_pointer _getNode(const T&key) const
-		{
-			node_pointer current = _root;
+			node_ptr current = _root;
 
 			while (current)
 			{
@@ -540,69 +470,11 @@ namespace ft
 			return current;
 		}
 
-		// node_pointer	first()	const
-		// {
-		// 	if (!_root)
-		// 		return NULL;
-		// 	return _root->mini();
-		// }
-
-		// node_pointer	last() const
-		// {
-		// 	if (!_root)
-		// 		return NULL;
-		// 	return _root->maxi();
-		// }
-		/*===================================================================*/
-		/*====                     Element access                        ====*/
-		/*===================================================================*/
-
-		bool		empty(void) const	{ return _root ? true : false; }
-		size_type	size(void) const	{ return _size; }
-		size_type	max_size() const	{ return _alloc.max_size(); }  //maybe add ram available?
-
-		/*===================================================================*/
-		/*====                     Element access                        ====*/
-		/*===================================================================*/
-
-		reference at( const_reference key )
+		iterator insertNode(const_reference key)
 		{
-			node_pointer	node = _getNode(key);
-
-			if (!node)
-				throw std::out_of_range("map::at");
-			return node->content;
-		}
-
-		const_reference at( const_reference key ) const
-		{
-			node_pointer	node = _getNode(key);
-
-			if (!node)
-				throw std::out_of_range("map::at");
-			return node->content;
-		}
-
-		// const T& at( const Key& key ) const;
-		// {
-		// 	node_pointer	node _getNode(key);
-
-		// 	if (!node)
-		// 		throw std::out_of_range("map::at");
-		// 	return *node;
-		// }
-
-		T& operator[]( const_reference key );
-
-		/*===================================================================*/
-		/*====                        Modifiers                          ====*/
-		/*===================================================================*/
-
-		iterator insert(const T& key)
-		{
-			node_pointer current = _root;
-			node_pointer parent = NULL;
-			node_pointer newNode = _newNode(key, _alloc);
+			node_ptr current = _root;
+			node_ptr parent = NULL;
+			node_ptr newNode = _newNode(key);
 
 			_size++;
 			newNode->color = RED;
@@ -634,10 +506,10 @@ namespace ft
 			return iterator(newNode, _root);
 		}
 
-		bool	deleteNode(const node_pointer toDelete)
+		bool	deleteNode(const node_ptr toDelete)
 		{
 			_color_type			original_color;
-			node_pointer		x, y;
+			node_ptr		x, y;
 
 			if (!toDelete)
 				return false;
@@ -672,35 +544,196 @@ namespace ft
 				y->left->parent = y;
 				y->color = toDelete->color;
 			}
-			_del_RBNode(_alloc, toDelete);
+			_del_RBNode(_nodeAlloc, toDelete);
 			if (original_color == BLACK)
 				_deleteFix(x);
 			_size--;
 			return true;
 		}
 
-		bool	deleteKey(const T&key)
+		bool	deleteKey(const_reference key)
 		{
-			node_pointer		toDelete = _getNode(key);
+			node_ptr		toDelete = getNode(key);
 
 			if (!toDelete)
 				return false;
-			return deleteNode();
+			return deleteNode(toDelete);
 		}
+
+		/*===================================================================*/
+		/*====                     Constructor                           ====*/
+		/*===================================================================*/
+
+		_RBTree(const key_compare& comp = key_compare(), const Allocator alloc = Allocator()) :
+			_nodeAlloc(_RBNodeAllocator(Allocator())),    //not sure
+			_alloc(alloc),
+			_comp(comp),
+			_root(NULL),
+			_size(0)
+		{}
+
+		template< class InputIt >
+		_RBTree( InputIt first, InputIt last,
+			const key_compare& comp = key_compare(),
+			const Allocator& alloc = Allocator() ) :
+			_nodeAlloc(_RBNodeAllocator(Allocator())),     //not sure
+			_alloc(alloc),
+			_comp(comp),
+			_root(NULL),
+			_size(0)
+		{
+			insert(first, last);
+		}
+
+		_RBTree(const _RBTree& src) :
+			_nodeAlloc(src._nodeAlloc),     //not sure
+			_alloc(src._alloc),
+			_comp(src._comp),
+			_root(NULL),
+			_size(0)
+		{ insert(src.begin(), src.end()); }
+
+		~_RBTree(void) { clear(); }
+
+		_RBTree&	operator=(const _RBTree& rhs)
+		{
+			if (this == &rhs)
+				return *this;
+
+			_clearNode(_nodeAlloc, _root);
+			_nodeAlloc = rhs._nodeAlloc;
+			_comp = rhs._comp;
+			_alloc = rhs._alloc;
+			_root = rhs.copy(rhs._root);
+			_size = rhs._size;
+			return *this;
+		}
+
+		allocator_type get_allocator() const { return _alloc; }
+
+		/*===================================================================*/
+		/*====                     Capacity                        ====*/
+		/*===================================================================*/
+
+		bool		empty(void) const	{ return _root ? true : false; }
+		size_type	size(void) const	{ return _size; }
+		size_type	max_size() const	{ return _nodeAlloc.max_size(); }  //maybe add ram available?
+
+		/*===================================================================*/
+		/*====                        Modifiers                          ====*/
+		/*===================================================================*/
 
 		void	clear(void)
 		{
 			if (!_root)
 				return ;
-			_clearNode(_alloc, _root);
+			_clearNode(_nodeAlloc, _root);
 			_root = NULL;
 			_size = 0;
 		}
 
+		ft::pair<iterator, bool> insert( const_reference value )
+		{
+			iterator	it = insertNode(value);
+			bool		b = it.base();
+
+			return ft::pair<iterator, bool>(it, b);
+		}
+
+		iterator insert( iterator hint, const_reference value );
+
+		template< class InputIt >
+		void insert( InputIt first, InputIt last )
+		{
+			for (InputIt it = first; it != last; it++)
+				insertNode(*it);
+		}
+
+		void erase( iterator pos )
+		{
+			deleteNode(pos.base());
+		}
+
+		void erase( iterator first, iterator last );
+
+		size_type erase( const_reference key )
+		{
+			deleteKey(key);
+			return size();
+		}
+
+		void swap( _RBTree& other )
+		{
+			std::swap(_nodeAlloc, other._nodeAlloc);
+			std::swap(_alloc, other._alloc);
+			std::swap(_comp, other._comp);
+			std::swap(_root, other._root);
+			std::swap(_size, other._size);
+		}
+
 		/*===================================================================*/
-		/*====                                                           ====*/
+		/*====                        Lookup                             ====*/
+		/*===================================================================*/
+
+		size_type count( const_reference key ) const { return (getNode(key) ? 1 : 0); }
+
+		iterator find( const_reference key ) { return iterator(getNode(key), _root); }
+		const_iterator find( const_reference key ) const { return const_iterator(getNode(key), _root); }
+
+		iterator lower_bound( const_reference key )
+		{
+			node_ptr node = getNode(key);
+
+			if (node)
+				node = node->previous();
+			return (iterator(node, _root));
+		}
+
+		const_iterator lower_bound( const_reference key ) const
+		{
+			node_ptr node = getNode(key);
+
+			if (node)
+				node = node->previous();
+			return (const_iterator(node, _root));
+		}
+
+		iterator upper_bound( const_reference key )
+		{
+			node_ptr node = getNode(key);
+
+			if (node)
+				node = node->next();
+			return (iterator(node, _root));
+		}
+
+		const_iterator upper_bound( const_reference key ) const
+		{
+			node_ptr node = getNode(key);
+
+			if (node)
+				node = node->next();
+			return (const_iterator(node, _root));
+		}
+
+		std::pair<iterator,iterator> equal_range( const_reference key )
+		{
+			return (lower_bound(key), upper_bound(key));
+		}
+
+		std::pair<const_iterator,const_iterator> equal_range( const_reference key ) const
+		{
+			return (lower_bound(key), upper_bound(key));
+		}
+
+		/*===================================================================*/
+		/*====                       Observers                           ====*/
+		/*===================================================================*/
+
+		key_compare		key_comp() const { return _comp; }
+
+		/*===================================================================*/
 		/*====                        Iterator                           ====*/
-		/*====                                                           ====*/
 		/*===================================================================*/
 
 		iterator				begin(void) 		{ return iterator(_root ? _root->mini() : NULL, _root); }
@@ -713,13 +746,27 @@ namespace ft
 		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(--end()); }
 		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(--begin()); }
 
-		void	print(void)
+#ifdef TEST
+		void	printTree(void)
 		{
 			_printNode(_root);
 			std::cout << "size : " << _size << std::endl;
 		}
 
-	}; // class RBTree
+		void	print() const
+		{
+			node_ptr	current = _root ? _root->mini() : NULL;
+			std::cout << "content : ";
+			while (current)
+			{
+				std::cout << current->content << " ";
+				current = current->next();
+			}
+			std::cout << std::endl;
+			std::cout << "size :" << size() << std::endl;
+		}
+#endif
+	}; // class _RBTree
 
 } // namespace ft
 

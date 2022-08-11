@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/08 00:18:29 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/10 04:46:47 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,6 @@ namespace ft{
 		return !(lhs < rhs);
 	}
 
-	template< class T1, class T2 >
-	std::ostream &operator<<(std::ostream &os, const pair<T1,T2>& rhs )
-	{
-		os << "(" << rhs.first << ", " << rhs.second << ")";
-		return os;
-	}
-
 	// template< typename T>    // not sur about this
 	// void	swap(T a, T b)
 	// {
@@ -120,6 +113,16 @@ namespace ft{
 	// 	a = b;
 	// 	b = c;
 	// }
+
+#ifdef TEST
+
+	template< class T1, class T2 >
+	std::ostream &operator<<(std::ostream &os, const pair<T1,T2>& rhs )
+	{
+		os << "(" << rhs.first << ", " << rhs.second << ")";
+		return os;
+	}
+#endif
 
 } // namespace ft
 #endif

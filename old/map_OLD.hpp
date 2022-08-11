@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map2.hpp                                           :+:      :+:    :+:   */
+/*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 18:30:35 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/09 18:52:22 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ namespace ft{
 		class T,
 		class Compare = ft::less<Key>,
 		class Allocator = std::allocator<ft::pair<const Key, T> > >
-	class map : public RBTree
+	class map
 	{
 	public:
 		typedef Key												key_type;
@@ -166,15 +166,28 @@ namespace ft{
 		allocator_type get_allocator() const;
 
 		/*===================================================================*/
-		/*====                                                           ====*/
 		/*====                     Element access                        ====*/
-		/*====                                                           ====*/
 		/*===================================================================*/
 
-		T& at( const Key& key ) { return _tree.at(value_type(key, "")).second; }
-		const T& at( const Key& key ) const  { return _tree.at(value_type(key, "")).second; }
+		reference at( const_reference key )
+		{
+			node_pointer	node = _getNode(key);
 
-		T& operator[]( const Key& key );
+			if (!node)
+				throw std::out_of_range("map::at");
+			return node->content;
+		}
+
+		const_reference at( const_reference key ) const
+		{
+			node_pointer	node = _getNode(key);
+
+			if (!node)
+				throw std::out_of_range("map::at");
+			return node->content;
+		}
+
+		T& operator[]( const_reference key );
 
 		/*===================================================================*/
 		/*====                                                           ====*/
