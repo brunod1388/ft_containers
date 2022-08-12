@@ -50,6 +50,7 @@ int main(void)
 	ft::map<int, std::string> ml2(ml.begin(), ml.end());
 	ft::map<int, std::string> ml3(ml2);
 	ft::map<int, std::string> ml4 = ml3;
+	const ft::map<int, std::string> ml5 = ml3;
 
 	stab[0] = "dsds";
 	// ml2.insert(ft::pair<int, std::string>(10, "ml2"));
@@ -64,11 +65,16 @@ int main(void)
 	printTitle("ml4");
 	ml4.print();
 
-	std::cout << "TEST   :" << ml[10] << std::endl;
+	std::cout << "TEST   :" << ml[5] << std::endl;
+	std::cout << "TEST   :" << ml.at(5) << std::endl;
+	// std::cout << "TEST   :" << ml.at(10) << std::endl;
 
 	ml[23] = "dnksjajdak";
 	ml.print();
-	// std::cout << "end" << std::endl;
+	std::cout << "end" << std::endl;
+
+	printTitle("ml5");
+	ml5.print();
 
 	return 0;
 }

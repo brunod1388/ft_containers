@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/12 00:07:39 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/12 04:00:11 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,30 +160,28 @@ namespace ft{
 
 		T& at( const Key& key )
 		{
-			node_ptr node = _tree.getNode(value_type(key, ""));
+			iterator it = _tree.find(value_type(key, T()));
 
-			if (node)
-				return node->content.second;
+			if (it.base())
+				return (*it).second;
 			throw std::out_of_range("ft::map::at");
 		}
 
 		const T& at( const Key& key ) const
 		{
-			node_ptr node = _tree.getNode(value_type(key, ""));
+			iterator it = _tree.find(value_type(key, T()));
 
-			if (node)
-				return node->content.second;
+			if (it.base())
+				return (*it).second;
 			throw std::out_of_range("ft::map::at");
 		}
 
 		T& operator[]( const Key& key )
 		{
-			node_ptr node = _tree.getNode(value_type(key, ""));
+			iterator it = _tree.find(value_type(key, T()));
 
-			if (node)
-				return node->content.second;
-
-			iterator it = _tree.insert(value_type(key, mapped_type())).first;
+			if (!it.base())
+				it = _tree.insert(value_type(key, mapped_type())).first;
 			return (*it).second;
 		}
 
@@ -235,19 +233,19 @@ namespace ft{
 		/*====                        Lookup                             ====*/
 		/*===================================================================*/
 
-		size_type count( const Key& key ) const { return _tree.count(key); }
+		size_type count( const Key& key ) const { return _tree.count(value_type(key, T())); }
 
-		iterator find( const Key& key ) { return _tree.find(key); }
-		const_iterator find( const Key& key ) const { return _tree.find(key); }
+		iterator find( const Key& key ) { return _tree.find(value_type(key, T())); }
+		const_iterator find( const Key& key ) const { return _tree.find(value_type(key, T())); }
 
-		std::pair<iterator,iterator> equal_range( const Key& key ) { return _tree.equal_range(key); }
-		std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const { return _tree.equal_range(key); }
+		iterator lower_bound( const Key& key ) { return _tree.lower_bound(value_type(key, T())); }
+		const_iterator lower_bound( const Key& key ) const { return _tree.lower_bound(value_type(key, T())); }
 
-		iterator lower_bound( const Key& key ) { return _tree.lower_bound(key); }
-		const_iterator lower_bound( const Key& key ) const { return _tree.lower_bound(key); }
+		iterator upper_bound( const Key& key ) { return _tree.upper_bound(value_type(key, T())); }
+		const_iterator upper_bound( const Key& key ) const { return _tree.upper_bound(value_type(key, T())); }
 
-		iterator upper_bound( const Key& key ) { return _tree.upper_bound(key); }
-		const_iterator upper_bound( const Key& key ) const { return _tree.upper_bound(key); }
+		std::pair<iterator,iterator> equal_range( const Key& key ) { return _tree.equal_range(value_type(key, T())); }
+		std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const { return _tree.equal_range(value_type(key, T())); }
 
 		/*===================================================================*/
 		/*====                       Observers                           ====*/

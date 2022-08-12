@@ -28,16 +28,16 @@ namespace ft
 	*                       ft::_RBTree fct list
 	*
 	* - Element Access
-	*	operator[]:					access or insertNode element
+	*	operator[]:					access or _insertNode element
 	*	getRoot():					returns root
-	*	getNode(const Key&):			returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
+	*	_getNode(const Key&):			returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
 	*	first():					returns smallest node
 	*	last():						returns biggest node
 	*
 	* - Modifiers
-	*	insertNode(const Key&)			insertNode node by key
+	*	_insertNode(const Key&)			_insertNode node by key
 	*	deleteKey(const Key&)			delete node by key
-	*	deleteNode(const node_ptr&)	delete node by node_ptr
+	*	_deleteNode(const node_ptr&)	delete node by node_ptr
     *
 	*	PUBLIC
 	*
@@ -85,7 +85,7 @@ namespace ft
 		class Allocator = std::allocator<Key> >
 	class _RBTree
 	{
-	protected:
+	private:
 		typedef enum {BLACK, RED} 		_color_type;
 
 		/*-------------------------------------------------------------------------
@@ -227,7 +227,7 @@ namespace ft
 			alloc.deallocate(n, 1);
 		}
 
-		void _printNode(node_type *root, std::string indent = "", bool isR = true)
+		void _printNode(node_type *root, std::string indent = "", bool isR = true) const
 		{
 			if (!root)
 				return ;
@@ -442,9 +442,8 @@ namespace ft
 			_del_RBNode(alloc, n);
 		}
 
-	public:
 
-		node_ptr getNode(const_reference key) const
+		node_ptr _getNode(const_reference key) const
 		{
 			node_ptr current = _root;
 
@@ -460,7 +459,7 @@ namespace ft
 			return current;
 		}
 
-		iterator insertNode(const_reference key, node_ptr hint = NULL)
+		iterator _insertNode(const_reference key, node_ptr hint = NULL)
 		{
 			node_ptr current = hint ? hint : _root;
 			node_ptr parent = NULL;
@@ -496,7 +495,7 @@ namespace ft
 			return iterator(newNode, _root);
 		}
 
-		bool	deleteNode(const node_ptr toDelete)
+		bool	_deleteNode(const node_ptr toDelete)
 		{
 			_color_type			original_color;
 			node_ptr		x, y;
@@ -539,15 +538,6 @@ namespace ft
 				_deleteFix(x);
 			_size--;
 			return true;
-		}
-
-		bool	deleteKey(const_reference key)
-		{
-			node_ptr		toDelete = getNode(key);
-
-			if (!toDelete)
-				return false;
-			return deleteNode(toDelete);
 		}
 
 public:
@@ -624,38 +614,32 @@ public:
 
 		ft::pair<iterator, bool> insert( const_reference value )
 		{
-			iterator	it = insertNode(value);
+			iterator	it = _insertNode(value);
 			bool		b = it.base();
 
 			return ft::pair<iterator, bool>(it, b);
 		}
 
-		iterator insert( iterator hint, const_reference value )
-		{
-			return insertNode(value, hint.base());
-		}
+		iterator insert( iterator hint, const_reference value ) { return _insertNode(value, hint.base()); }
 
 		template< class InputIt >
 		void insert( InputIt first, InputIt last )
 		{
 			for (; first != last; first++)
-				insertNode(*first);
+				_insertNode(*first);
 		}
 
-		void erase( iterator pos )
-		{
-			deleteNode(pos.base());
-		}
+		void erase( iterator pos ) { _deleteNode(pos.base()); }
 
 		void erase( iterator first, iterator last )
 		{
 			for (; first != last; first++)
-				deleteNode(first.base());
+				_deleteNode(first.base());
 		}
 
 		size_type erase( const_reference key )
 		{
-			deleteKey(key);
+			_deleteNode(_getNode(key));
 			return size();
 		}
 
@@ -672,14 +656,14 @@ public:
 		/*====                        Lookup                             ====*/
 		/*===================================================================*/
 
-		size_type count( const_reference key ) const { return (getNode(key) ? 1 : 0); }
+		size_type count( const_reference key ) const { return (_getNode(key) ? 1 : 0); }
 
-		iterator find( const_reference key ) { return iterator(getNode(key), _root); }
-		const_iterator find( const_reference key ) const { return const_iterator(getNode(key), _root); }
+		iterator find( const_reference key ) { return iterator(_getNode(key), _root); }
+		const_iterator find( const_reference key ) const { return const_iterator(_getNode(key), _root); }
 
 		iterator lower_bound( const_reference key )
 		{
-			node_ptr node = getNode(key);
+			node_ptr node = _getNode(key);
 
 			if (node)
 				node = node->previous();
@@ -688,7 +672,7 @@ public:
 
 		const_iterator lower_bound( const_reference key ) const
 		{
-			node_ptr node = getNode(key);
+			node_ptr node = _getNode(key);
 
 			if (node)
 				node = node->previous();
@@ -697,7 +681,7 @@ public:
 
 		iterator upper_bound( const_reference key )
 		{
-			node_ptr node = getNode(key);
+			node_ptr node = _getNode(key);
 
 			if (node)
 				node = node->next();
@@ -706,7 +690,7 @@ public:
 
 		const_iterator upper_bound( const_reference key ) const
 		{
-			node_ptr node = getNode(key);
+			node_ptr node = _getNode(key);
 
 			if (node)
 				node = node->next();
@@ -715,12 +699,12 @@ public:
 
 		std::pair<iterator,iterator> equal_range( const_reference key )
 		{
-			return (lower_bound(key), upper_bound(key));
+			return std::pair<iterator,iterator>(lower_bound(key), upper_bound(key));
 		}
 
 		std::pair<const_iterator,const_iterator> equal_range( const_reference key ) const
 		{
-			return (lower_bound(key), upper_bound(key));
+			return std::pair<iterator,iterator>(lower_bound(key), upper_bound(key));
 		}
 
 		/*===================================================================*/
