@@ -6,18 +6,16 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:38:25 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 20:24:07 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/11 22:47:07 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define TEST 0
 #include "vector.hpp"
 #include "vector_test.hpp"
 #include "map_test.hpp"
 #include <vector>
 #include <list>
-
-#define	TEST 0
-
 
 int main( void )
 {

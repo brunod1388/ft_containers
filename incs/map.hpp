@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/11 04:04:06 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/12 00:07:39 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ namespace ft{
 		};
 
 		typedef _RBTree<value_type, value_compare, Allocator>	RBTree;
-		typedef typename RBTree::node_ptr					node_ptr;
+		typedef typename RBTree::node_ptr						node_ptr;
 
 	public:
 		typedef typename RBTree::iterator					iterator;
@@ -176,7 +176,16 @@ namespace ft{
 			throw std::out_of_range("ft::map::at");
 		}
 
-		T& operator[]( const Key& key ) { return at(key); }
+		T& operator[]( const Key& key )
+		{
+			node_ptr node = _tree.getNode(value_type(key, ""));
+
+			if (node)
+				return node->content.second;
+
+			iterator it = _tree.insert(value_type(key, mapped_type())).first;
+			return (*it).second;
+		}
 
 		/*===================================================================*/
 		/*====                        Iterator                           ====*/
@@ -205,32 +214,20 @@ namespace ft{
 		/*====                       Modifiers                           ====*/
 		/*===================================================================*/
 
-		void clear();
+		void clear() { _tree.clear(); }
 
-		ft::pair<iterator, bool> insert( const value_type& value ) //should be changed
-		{
-			iterator	it = _tree.insert(value).first;
-			bool		b = it.base();
+		ft::pair<iterator, bool> insert( const value_type& value ) { return _tree.insert(value); }
 
-			return ft::pair<iterator, bool>(it, b);
-		}
-		iterator insert( iterator hint, const value_type& value );
+		iterator insert( iterator hint, const value_type& value ) { return _tree.insert(hint, value); }
 
 		template< class InputIt >
-		void insert( InputIt first, InputIt last );
+		void insert( InputIt first, InputIt last ) { return _tree.insert(first, last); }
 
-		void erase( iterator pos )
-		{
-			_tree.deleteNode(pos.base());
-		}
+		void erase( iterator pos ) { _tree.erase(pos); }
 
-		void erase( iterator first, iterator last );
+		void erase( iterator first, iterator last ) { return _tree.erase(first, last); }
 
-		size_type erase( const Key& key )
-		{
-			_tree.deleteNode(key);
-			return _tree.size();
-		}
+		size_type erase( const Key& key ) { return _tree.erase(value_type(key, T())); }
 
 		void swap( map& other ) { _tree.swap(other._tree); }
 

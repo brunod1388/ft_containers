@@ -118,11 +118,11 @@ namespace ft
 			_RBNode*	left;
 			_RBNode*	right;
 
-			_RBNode(Key content = Key(),
-				   _RBNode *parent = NULL,
-				   _color_type color = BLACK,
-				   _RBNode *left = NULL,
-				   _RBNode *right = NULL) :
+			_RBNode(const Key& content = Key(),
+				   	_RBNode* parent = NULL,
+				   	_color_type color = BLACK,
+				   	_RBNode* left = NULL,
+				   	_RBNode* right = NULL) :
 				content(content),
 				parent(parent),
 				color(color),
@@ -211,7 +211,7 @@ namespace ft
 		node_ptr			_root;
 		size_type			_size;
 
-		node_ptr	_newNode(Key content)
+		node_ptr	_newNode(const_reference content)
 		{
 			node_ptr	n = _nodeAlloc.allocate(1);
 			_nodeAlloc.construct(n, _RBNode(content));
@@ -219,7 +219,9 @@ namespace ft
 			return n;
 		}
 
-		void _del_RBNode(_RBNodeAllocator &alloc, node_ptr n)
+		node_ptr getRoot() const { return _root; }
+
+		void _del_RBNode(_RBNodeAllocator &alloc, node_ptr n) const
 		{
 			alloc.destroy(n);
 			alloc.deallocate(n, 1);
@@ -429,8 +431,10 @@ namespace ft
 				y->parent = x->parent;
 		}
 
-		void	_clearNode(_RBNodeAllocator &alloc, node_ptr n)
+		void	_clearNode(_RBNodeAllocator &alloc, node_ptr n) const
 		{
+			if (!n)
+				return ;
 			if (n->left)
 				_clearNode(alloc, n->left);
 			if (n->right)
@@ -439,20 +443,6 @@ namespace ft
 		}
 
 	public:
-		node_ptr copy(node_ptr n) const
-		{
-			if (n == NULL)
-				return NULL;
-
-			node_ptr newNode = _newNode(n->content);
-			newNode->left = copy(n->left);
-			newNode->right = copy(n->right);
-			if (newNode->left)
-				newNode->left->parent = newNode;
-			if (newNode->right)
-				newNode->right->parent = newNode;
-			return newNode;
-		}
 
 		node_ptr getNode(const_reference key) const
 		{
@@ -462,7 +452,7 @@ namespace ft
 			{
 				if (!_comp(key, current->content) && !_comp(current->content, key))
 					return current;
-				if (_comp(key, current->content)) // maybe <= because of deletion in case of doubles....
+				if (_comp(key, current->content))
 					current = current->left;
 				else
 					current = current->right;
@@ -470,9 +460,9 @@ namespace ft
 			return current;
 		}
 
-		iterator insertNode(const_reference key)
+		iterator insertNode(const_reference key, node_ptr hint = NULL)
 		{
-			node_ptr current = _root;
+			node_ptr current = hint ? hint : _root;
 			node_ptr parent = NULL;
 			node_ptr newNode = _newNode(key);
 
@@ -560,6 +550,7 @@ namespace ft
 			return deleteNode(toDelete);
 		}
 
+public:
 		/*===================================================================*/
 		/*====                     Constructor                           ====*/
 		/*===================================================================*/
@@ -593,9 +584,9 @@ namespace ft
 			_size(0)
 		{ insert(src.begin(), src.end()); }
 
-		~_RBTree(void) { clear(); }
+		~_RBTree(void) { _clearNode(_nodeAlloc, _root); }
 
-		_RBTree&	operator=(const _RBTree& rhs)
+		_RBTree& operator=(const _RBTree& rhs)
 		{
 			if (this == &rhs)
 				return *this;
@@ -604,8 +595,7 @@ namespace ft
 			_nodeAlloc = rhs._nodeAlloc;
 			_comp = rhs._comp;
 			_alloc = rhs._alloc;
-			_root = rhs.copy(rhs._root);
-			_size = rhs._size;
+			insert(rhs.begin(), rhs.end());
 			return *this;
 		}
 
@@ -640,13 +630,16 @@ namespace ft
 			return ft::pair<iterator, bool>(it, b);
 		}
 
-		iterator insert( iterator hint, const_reference value );
+		iterator insert( iterator hint, const_reference value )
+		{
+			return insertNode(value, hint.base());
+		}
 
 		template< class InputIt >
 		void insert( InputIt first, InputIt last )
 		{
-			for (InputIt it = first; it != last; it++)
-				insertNode(*it);
+			for (; first != last; first++)
+				insertNode(*first);
 		}
 
 		void erase( iterator pos )
@@ -654,7 +647,11 @@ namespace ft
 			deleteNode(pos.base());
 		}
 
-		void erase( iterator first, iterator last );
+		void erase( iterator first, iterator last )
+		{
+			for (; first != last; first++)
+				deleteNode(first.base());
+		}
 
 		size_type erase( const_reference key )
 		{

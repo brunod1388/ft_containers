@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 22:52:57 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/11 03:52:24 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/11 22:24:46 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,7 @@ int main(void)
 	dicTree.insert(ft::pair<int, std::string>(12,"dadsd"));
 	mcpy.printTree();
 	
-	mcpy2.printTree();
-	dicTree.erase(ft::pair<int, std::string>(12,"dadsd"));
-	dicTree.printTree();
+	
 
 	// while(42);
 	return 0;

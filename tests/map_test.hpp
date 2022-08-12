@@ -6,13 +6,14 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 20:21:03 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/12 03:01:31 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_TESTS_HPP
 # define MAP_TESTS_HPP
 
+#include "tests.hpp"
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -21,10 +22,32 @@
 #include <utility>
 #include "map.hpp"
 #include "utility.hpp"
-#include "tests.hpp"
 
-#define STDMAP typename std::map<K, T, std::less<K>, std::allocator<std::pair<const K, T> > >
-#define FTMAP typename ft::map<K, T>
+#define STDMAP std::map<K, T, std::less<K>, std::allocator<std::pair<const K, T> > >
+#define FTMAP ft::map<K, T>
+
+// template<class MFT, class MSTD>
+template <typename K, typename T>
+bool mapEqual(const FTMAP& mft, const STDMAP& mstd)
+{
+	if (mft.size() != mstd.size())
+		return false;
+	typename FTMAP::iterator ift = mft.begin();
+	typename STDMAP::iterator istd = mstd.begin();
+	for (;ift != mft.end() && istd !=mstd.end(); ift++, istd++)
+		if ((*istd).first != (*ift).first || (*istd).second != (*ift).second)
+			return false;
+	return true;
+}
+
+template<typename K, typename T, class map>
+map	constructMap(const K* ktab, const T* vtab, size_t size)
+{
+	map m;
+	for (size_t i = 0; i < size; i++)
+		m.insert(typename map::value_type(ktab[i], vtab[i]));
+	return m;
+}
 
 template< class T1, class T2 >
 std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
@@ -61,15 +84,15 @@ void	printTest(std::string str, bool ok)
 }
 
 template <typename K, typename T>
-void capacityTest(const K* ktab, T* vtab, size_t size)
+void capacityTest(const K* ktab, const T* vtab, size_t size)
 {
 	FTMAP				ftmap;
 	STDMAP				stdmap;
 	bool				isSizeOk = true;
 	bool				isEmptyOk = true;
 	bool				isMaxSizeOk = true;
-	FTMAP::size_type	ftMax = ftmap.max_size();
-	STDMAP::size_type	stdMax = stdmap.max_size();
+	typename FTMAP::size_type	ftMax = ftmap.max_size();
+	typename STDMAP::size_type	stdMax = stdmap.max_size();
 
 	for (size_t i = 0; i < size && isSizeOk && isEmptyOk && isMaxSizeOk; i++)
 	{
@@ -100,14 +123,52 @@ void capacityTest(const K* ktab, T* vtab, size_t size)
 	printTest("MaxSize", isMaxSizeOk);
 }
 
+template<typename MAPSTD, typename MAPFT>
+bool clearTest(MAPSTD* stdmap, MAPFT* ftmap)
+{
+	stdmap->clear();
+	ftmap->clear();
+	return true;
+}
+
+template <typename K, typename T, class F>
+void doTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
+{
+	bool isOk = true;
+
+	FTMAP				ftmap;
+	STDMAP				stdmap;
+
+	for (size_t i = 0; isOk && i < size; i++)
+	{
+		stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
+		ftmap.insert(ft::pair<K, T>(ktab[i], vtab[i]));
+		isOk = f(&stdmap, &ftmap);
+		if (mapEqual(ftmap, stdmap))
+			isOk =false;
+	}
+
+	FTMAP				ftmap2 = constructMap<K, T, FTMAP>(ktab, vtab, size);
+	STDMAP				stdmap2 = constructMap<K, T, STDMAP>(ktab, vtab, size);
+
+	f(&stdmap2, &ftmap2);
+	if (mapEqual(ftmap2, stdmap2))
+		isOk =false;
+	printTest(test_name, isOk);
+}
+
 template <typename K, typename T>
-void mapTest(K* ktab, T* vtab, size_t size)
+void mapTest(const K* ktab, const T* vtab, size_t size)
 {
 
 	printTitle("MAP", STR_MAGENTA, 1);
 
 	printTitle("capacity", STR_BLUE, 0);
 	capacityTest<K, T>(ktab, vtab, size);
+	printTitle("modifiers", STR_BLUE, 0);
+	// doTest(ktab, vtab, size, clearTest<STDMAP, FTMAP>, "clear");
+	// modifiersTest<K, T>(ktab, vtab, size);
+	
 	// std::cout << "===================================================================" <<std::endl
 	// 		  << "====                        Modifiers                          ====" <<std::endl
 	// 		  << "===================================================================" <<std::endl;
