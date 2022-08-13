@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/10 04:46:47 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 21:11:10 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ namespace ft{
 	// }
 
 #ifdef TEST
-
 	template< class T1, class T2 >
 	std::ostream &operator<<(std::ostream &os, const pair<T1,T2>& rhs )
 	{

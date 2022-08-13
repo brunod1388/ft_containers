@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/12 04:00:11 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 21:44:22 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,5 @@ namespace ft{
 	}
 
 };	//namespace ft
-
 
 #endif

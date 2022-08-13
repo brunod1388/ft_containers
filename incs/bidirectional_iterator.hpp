@@ -93,8 +93,8 @@ namespace ft{
 				return tmp;
 			}
 
-			bool	operator==(const BidirectionalIterator rhs) const { return _p == rhs._p; }
-			bool	operator!=(const BidirectionalIterator rhs) const { return _p != rhs._p; }
+			bool	operator==(const BidirectionalIterator& rhs) const { return _p == rhs._p; }
+			bool	operator!=(const BidirectionalIterator& rhs) const { return _p != rhs._p; }
 
 	};	//class BidirectionalIterator
 
@@ -140,8 +140,8 @@ namespace ft{
 			BidirectionalIterator_reverse&	operator--( void ) { _current++; return *this; }
 			BidirectionalIterator_reverse	operator--( int ) { return BidirectionalIterator_reverse(_current++); }
 
-			bool	operator==( const BidirectionalIterator_reverse rhs ) const { return _current == rhs._current; }
-			bool	operator!=( const BidirectionalIterator_reverse rhs ) const { return _current != rhs._current; }
+			bool	operator==( const BidirectionalIterator_reverse& rhs ) const { return _current == rhs._current; }
+			bool	operator!=( const BidirectionalIterator_reverse& rhs ) const { return _current != rhs._current; }
 
 	};	//class BidirectionalIterator_reverse
 

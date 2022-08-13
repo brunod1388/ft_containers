@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 03:31:59 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 22:08:52 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ namespace ft{
 			RandomAccessIterator	operator-(const difference_type n) const { return RandomAccessIterator(_p - n); }
 			difference_type	operator-(RandomAccessIterator rhs) const { return _p - rhs._p; }
 
-			bool	operator==(const RandomAccessIterator rhs) const { return _p == rhs._p; }
-			bool	operator!=(const RandomAccessIterator rhs) const { return _p != rhs._p; }
-			bool	operator<(const RandomAccessIterator rhs) const { return _p < rhs._p; }
-			bool	operator>(const RandomAccessIterator rhs) const { return _p > rhs._p; }
-			bool	operator<=(const RandomAccessIterator rhs) const { return _p <= rhs._p; }
-			bool	operator>=(const RandomAccessIterator rhs) const { return _p >= rhs._p; }
+			bool	operator==(const RandomAccessIterator& rhs) const { return _p == rhs._p; }
+			bool	operator!=(const RandomAccessIterator& rhs) const { return _p != rhs._p; }
+			bool	operator<(const RandomAccessIterator& rhs) const { return _p < rhs._p; }
+			bool	operator>(const RandomAccessIterator& rhs) const { return _p > rhs._p; }
+			bool	operator<=(const RandomAccessIterator& rhs) const { return _p <= rhs._p; }
+			bool	operator>=(const RandomAccessIterator& rhs) const { return _p >= rhs._p; }
 
 			RandomAccessIterator	operator+=(difference_type n)
 			{
@@ -182,12 +182,12 @@ namespace ft{
 			RandomAccessIterator_reverse	operator-( difference_type n ) const { return RandomAccessIterator_reverse(current + n); }
 			difference_type		operator-(RandomAccessIterator_reverse rhs) const { return current - rhs.current; }
 
-			bool	operator==(const RandomAccessIterator_reverse rhs) const { return current == rhs.current; }
-			bool	operator!=(const RandomAccessIterator_reverse rhs) const { return current != rhs.current; }
-			bool	operator<(const RandomAccessIterator_reverse rhs) const { return current < rhs.current; }
-			bool	operator>(const RandomAccessIterator_reverse rhs) const { return current > rhs.current; }
-			bool	operator<=(const RandomAccessIterator_reverse rhs) const { return current <= rhs.current; }
-			bool	operator>=(const RandomAccessIterator_reverse rhs) const { return current >= rhs.current; }
+			bool	operator==(const RandomAccessIterator_reverse& rhs) const { return current == rhs.current; }
+			bool	operator!=(const RandomAccessIterator_reverse& rhs) const { return current != rhs.current; }
+			bool	operator<(const RandomAccessIterator_reverse& rhs) const { return current < rhs.current; }
+			bool	operator>(const RandomAccessIterator_reverse& rhs) const { return current > rhs.current; }
+			bool	operator<=(const RandomAccessIterator_reverse& rhs) const { return current <= rhs.current; }
+			bool	operator>=(const RandomAccessIterator_reverse& rhs) const { return current >= rhs.current; }
 
 			RandomAccessIterator_reverse& operator+=( difference_type n )
 			{
@@ -232,16 +232,19 @@ namespace ft{
 		return n;
 	}
 
-	template <class InputIt, class Distance>
-	void advance (InputIt& it, Distance n)
-	{
-		if (typeid(typename iterator_traits<InputIt>::iterator_category)
-			== typeid(random_access_iterator_tag))
-			it += n;
-		else
-			while (n--)
-				it++;
-	}
+	// template< class InputIt >
+	// typename InputIt::difference_type
+	// distance (InputIt first, InputIt last)
+	// {
+	// 	typename InputIt::difference_type n = 0;
+
+	// 	while (first != last)
+	// 	{
+	// 		first++;
+	// 		n++;
+	// 	}
+	// 	return n;
+	// }
 
 }; // namespace ft
 

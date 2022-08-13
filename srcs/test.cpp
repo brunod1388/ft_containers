@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include "map.hpp"
+#include "vector.hpp"
 #include <string>
 #include <list>
 #include "tests.hpp"
@@ -75,6 +76,76 @@ int main(void)
 
 	printTitle("ml5");
 	ml5.print();
+	{
+		ft::map<int, std::string> tmp = ml5;
+		std::map<int, std::string> tmps(lst.begin(), lst.end());
 
+		printTitle("tmp.begin(), tmp.end()");
+		tmp.erase(tmp.begin(), tmp.end());
+		tmps.erase(tmps.begin(), tmps.end());
+		print(tmp);
+		print(tmps);
+	}
+	{
+		ft::map<int, std::string> tmp = ml5;
+		std::map<int, std::string> tmps(lst.begin(), lst.end());
+
+		printTitle("tmp.end(), tmp.end()");
+		tmp.erase(tmp.end(), tmp.end());
+		tmps.erase(tmps.end(), tmps.end());
+		print(tmp);
+		print(tmps);
+	}
+	{
+		ft::map<int, std::string> tmp = ml5;
+		std::map<int, std::string> tmps(lst.begin(), lst.end());
+
+		printTitle("--tmp.end(), tmp.end()"); // une faute ici voir --tmp
+		std::cout << "TEST ftpair : " << *(--tmp.end()) << std::endl;
+		std::cout << "TEST stdpair : " << *(--tmps.end()) << std::endl;
+		
+		tmp.erase(--tmp.end(), tmp.end());
+		tmps.erase(--tmps.end(), tmps.end());
+
+		print(tmp);
+		print(tmps);
+	}
+	{
+		ft::map<int, std::string> tmp = ml5;
+		std::map<int, std::string> tmps(lst.begin(), lst.end());
+
+		printTitle("++tmp.begin(), tmp.end()");
+		tmp.erase(++tmp.begin(), tmp.end());
+		tmps.erase(++tmps.begin(), tmps.end());
+		print(tmp);
+		print(tmps);
+	}
+	{
+		ft::map<int, std::string> tmp = ml5;
+		std::map<int, std::string> tmps(lst.begin(), lst.end());
+
+		printTitle("tmp.begin(), ++tmp.begin()");
+		tmp.erase(tmp.begin(), ++tmp.begin());
+		// tmp.erase(tmp.begin(), ++tmp.begin());
+		tmps.erase(tmps.begin(), ++tmps.begin());
+		print(tmp);
+		print(tmps);
+	}
+
+	std::map<int, std::string> mstd(lst.begin(), lst.end());
+	for (std::map<int, std::string>::iterator it = mstd.begin() ; it != mstd.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
+	ft::map<int, std::string> mft(lft.begin(), lft.end());
+	for (ft::map<int, std::string>::iterator it = mft.begin() ; it != mft.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
+	mstd.insert(std::pair<int, std::string>(3, "wewewdsadas"));
+	for (ft::map<int, std::string>::iterator it = mft.begin() ; it != mft.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
 	return 0;
 }

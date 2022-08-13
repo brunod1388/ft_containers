@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/09 20:19:38 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 21:32:29 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,11 @@ void	constructVector(int (*f) (V1& , V2&, std::string),
 
 	v1.clear();
 	v2.clear();
+	if (isOk && (f(v1, v2, testName + " pop 1 element") || !isEqual(v1, v2)))
+		isOk = false;
+
+	v1 = V1(lst.begin(), lst.end());
+	v2 = V2(lst.begin(), lst.end());
 	if (isOk && (f(v1, v2, testName + " pop 1 element") || !isEqual(v1, v2)))
 		isOk = false;
 

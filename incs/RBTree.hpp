@@ -463,6 +463,9 @@ namespace ft
 		{
 			node_ptr current = hint ? hint : _root;
 			node_ptr parent = NULL;
+
+			if (_getNode(key))
+				return iterator(NULL, _root);
 			node_ptr newNode = _newNode(key);
 
 			_size++;
@@ -546,7 +549,7 @@ public:
 		/*===================================================================*/
 
 		_RBTree(const key_compare& comp = key_compare(), const Allocator alloc = Allocator()) :
-			_nodeAlloc(_RBNodeAllocator(Allocator())),    //not sure
+			_nodeAlloc(_RBNodeAllocator(Allocator())),
 			_alloc(alloc),
 			_comp(comp),
 			_root(NULL),
@@ -557,7 +560,7 @@ public:
 		_RBTree( InputIt first, InputIt last,
 			const key_compare& comp = key_compare(),
 			const Allocator& alloc = Allocator() ) :
-			_nodeAlloc(_RBNodeAllocator(Allocator())),     //not sure
+			_nodeAlloc(_RBNodeAllocator(Allocator())),
 			_alloc(alloc),
 			_comp(comp),
 			_root(NULL),
@@ -567,7 +570,7 @@ public:
 		}
 
 		_RBTree(const _RBTree& src) :
-			_nodeAlloc(src._nodeAlloc),     //not sure
+			_nodeAlloc(src._nodeAlloc),
 			_alloc(src._alloc),
 			_comp(src._comp),
 			_root(NULL),
@@ -592,7 +595,7 @@ public:
 		allocator_type get_allocator() const { return _alloc; }
 
 		/*===================================================================*/
-		/*====                     Capacity                        ====*/
+		/*====                     Capacity                              ====*/
 		/*===================================================================*/
 
 		bool		empty(void) const	{ return _root ? true : false; }
@@ -625,16 +628,16 @@ public:
 		template< class InputIt >
 		void insert( InputIt first, InputIt last )
 		{
-			for (; first != last; first++)
-				_insertNode(*first);
+			while (first != last)
+				_insertNode(*(first++));
 		}
 
 		void erase( iterator pos ) { _deleteNode(pos.base()); }
 
 		void erase( iterator first, iterator last )
 		{
-			for (; first != last; first++)
-				_deleteNode(first.base());
+			while (first != last)
+				_deleteNode((first++).base());
 		}
 
 		size_type erase( const_reference key )

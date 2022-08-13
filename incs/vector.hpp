@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/07/28 22:02:43 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 21:36:00 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -513,6 +513,7 @@ namespace ft{
 		lhs.swap(rhs);
 	}
 
+#ifdef TEST
 	template< class T, class Alloc >
 	std::ostream &operator<<( std::ostream &os, const vector<T, Alloc>& rhs )
 	{
@@ -522,7 +523,7 @@ namespace ft{
 		os << ")";
 		return os;
 	}
-
+#endif
 };	//namespace ft
 
 

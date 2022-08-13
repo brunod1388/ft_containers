@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/12 03:01:31 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/13 23:17:43 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,30 @@
 #include "map.hpp"
 #include "utility.hpp"
 
-#define STDMAP std::map<K, T, std::less<K>, std::allocator<std::pair<const K, T> > >
+#define STDMAP std::map<K, T>
 #define FTMAP ft::map<K, T>
 
-// template<class MFT, class MSTD>
 template <typename K, typename T>
-bool mapEqual(const FTMAP& mft, const STDMAP& mstd)
+bool mapEqual(const ft::map<K, T>& mft, const std::map<K, T>& mstd)
 {
 	if (mft.size() != mstd.size())
 		return false;
-	typename FTMAP::iterator ift = mft.begin();
-	typename STDMAP::iterator istd = mstd.begin();
-	for (;ift != mft.end() && istd !=mstd.end(); ift++, istd++)
+
+	typename ft::map<K, T>::const_iterator ift = mft.begin();
+	typename std::map<K, T>::const_iterator istd = mstd.begin();
+
+	for (typename std::map<K, T>::const_iterator it = mstd.begin() ; it != mstd.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
+
+	while (ift != mft.end() && istd != mstd.end())
+	{
 		if ((*istd).first != (*ift).first || (*istd).second != (*ift).second)
 			return false;
+		ift++;
+		istd++;
+	}
 	return true;
 }
 
@@ -124,10 +134,10 @@ void capacityTest(const K* ktab, const T* vtab, size_t size)
 }
 
 template<typename MAPSTD, typename MAPFT>
-bool clearTest(MAPSTD* stdmap, MAPFT* ftmap)
+bool clearTest(MAPSTD& stdmap, MAPFT& ftmap)
 {
-	stdmap->clear();
-	ftmap->clear();
+	stdmap.clear();
+	ftmap.clear();
 	return true;
 }
 
@@ -135,25 +145,55 @@ template <typename K, typename T, class F>
 void doTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
 {
 	bool isOk = true;
-
-	FTMAP				ftmap;
-	STDMAP				stdmap;
-
-	for (size_t i = 0; isOk && i < size; i++)
 	{
-		stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
-		ftmap.insert(ft::pair<K, T>(ktab[i], vtab[i]));
-		isOk = f(&stdmap, &ftmap);
-		if (mapEqual(ftmap, stdmap))
-			isOk =false;
+		FTMAP				ftmap;
+		STDMAP				stdmap;
+
+		for (size_t i = 0; isOk && i < size; i++)
+		{
+			stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
+			ftmap.insert(ft::pair<K, T>(ktab[i], vtab[i]));
+			isOk = f(stdmap, ftmap);
+			if (!mapEqual(ftmap, stdmap))
+				isOk = false;
+		}
 	}
+	{
+		FTMAP				ftmap = constructMap<K, T, FTMAP>(ktab, vtab, size);
+		STDMAP				stdmap = constructMap<K, T, STDMAP>(ktab, vtab, size);
 
-	FTMAP				ftmap2 = constructMap<K, T, FTMAP>(ktab, vtab, size);
-	STDMAP				stdmap2 = constructMap<K, T, STDMAP>(ktab, vtab, size);
+		f(stdmap, ftmap);
+		if (!mapEqual(ftmap, stdmap))
+			isOk = false;
+	}
+	printTest(test_name, isOk);
+}
 
-	f(&stdmap2, &ftmap2);
-	if (mapEqual(ftmap2, stdmap2))
-		isOk =false;
+template <typename K, typename T, class F>
+void doConstTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
+{
+	bool isOk = true;
+	{
+		const FTMAP				ftmap;
+		const STDMAP				stdmap;
+
+		for (size_t i = 0; isOk && i < size; i++)
+		{
+			stdmap.insert(std::pair<K, T>(ktab[i], vtab[i]));
+			ftmap.insert(ft::pair<K, T>(ktab[i], vtab[i]));
+			isOk = f(stdmap, ftmap);
+			if (!mapEqual(ftmap, stdmap))
+				isOk = false;
+		}
+	}
+	{
+		const FTMAP					ftmap = constructMap<K, T, FTMAP>(ktab, vtab, size);
+		const STDMAP				stdmap = constructMap<K, T, STDMAP>(ktab, vtab, size);
+
+		f(stdmap, ftmap);
+		if (!mapEqual(ftmap, stdmap))
+			isOk = false;
+	}
 	printTest(test_name, isOk);
 }
 
@@ -166,7 +206,7 @@ void mapTest(const K* ktab, const T* vtab, size_t size)
 	printTitle("capacity", STR_BLUE, 0);
 	capacityTest<K, T>(ktab, vtab, size);
 	printTitle("modifiers", STR_BLUE, 0);
-	// doTest(ktab, vtab, size, clearTest<STDMAP, FTMAP>, "clear");
+	doTest<K, T>(ktab, vtab, size, clearTest<STDMAP, FTMAP>, "clear");
 	// modifiersTest<K, T>(ktab, vtab, size);
 	
 	// std::cout << "===================================================================" <<std::endl
