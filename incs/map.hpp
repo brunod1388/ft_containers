@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/13 21:44:22 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/14 02:38:46 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,8 +244,8 @@ namespace ft{
 		iterator upper_bound( const Key& key ) { return _tree.upper_bound(value_type(key, T())); }
 		const_iterator upper_bound( const Key& key ) const { return _tree.upper_bound(value_type(key, T())); }
 
-		std::pair<iterator,iterator> equal_range( const Key& key ) { return _tree.equal_range(value_type(key, T())); }
-		std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const { return _tree.equal_range(value_type(key, T())); }
+		ft::pair<iterator,iterator> equal_range( const Key& key ) { return _tree.equal_range(value_type(key, T())); }
+		ft::pair<const_iterator,const_iterator> equal_range( const Key& key ) const { return _tree.equal_range(value_type(key, T())); }
 
 		/*===================================================================*/
 		/*====                       Observers                           ====*/

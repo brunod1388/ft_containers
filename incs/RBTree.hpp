@@ -161,7 +161,7 @@ namespace ft
 					n = p;
 					p = p->parent;
 				}
-				return (p == this ? NULL : p);
+				return (p);
 			}
 
 			_RBNode*	next(void)
@@ -177,7 +177,7 @@ namespace ft
 					n = p;
 					p = p->parent;
 				}
-				return (p == this ? NULL : p);
+				return (p);
 			}
 
 		}; // struct _RBNode -------------------------------------------------------
@@ -461,13 +461,13 @@ namespace ft
 
 		iterator _insertNode(const_reference key, node_ptr hint = NULL)
 		{
-			node_ptr current = hint ? hint : _root;
-			node_ptr parent = NULL;
-
 			if (_getNode(key))
 				return iterator(NULL, _root);
-			node_ptr newNode = _newNode(key);
 
+			node_ptr current = hint ? hint : _root;
+			node_ptr parent = NULL;
+			node_ptr newNode = _newNode(key);
+			
 			_size++;
 			newNode->color = RED;
 			while (current)
@@ -498,13 +498,13 @@ namespace ft
 			return iterator(newNode, _root);
 		}
 
-		bool	_deleteNode(const node_ptr toDelete)
+		int	_deleteNode(const node_ptr toDelete)
 		{
-			_color_type			original_color;
+			_color_type		original_color;
 			node_ptr		x, y;
 
 			if (!toDelete)
-				return false;
+				return 0;
 
 			original_color = toDelete->color;
 			if (!toDelete->left)
@@ -540,7 +540,7 @@ namespace ft
 			if (original_color == BLACK)
 				_deleteFix(x);
 			_size--;
-			return true;
+			return 1;
 		}
 
 public:
@@ -618,8 +618,10 @@ public:
 		ft::pair<iterator, bool> insert( const_reference value )
 		{
 			iterator	it = _insertNode(value);
-			bool		b = it.base();
+			bool		b = it.base() ? true : false;
 
+			if (!it.base())
+				it = iterator(_getNode(value), _root);
 			return ft::pair<iterator, bool>(it, b);
 		}
 
@@ -642,8 +644,7 @@ public:
 
 		size_type erase( const_reference key )
 		{
-			_deleteNode(_getNode(key));
-			return size();
+			return _deleteNode(_getNode(key));
 		}
 
 		void swap( _RBTree& other )
@@ -666,48 +667,54 @@ public:
 
 		iterator lower_bound( const_reference key )
 		{
-			node_ptr node = _getNode(key);
+			node_ptr node = _root ? _root->mini() : NULL;
 
-			if (node)
-				node = node->previous();
+			if (!node)
+				return (iterator(node, _root));
+
+			while (node && _comp(node->content, key))
+				node = node->next();
 			return (iterator(node, _root));
 		}
 
 		const_iterator lower_bound( const_reference key ) const
 		{
-			node_ptr node = _getNode(key);
+			node_ptr node = _root ? _root->mini() : NULL;
 
-			if (node)
-				node = node->previous();
+			if (!node)
+				return (iterator(node, _root));
+
+			while (node && _comp(node->content, key))
+				node = node->next();
 			return (const_iterator(node, _root));
 		}
 
 		iterator upper_bound( const_reference key )
 		{
-			node_ptr node = _getNode(key);
+			node_ptr node = lower_bound(key).base();
 
-			if (node)
+			if (node && !_comp(key, node->content))
 				node = node->next();
 			return (iterator(node, _root));
 		}
 
 		const_iterator upper_bound( const_reference key ) const
 		{
-			node_ptr node = _getNode(key);
+			node_ptr node = lower_bound(key).base();
 
-			if (node)
+			if (node && !_comp(key, node->content))
 				node = node->next();
 			return (const_iterator(node, _root));
 		}
 
-		std::pair<iterator,iterator> equal_range( const_reference key )
+		ft::pair<iterator,iterator> equal_range( const_reference key )
 		{
-			return std::pair<iterator,iterator>(lower_bound(key), upper_bound(key));
+			return ft::pair<iterator,iterator>(lower_bound(key), upper_bound(key));
 		}
 
-		std::pair<const_iterator,const_iterator> equal_range( const_reference key ) const
+		ft::pair<const_iterator,const_iterator> equal_range( const_reference key ) const
 		{
-			return std::pair<iterator,iterator>(lower_bound(key), upper_bound(key));
+			return ft::pair<const_iterator,const_iterator>(lower_bound(key), upper_bound(key));
 		}
 
 		/*===================================================================*/

@@ -65,15 +65,6 @@ int main(void)
 	ml3.print();
 	printTitle("ml4");
 	ml4.print();
-
-	std::cout << "TEST   :" << ml[5] << std::endl;
-	std::cout << "TEST   :" << ml.at(5) << std::endl;
-	// std::cout << "TEST   :" << ml.at(10) << std::endl;
-
-	ml[23] = "dnksjajdak";
-	ml.print();
-	std::cout << "end" << std::endl;
-
 	printTitle("ml5");
 	ml5.print();
 	{
@@ -132,20 +123,67 @@ int main(void)
 		print(tmps);
 	}
 
+	lst.push_back(std::pair<int, std::string>(7, "sept"));
+	lst.push_back(std::pair<int, std::string>(10, "dix"));
+	lft.push_back(ft::pair<int, std::string>(7, "sept"));
+	lft.push_back(ft::pair<int, std::string>(10, "dix"));
+
 	std::map<int, std::string> mstd(lst.begin(), lst.end());
-	for (std::map<int, std::string>::iterator it = mstd.begin() ; it != mstd.end(); it++)
-	{
-		std::cout << *it << std::endl;
-	}
 	ft::map<int, std::string> mft(lft.begin(), lft.end());
-	for (ft::map<int, std::string>::iterator it = mft.begin() ; it != mft.end(); it++)
+
+	for (int i = -5; i < 10; i++)
 	{
-		std::cout << *it << std::endl;
+		std::cout << "ft::lower_bound(begin(" << i << "))  : " << *mft.lower_bound(i) << std::endl;
+		std::cout << "std::lower_bound(begin(" << i << ")) : " << *mstd.lower_bound(i) << std::endl;
+		std::cout << "ft::upper_bound(begin(" << i << "))  : " << *mft.upper_bound(i) << std::endl;
+		std::cout << "std::upper_bound(begin(" << i << ")) : " << *mstd.upper_bound(i) << std::endl;
+
+		std::cout << "ft::equal_range(begin(" << i << "))  : " << "(" << *mft.equal_range(i).first << ", " << *mft.equal_range(i).second << ")" << std::endl;
+		std::cout << "std::equal_range(begin(" << i << ")) : " << "(" << *mstd.equal_range(i).first << ", " << *mstd.equal_range(i).second << ")" << std::endl;
+		std::cout << std::endl;
 	}
-	mstd.insert(std::pair<int, std::string>(3, "wewewdsadas"));
-	for (ft::map<int, std::string>::iterator it = mft.begin() ; it != mft.end(); it++)
+	std::cout << "ft::lower_bound(begin(int()))  : " << *mft.lower_bound(int()) << std::endl;
+	std::cout << "std::lower_bound(begin(int())) : " << *mstd.lower_bound(int()) << std::endl;
+	std::cout << std::endl;
+	std::cout << "ft::upper_bound(begin(int()))  : " << *mft.upper_bound(int()) << std::endl;
+	std::cout << "std::upper_bound(begin(int())) : " << *mstd.upper_bound(int()) << std::endl;
+	std::cout << std::endl;
+	std::cout << "ft::equal_range(begin(" << int() << "))  : " << "(" << *mft.equal_range(int()).first << ", " << *mft.equal_range(int()).second << ")" << std::endl;
+	std::cout << "std::equal_range(begin(" << int() << ")) : " << "(" << *mstd.equal_range(int()).first << ", " << *mstd.equal_range(int()).second << ")" << std::endl;
+	std::cout << std::endl;
+
+	std::map<int, std::string> mstd2;
+	ft::map<int, std::string> mft2;
+	std::map<int, std::string>::iterator istd2 = mstd.begin();
+	ft::map<int, std::string>::iterator ift2 = mft.begin();
+
+	std::cout << "std : "<< *mstd2.insert(*mstd.begin()).first << std::endl;
+	std::cout << "ft  : "<< *mft2.insert(*mft.begin()).first << std::endl;
+
+	for (size_t i = 0; i < 10; i++)
 	{
-		std::cout << *it << std::endl;
+		std::cout << "std:return value (testing boolean): " << mstd2.insert(*(istd2)).second << std::endl;
+
+		typename std::map<int, std::string>::value_type pa(istd2->first, istd2->second);
+		mstd2.erase(mstd2.begin());
+		std::cout << "std:return value (testing iterator, the mapped content): " << mstd2.insert(pa).first->second;
+
+		std::cout << std::endl;
+
+		std::cout << "ft :return value (testing boolean): " << mft2.insert(*(ift2)).second << std::endl;
+
+		typename ft::map<int, std::string>::value_type pa2(ift2->first, ift2->second);
+		mft2.erase(ift2);
+
+		// print(mstd2);
+		// print(mft2);
+		std::cout << "ft :return value (testing iterator, the mapped content): " << mft2.insert(pa2).first->second;
+		std::cout << std::endl;
+
+		istd2++;
+		ift2++;
 	}
+
+	
 	return 0;
 }
