@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/08/11 02:52:53 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/15 05:22:12 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,5 +68,9 @@ tree:
 minitest:	fclean
 			@$(CC) $(CFLAGS) -I tests/ srcs/test.cpp -o minitest
 			./minitest
+
+benchmark:	fclean
+			@$(CC) $(CFLAGS) -I tests/ srcs/main_benchmark.cpp -o benchmark
+			./benchmark
 
 re:	fclean all

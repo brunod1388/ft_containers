@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/11 01:39:18 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/15 05:21:48 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@
 #define STR_BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define STR_BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-#include <string>
 #include <iostream>
+#include <string>
+#include <list>
 
 std::string
 centered( std::string const& original, size_t targetSize )
@@ -69,6 +70,16 @@ void printTitle(std::string title, std::string color = STR_MAGENTA, int height =
 		std::cout << "===                                                            ===" << std::endl;
 	std::cout << "==================================================================";
 	std::cout << STR_RESET << std::endl;
+}
+
+template <class Container, class ContFunc>
+void containerBenchmark(const Container& cont,
+						const std::list<typename Container::value_type>& lst,
+						ContFunc* fct,
+						std::string testName)
+{
+	Container tmp(cont);
+
 }
 
 #endif

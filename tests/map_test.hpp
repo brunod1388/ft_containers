@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/15 02:39:58 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/15 04:51:22 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,7 @@ bool endConstTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 template<typename MAPSTD, typename MAPFT>
 bool rbeginTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 {
-	bool							isOk = true;
+	bool									isOk = true;
 	typename MAPFT::const_reverse_iterator	ftit = ftmap.rbegin();
 	typename MAPSTD::const_reverse_iterator stdit = stdmap.rbegin();
 
@@ -333,7 +333,7 @@ bool rbeginTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 template<typename MAPSTD, typename MAPFT>
 bool rendTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 {
-	bool							isOk = true;
+	bool									isOk = true;
 	typename MAPFT::const_reverse_iterator	ftit = ftmap.rend();
 	typename MAPSTD::const_reverse_iterator stdit = stdmap.rend();
 
@@ -386,7 +386,7 @@ bool rendConstTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 template<typename MAPSTD, typename MAPFT>
 bool countTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 {
-	bool						isOk = true;
+	bool							isOk = true;
 	typename MAPFT::const_iterator	ftit = ftmap.begin();
 	typename MAPSTD::const_iterator	stdit = stdmap.begin();
 
@@ -407,17 +407,19 @@ bool findTest(MAPSTD& stdmap, MAPFT& ftmap)
 	bool							isOk = true;
 	typename MAPFT::const_iterator	ftit = ftmap.begin();
 	typename MAPSTD::const_iterator	stdit = stdmap.begin();
-	typename MAPFT::const_iterator	retit;
-	typename MAPSTD::const_iterator	retstd;
+	typename MAPFT::iterator		retft;
+	typename MAPSTD::iterator		retstd;
 
 	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
 	{
-		retit = ftmap.count((*ftit).first);
+		retft = ftmap.find((*ftit).first);
 		retstd = stdmap.find((*stdit).first);
-		if (retit != retstd)
+		if (retft == ftmap.end() || retstd == stdmap.end() || !(*retstd == *retft))
 			isOk = false;
 	}
-	if (stdmap.find(typename MAPSTD::key_type()) != ftmap.find(typename MAPFT::key_type()))
+	retft = ftmap.find(typename MAPFT::key_type());
+	retstd = stdmap.find(typename MAPSTD::key_type());
+	if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
 		isOk = false;
 	if (isOk)
 		return true;
@@ -431,11 +433,19 @@ bool constFindTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 	bool							isOk = true;
 	typename MAPFT::const_iterator	ftit = ftmap.begin();
 	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	typename MAPFT::const_iterator	retft;
+	typename MAPSTD::const_iterator	retstd;
 
 	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
-		if (stdmap.find((*stdit).first) != ftmap.count((*ftit).first))
+	{
+		retft = ftmap.find((*ftit).first);
+		retstd = stdmap.find((*stdit).first);
+		if (retft == ftmap.end() || retstd == stdmap.end() || !(*retstd == *retft))
 			isOk = false;
-	if (stdmap.find(typename MAPSTD::key_type()) != ftmap.find(typename MAPFT::key_type()))
+	}
+	retft = ftmap.find(typename MAPFT::key_type());
+	retstd = stdmap.find(typename MAPSTD::key_type());
+	if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
 		isOk = false;
 	if (isOk)
 		return true;
@@ -444,12 +454,190 @@ bool constFindTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 }
 
 
+template<typename MAPSTD, typename MAPFT>
+bool lowerTest(MAPSTD& stdmap, MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	typename MAPFT::iterator		retft;
+	typename MAPSTD::iterator		retstd;
+
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.lower_bound((*ftit).first);
+		retstd = stdmap.lower_bound((*stdit).first);
+		if (retft == ftmap.end() || retstd == stdmap.end() || !(*retstd == *retft))
+			isOk = false;
+	}
+	retft = ftmap.lower_bound(typename MAPFT::key_type());
+	retstd = stdmap.lower_bound(typename MAPSTD::key_type());
+	if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+		isOk = false;
+	if (isOk)
+		return true;
+	printMaps(stdmap, ftmap);
+	return false;
+}
+
+template<typename MAPSTD, typename MAPFT>
+bool constLowerTest(const MAPSTD& stdmap, const MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	typename MAPFT::const_iterator	retft;
+	typename MAPSTD::const_iterator	retstd;
+
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.lower_bound((*ftit).first);
+		retstd = stdmap.lower_bound((*stdit).first);
+		if (retft == ftmap.end() || retstd == stdmap.end() || !(*retstd == *retft))
+			isOk = false;
+	}
+	retft = ftmap.lower_bound(typename MAPFT::key_type());
+	retstd = stdmap.lower_bound(typename MAPSTD::key_type());
+	if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+		isOk = false;
+	if (isOk)
+		return true;
+	printMaps(stdmap, ftmap);
+	return false;
+}
+
+template<typename MAPSTD, typename MAPFT>
+bool upperTest(MAPSTD& stdmap, MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	typename MAPFT::iterator		retft;
+	typename MAPSTD::iterator		retstd;
+
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.upper_bound((*ftit).first);
+		retstd = stdmap.upper_bound((*stdit).first);
+		if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+			isOk = false;
+	}
+	if (isOk)
+	{
+		retft = ftmap.upper_bound(typename MAPFT::key_type());
+		retstd = stdmap.upper_bound(typename MAPSTD::key_type());
+		if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+			isOk = false;
+		if (isOk)
+			return true;
+	}
+	printMaps(stdmap, ftmap);
+	std::cout << "ft::upper_bound return == end()  : " << (retft == ftmap.end()) << std::endl;
+	std::cout << "std::upper_bound return == end() : " << (retstd == stdmap.end()) << std::endl;
+	return false;
+}
+
+template<typename MAPSTD, typename MAPFT>
+bool constUpperTest(const MAPSTD& stdmap, const MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	typename MAPFT::const_iterator	retft;
+	typename MAPSTD::const_iterator	retstd;
+
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.upper_bound((*ftit).first);
+		retstd = stdmap.upper_bound((*stdit).first);
+		if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+			isOk = false;
+	}
+	if (isOk)
+	{
+		retft = ftmap.upper_bound(typename MAPFT::key_type());
+		retstd = stdmap.upper_bound(typename MAPSTD::key_type());
+		if (retft != ftmap.end() && retstd != stdmap.end() && !(*retstd == *retft))
+			isOk = false;
+		if (isOk)
+			return true;
+	}
+	printMaps(stdmap, ftmap);
+	std::cout << "ft::upper_bound return == end()  : " << (retft == ftmap.end()) << std::endl;
+	std::cout << "std::upper_bound return == end() : " << (retstd == stdmap.end()) << std::endl;
+	return false;
+}
 
 
+template<typename MAPSTD, typename MAPFT>
+bool equalTest(MAPSTD& stdmap, MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	ft::pair<typename MAPFT::iterator, typename MAPFT::iterator>	retft;
+	std::pair<typename MAPSTD::iterator, typename MAPSTD::iterator>	retstd;
 
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.equal_range((*ftit).first);
+		retstd = stdmap.equal_range((*stdit).first);
+		if ((retft.first != ftmap.end() && retstd.first != stdmap.end() && !(*retstd.first == *retft.first)) ||
+			(retft.second != ftmap.end() && retstd.second != stdmap.end() && !(*retstd.second == *retft.second)))
+			isOk = false;
+	}
+	if (isOk)
+	{
+		retft = ftmap.equal_range(typename MAPFT::key_type());
+		retstd = stdmap.equal_range(typename MAPSTD::key_type());
+		if ((retft.first != ftmap.end() && retstd.first != stdmap.end() && !(*retstd.first == *retft.first)) ||
+			(retft.second != ftmap.end() && retstd.second != stdmap.end() && !(*retstd.second == *retft.second)))
+			isOk = false;
+		if (isOk)
+			return true;
+	}
+	printMaps(stdmap, ftmap);
+	std::cout << "ft::equal_range return  : pair<" << (retft.first == ftmap.end() ? (typename MAPFT::value_type()) : *retft.first)
+			  << ", " << (retft.second == ftmap.end() ? (typename MAPFT::value_type()) : *retft.second) << std::endl;
+	std::cout << "std::equal_range return : pair<" << (retstd.first == stdmap.end() ? (typename MAPSTD::value_type()) : *retstd.first)
+			  << ", " << (retstd.second == stdmap.end() ? (typename MAPSTD::value_type()) : *retstd.second) << std::endl;
+	return false;
+}
 
+template<typename MAPSTD, typename MAPFT>
+bool constEqualTest(const MAPSTD& stdmap, const MAPFT& ftmap)
+{
+	bool							isOk = true;
+	typename MAPFT::const_iterator	ftit = ftmap.begin();
+	typename MAPSTD::const_iterator	stdit = stdmap.begin();
+	ft::pair<typename MAPFT::const_iterator, typename MAPFT::const_iterator>	retft;
+	std::pair<typename MAPSTD::const_iterator, typename MAPSTD::const_iterator>	retstd;
 
-
+	for (; isOk && ftit != ftmap.end() && stdit != stdmap.end(); stdit++, ftit++)
+	{
+		retft = ftmap.equal_range((*ftit).first);
+		retstd = stdmap.equal_range((*stdit).first);
+		if ((retft.first != ftmap.end() && retstd.first != stdmap.end() && !(*retstd.first == *retft.first)) ||
+			(retft.second != ftmap.end() && retstd.second != stdmap.end() && !(*retstd.second == *retft.second)))
+			isOk = false;
+	}
+	if (isOk)
+	{
+		retft = ftmap.equal_range(typename MAPFT::key_type());
+		retstd = stdmap.equal_range(typename MAPSTD::key_type());
+		if ((retft.first != ftmap.end() && retstd.first != stdmap.end() && !(*retstd.first == *retft.first)) ||
+			(retft.second != ftmap.end() && retstd.second != stdmap.end() && !(*retstd.second == *retft.second)))
+			isOk = false;
+		if (isOk)
+			return true;
+	}
+	printMaps(stdmap, ftmap);
+	std::cout << "ft::equal_range return  : pair<" << (retft.first == ftmap.end() ? (typename MAPFT::value_type()) : *retft.first)
+			  << ", " << (retft.second == ftmap.end() ? (typename MAPFT::value_type()) : *retft.second) << std::endl;
+	std::cout << "std::equal_range return : pair<" << (retstd.first == stdmap.end() ? (typename MAPSTD::value_type()) : *retstd.first)
+			  << ", " << (retstd.second == stdmap.end() ? (typename MAPSTD::value_type()) : *retstd.second) << std::endl;
+	return false;
+}
 
 
 
@@ -538,7 +726,15 @@ void mapTest(const K* ktab, const T* vtab, size_t size)
 	printTitle("LookUp", STR_BLUE, 0);
 	doTest<K, T>(ktab, vtab, size, countTest<STDMAP, FTMAP>, "count");
 	doTest<K, T>(ktab, vtab, size, findTest<STDMAP, FTMAP>, "find");
-	doConstTest<K, T>(ktab, vtab, size, constFindTest<STDMAP, FTMAP>, "find");
+	doConstTest<K, T>(ktab, vtab, size, constFindTest<STDMAP, FTMAP>, "find const");
+	doTest<K, T>(ktab, vtab, size, lowerTest<STDMAP, FTMAP>, "lower_bound");
+	doConstTest<K, T>(ktab, vtab, size, constLowerTest<STDMAP, FTMAP>, "lower_bound const");
+	doTest<K, T>(ktab, vtab, size, upperTest<STDMAP, FTMAP>, "upper_bound");
+	doConstTest<K, T>(ktab, vtab, size, constUpperTest<STDMAP, FTMAP>, "upper_bound const");
+	doTest<K, T>(ktab, vtab, size, equalTest<STDMAP, FTMAP>, "equal_range");
+	doConstTest<K, T>(ktab, vtab, size, constEqualTest<STDMAP, FTMAP>, "equal_range const");
+
+	printTitle("Modifiers", STR_BLUE, 0);
 
 }
 

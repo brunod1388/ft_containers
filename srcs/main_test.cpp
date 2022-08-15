@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:38:25 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/11 22:47:07 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/15 04:50:50 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int main( void )
 	vectorTest<int>(iTab, 7, "int");
 
 	mapTest<int, std::string>(iTab, strTab, 7);
+	mapTest<std::string, int>(strTab, iTab, 7);
 
 	if (TEST)
 		while(42);
