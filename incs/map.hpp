@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/14 02:38:46 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/15 00:45:53 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ namespace ft{
 
 		const T& at( const Key& key ) const
 		{
-			iterator it = _tree.find(value_type(key, T()));
+			const_iterator it = _tree.find(value_type(key, T()));
 
 			if (it.base())
 				return (*it).second;

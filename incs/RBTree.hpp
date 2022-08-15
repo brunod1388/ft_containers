@@ -467,7 +467,7 @@ namespace ft
 			node_ptr current = hint ? hint : _root;
 			node_ptr parent = NULL;
 			node_ptr newNode = _newNode(key);
-			
+
 			_size++;
 			newNode->color = RED;
 			while (current)
@@ -625,7 +625,11 @@ public:
 			return ft::pair<iterator, bool>(it, b);
 		}
 
-		iterator insert( iterator hint, const_reference value ) { return _insertNode(value, hint.base()); }
+		iterator insert( iterator hint, const_reference value )
+		{
+			(void) hint;
+			return _insertNode(value);  // a changer pour optimiser
+		}
 
 		template< class InputIt >
 		void insert( InputIt first, InputIt last )
@@ -665,6 +669,32 @@ public:
 		iterator find( const_reference key ) { return iterator(_getNode(key), _root); }
 		const_iterator find( const_reference key ) const { return const_iterator(_getNode(key), _root); }
 
+
+		// iterator lower_bound( const_reference key )
+		// {
+		// 	iterator it = begin();
+
+		// 	while (it != end())
+		// 	{
+		// 		if (_comp(*it, key))
+		// 			break;
+		// 		it++;
+		// 	}
+		// 	return it;
+		// }
+
+		// const_iterator lower_bound( const_reference key ) const
+		// {
+		// 	const_iterator it = begin();
+
+		// 	while (it != end())
+		// 	{
+		// 		if (_comp(*it, key))
+		// 			break;
+		// 		it++;
+		// 	}
+		// 	return it;
+		// }
 		iterator lower_bound( const_reference key )
 		{
 			node_ptr node = _root ? _root->mini() : NULL;
@@ -688,6 +718,32 @@ public:
 				node = node->next();
 			return (const_iterator(node, _root));
 		}
+
+		// iterator upper_bound( const_reference key )
+		// {
+		// 	iterator it = begin();
+
+		// 	while (it != end())
+		// 	{
+		// 		if (_comp(key, *it))
+		// 			break;
+		// 		it++;
+		// 	}
+		// 	return it;
+		// }
+
+		// const_iterator upper_bound( const_reference key ) const
+		// {
+		// 	const_iterator it = begin();
+
+		// 	while (it != end())
+		// 	{
+		// 		if (_comp(key, *it))
+		// 			break;
+		// 		it++;
+		// 	}
+		// 	return it;
+		// }
 
 		iterator upper_bound( const_reference key )
 		{
@@ -729,13 +785,13 @@ public:
 
 		iterator				begin(void) 		{ return iterator(_root ? _root->mini() : NULL, _root); }
 		iterator				end(void) 			{ return iterator(NULL , _root); }
-		reverse_iterator		rbegin(void)		{ return reverse_iterator(--end()); }
-		reverse_iterator		rend(void)			{ return reverse_iterator(--begin()); }
+		reverse_iterator		rbegin(void)		{ return reverse_iterator(_size ? --end() : iterator(NULL, _root)); }
+		reverse_iterator		rend(void)			{ return reverse_iterator(_size ? --begin() : iterator(NULL, _root)); }
 
 		const_iterator			begin(void) const	{ return const_iterator(_root ? _root->mini() : NULL, _root); }
 		const_iterator			end(void) const		{ return const_iterator(NULL , _root); }
-		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(--end()); }
-		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(--begin()); }
+		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(_size ? --end() : iterator(NULL, _root)); }
+		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(_size ? --begin() : iterator(NULL, _root)); }
 
 #ifdef TEST
 		void	printTree(void)

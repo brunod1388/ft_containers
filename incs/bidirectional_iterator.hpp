@@ -63,14 +63,20 @@ namespace ft{
 
 			BidirectionalIterator&	operator++(void)
 			{
-				_p = _p->next();
+				if (_p)
+					_p = _p->next();
+				else
+					_p = _root->mini();
 				return *this;
 			}
 
 			BidirectionalIterator	operator++(int)
 			{
 				BidirectionalIterator tmp(_p, _root);
-				_p = _p->next();
+				if (_p)
+					_p = _p->next();
+				else
+					_p = _root->mini();
 				return tmp;
 			}
 
@@ -115,7 +121,7 @@ namespace ft{
 
 		public :
 			BidirectionalIterator_reverse( void ) : _current() {}
-			BidirectionalIterator_reverse( Iter src ) : _current(src) {}
+			BidirectionalIterator_reverse( const Iter& src ) : _current(src) {}
 			BidirectionalIterator_reverse( const BidirectionalIterator_reverse& src ) { *this = src; }
 			~BidirectionalIterator_reverse( void ) {}
 
@@ -133,7 +139,7 @@ namespace ft{
 			pointer	base() const { return _current.base(); }
 
 			reference	operator*( void ) const { return *_current; }
-			pointer		operator->( void ) const { return _current.base(); }
+			pointer		operator->( void ) const { return _current.operator->(); }
 
 			BidirectionalIterator_reverse&	operator++( void ) { _current--; return *this; }
 			BidirectionalIterator_reverse	operator++( int ) { return BidirectionalIterator_reverse(_current--); }

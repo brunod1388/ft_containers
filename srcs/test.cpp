@@ -133,6 +133,13 @@ int main(void)
 
 	for (int i = -5; i < 10; i++)
 	{
+		std::cout << "-----------------------------" << std::endl;
+		std::cout << "lower/upper bound and equal_range" << std::endl;
+
+		std::cout << "STD:" << std::endl;
+		print(mstd);
+		std::cout << "FT:" << std::endl;
+		print(mft);
 		std::cout << "ft::lower_bound(begin(" << i << "))  : " << *mft.lower_bound(i) << std::endl;
 		std::cout << "std::lower_bound(begin(" << i << ")) : " << *mstd.lower_bound(i) << std::endl;
 		std::cout << "ft::upper_bound(begin(" << i << "))  : " << *mft.upper_bound(i) << std::endl;
@@ -142,8 +149,11 @@ int main(void)
 		std::cout << "std::equal_range(begin(" << i << ")) : " << "(" << *mstd.equal_range(i).first << ", " << *mstd.equal_range(i).second << ")" << std::endl;
 		std::cout << std::endl;
 	}
-	std::cout << "ft::lower_bound(begin(int()))  : " << *mft.lower_bound(int()) << std::endl;
+
+	// mstd.clear();
+	// mft.clear();
 	std::cout << "std::lower_bound(begin(int())) : " << *mstd.lower_bound(int()) << std::endl;
+	std::cout << "ft::lower_bound(begin(int()))  : " << *mft.lower_bound(int()) << std::endl;
 	std::cout << std::endl;
 	std::cout << "ft::upper_bound(begin(int()))  : " << *mft.upper_bound(int()) << std::endl;
 	std::cout << "std::upper_bound(begin(int())) : " << *mstd.upper_bound(int()) << std::endl;
@@ -160,8 +170,15 @@ int main(void)
 	std::cout << "std : "<< *mstd2.insert(*mstd.begin()).first << std::endl;
 	std::cout << "ft  : "<< *mft2.insert(*mft.begin()).first << std::endl;
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 7; i++)
 	{
+		std::cout << "-----------------------------" << std::endl;
+		std::cout << "insert and return value  " << i << std::endl;
+
+		std::cout << "STD:" << std::endl;
+		print(mstd2);
+		std::cout << "FT:" << std::endl;
+		print(mft2);
 		std::cout << "std:return value (testing boolean): " << mstd2.insert(*(istd2)).second << std::endl;
 
 		typename std::map<int, std::string>::value_type pa(istd2->first, istd2->second);
@@ -173,17 +190,20 @@ int main(void)
 		std::cout << "ft :return value (testing boolean): " << mft2.insert(*(ift2)).second << std::endl;
 
 		typename ft::map<int, std::string>::value_type pa2(ift2->first, ift2->second);
-		mft2.erase(ift2);
+		mft2.erase(mft2.begin());
 
-		// print(mstd2);
-		// print(mft2);
 		std::cout << "ft :return value (testing iterator, the mapped content): " << mft2.insert(pa2).first->second;
 		std::cout << std::endl;
 
+		std::cout << "-----------------------------" << std::endl;
 		istd2++;
 		ift2++;
 	}
+	std::map<int, std::string>::iterator itx = mstd.begin();
+	for ( int i = 0; i < 15; i++)
+	{
+		itx++;
+	}
 
-	
 	return 0;
 }
