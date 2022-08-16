@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 00:13:48 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/16 04:35:25 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ bool	isEqual(const V1& v1, const V2& v2)
 }
 
 template <class V1, class V2, typename T>
-void	constructVector(int (*f) (V1& , V2&, std::string),
+bool	constructVector(int (*f) (V1& , V2&, std::string),
 						const T* tab,
 						size_t size,
 						std::string testName)
@@ -153,6 +153,7 @@ void	constructVector(int (*f) (V1& , V2&, std::string),
 	if (!isOk)
 		std::cout << std::endl;
 	std::cout << STR_BLUE << std::left << std::setw(30) << testName + " : " << (isOk ? OK : NOTOK) << STR_RESET << std::endl;
+	return isOk;
 }
 
 /*===================================================================*/
@@ -477,8 +478,10 @@ int	assign_test(const T* tab, size_t size, std::string type)
 }
 
 template <typename T>
-void vectorTest(const T* tab, size_t size, std::string type)
+bool vectorTest(const T* tab, size_t size, std::string type)
 {
+	bool	isOk = true;
+
 	printTitle("Vector(" + type + ")", STR_MAGENTA, 1);
 
 	printTitle("pre-requisit", STR_BLUE, 0);
@@ -486,31 +489,39 @@ void vectorTest(const T* tab, size_t size, std::string type)
 		|| assign_test(tab,size,type))
 	{
 		std::cout << std::endl << STR_BOLDRED << "FAIL on pre-requisit, can't go further for vectors" << STR_RESET << std::endl;
-		return ;
+		return false;
 	}
 
 	printTitle("capacity", STR_BLUE, 0);
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_size< ft::vector<T>, std::vector<T> >, tab, size, "size(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_empty< ft::vector<T>, std::vector<T> >, tab, size, "empty(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_max_size< ft::vector<T>, std::vector<T> >, tab, size, "max_size(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_capacity< ft::vector<T>, std::vector<T> >, tab, size, "capacity(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_reserve< ft::vector<T>, std::vector<T> >, tab, size, "reserve(" + type + ")");
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_size< ft::vector<T>, std::vector<T> >, tab, size, "size(" + type + ")"))
+		isOk = false;
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_empty< ft::vector<T>, std::vector<T> >, tab, size, "empty(" + type + ")"))
+		isOk = false;
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_max_size< ft::vector<T>, std::vector<T> >, tab, size, "max_size(" + type + ")"))
+		isOk = false;
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_capacity< ft::vector<T>, std::vector<T> >, tab, size, "capacity(" + type + ")"))
+		isOk = false;
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_reserve< ft::vector<T>, std::vector<T> >, tab, size, "reserve(" + type + ")"))
+		isOk = false;
 
 	printTitle("modifiers", STR_BLUE, 0);
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")");
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")");
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_clear< ft::vector<T>, std::vector<T> >, tab, size, "clear(" + type + ")"))
+		isOk = false;
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_insertVal< ft::vector<T>, std::vector<T> >, tab, size, "insert 1 el(" + type + ")"))
+		isOk = false;
 
 	printTitle("reverse_iterator", STR_BLUE, 0);
-	constructVector<ft::vector<T>, std::vector<T>, T>(
-		vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")");
-	
+	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
+		vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")"))
+		isOk = false;
+	return isOk;
 }
 
 #endif

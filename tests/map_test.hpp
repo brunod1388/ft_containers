@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/15 04:51:22 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/16 04:38:16 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	printTest(std::string str, bool ok)
 }
 
 template <typename K, typename T>
-void capacityTest(const K* ktab, const T* vtab, size_t size)
+bool capacityTest(const K* ktab, const T* vtab, size_t size)
 {
 	FTMAP				ftmap;
 	STDMAP				stdmap;
@@ -142,6 +142,7 @@ void capacityTest(const K* ktab, const T* vtab, size_t size)
 	printTest("size", isSizeOk);
 	printTest("empty", isEmptyOk);
 	printTest("MaxSize", isMaxSizeOk);
+	return (isSizeOk && isEmptyOk && isMaxSizeOk);
 }
 
 template<typename MAPSTD, typename MAPFT>
@@ -639,23 +640,8 @@ bool constEqualTest(const MAPSTD& stdmap, const MAPFT& ftmap)
 	return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 template <typename K, typename T, class F>
-void doTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
+bool doTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
 {
 	bool isOk = true;
 	{
@@ -672,10 +658,11 @@ void doTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_na
 		}
 	}
 	printTest(test_name, isOk);
+	return isOk;
 }
 
 template <typename K, typename T, class F>
-void doConstTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
+bool doConstTest(const K* ktab, const T* vtab, size_t size, F* f, std::string test_name)
 {
 	bool isOk = true;
 	{
@@ -697,45 +684,71 @@ void doConstTest(const K* ktab, const T* vtab, size_t size, F* f, std::string te
 		}
 	}
 	printTest(test_name, isOk);
+	return isOk;
 }
 
 template <typename K, typename T>
-void mapTest(const K* ktab, const T* vtab, size_t size)
+bool mapTest(const K* ktab, const T* vtab, size_t size, std::string types)
 {
-	printTitle("MAP", STR_MAGENTA, 1);
+	bool isOk = true;
+
+	printTitle("MAP" + types, STR_MAGENTA, 1);
 
 	printTitle("Element access", STR_BLUE, 0);
-	doTest<K, T>(ktab, vtab, size, clearTest<STDMAP, FTMAP>, "clear");
-	doTest<K, T>(ktab, vtab, size, bracketsTest<STDMAP, FTMAP>, "brackets");
-	doTest<K, T>(ktab, vtab, size, atTest<STDMAP, FTMAP>, "at");
-	doConstTest<K, T>(ktab, vtab, size, atConstTest<STDMAP, FTMAP>, "at const");
+	if (!doTest<K, T>(ktab, vtab, size, clearTest<STDMAP, FTMAP>, "clear"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, bracketsTest<STDMAP, FTMAP>, "brackets"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, atTest<STDMAP, FTMAP>, "at"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, atConstTest<STDMAP, FTMAP>, "at const"))
+		isOk = false;
 
 	printTitle("Iterators", STR_BLUE, 0);
-	doTest<K, T>(ktab, vtab, size, beginTest<STDMAP, FTMAP>, "begin");
-	doTest<K, T>(ktab, vtab, size, endTest<STDMAP, FTMAP>, "end");
-	doConstTest<K, T>(ktab, vtab, size, beginConstTest<STDMAP, FTMAP>, "begin const");
-	doConstTest<K, T>(ktab, vtab, size, endConstTest<STDMAP, FTMAP>, "end const");
-	doTest<K, T>(ktab, vtab, size, rbeginTest<STDMAP, FTMAP>, "rbegin");
-	doTest<K, T>(ktab, vtab, size, rendTest<STDMAP, FTMAP>, "rend");
-	doConstTest<K, T>(ktab, vtab, size, rbeginConstTest<STDMAP, FTMAP>, "rbegin const");
-	doConstTest<K, T>(ktab, vtab, size, rendConstTest<STDMAP, FTMAP>, "rend const");
+	if (!doTest<K, T>(ktab, vtab, size, beginTest<STDMAP, FTMAP>, "begin"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, endTest<STDMAP, FTMAP>, "end"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, beginConstTest<STDMAP, FTMAP>, "begin const"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, endConstTest<STDMAP, FTMAP>, "end const"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, rbeginTest<STDMAP, FTMAP>, "rbegin"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, rendTest<STDMAP, FTMAP>, "rend"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, rbeginConstTest<STDMAP, FTMAP>, "rbegin const"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, rendConstTest<STDMAP, FTMAP>, "rend const"))
+		isOk = false;
 
 	printTitle("capacity", STR_BLUE, 0);
-	capacityTest<K, T>(ktab, vtab, size);
+	if(!capacityTest<K, T>(ktab, vtab, size))
+		isOk = false;
 
 	printTitle("LookUp", STR_BLUE, 0);
-	doTest<K, T>(ktab, vtab, size, countTest<STDMAP, FTMAP>, "count");
-	doTest<K, T>(ktab, vtab, size, findTest<STDMAP, FTMAP>, "find");
-	doConstTest<K, T>(ktab, vtab, size, constFindTest<STDMAP, FTMAP>, "find const");
-	doTest<K, T>(ktab, vtab, size, lowerTest<STDMAP, FTMAP>, "lower_bound");
-	doConstTest<K, T>(ktab, vtab, size, constLowerTest<STDMAP, FTMAP>, "lower_bound const");
-	doTest<K, T>(ktab, vtab, size, upperTest<STDMAP, FTMAP>, "upper_bound");
-	doConstTest<K, T>(ktab, vtab, size, constUpperTest<STDMAP, FTMAP>, "upper_bound const");
-	doTest<K, T>(ktab, vtab, size, equalTest<STDMAP, FTMAP>, "equal_range");
-	doConstTest<K, T>(ktab, vtab, size, constEqualTest<STDMAP, FTMAP>, "equal_range const");
+	if (!doTest<K, T>(ktab, vtab, size, countTest<STDMAP, FTMAP>, "count"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, findTest<STDMAP, FTMAP>, "find"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, constFindTest<STDMAP, FTMAP>, "find const"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, lowerTest<STDMAP, FTMAP>, "lower_bound"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, constLowerTest<STDMAP, FTMAP>, "lower_bound const"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, upperTest<STDMAP, FTMAP>, "upper_bound"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, constUpperTest<STDMAP, FTMAP>, "upper_bound const"))
+		isOk = false;
+	if (!doTest<K, T>(ktab, vtab, size, equalTest<STDMAP, FTMAP>, "equal_range"))
+		isOk = false;
+	if (!doConstTest<K, T>(ktab, vtab, size, constEqualTest<STDMAP, FTMAP>, "equal_range const"))
+		isOk = false;
 
 	printTitle("Modifiers", STR_BLUE, 0);
 
+	return isOk;
 }
 
 #endif

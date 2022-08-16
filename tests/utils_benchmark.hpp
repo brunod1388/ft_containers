@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:18:05 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/16 04:19:02 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,32 @@ float containerBenchmark(const Container& cont,
 }
 
 /* TODO : Compare */
-template <class Container, class Container2>
-void containerCompareBenchmark(const Container& cont,
-							   const Container2& cont2,
-							   ContFunc* fct,
-							   std::string testName)
-{
-	Container		tmp[NB_TEST];
-	Container		tmp2[NB_TEST];
-	struct timeval	t0, t1;
+// template <class Container, class Container2>
+// void containerCompareBenchmark(const Container& cont,
+// 							   const Container2& cont2,
+// 							   ContFunc* fct,
+// 							   std::string testName)
+// {
+// 	Container		tmp[NB_TEST];
+// 	Container		tmp2[NB_TEST];
+// 	struct timeval	t0, t1;
 
-	for (size_t i = 0; i < NB_TEST; i++)
-		tmp[i] = Container(cont);
-	for (size_t i = 0; i < NB_TEST; i++)
-		tmp2[i] = Container(cont2);
-	gettimeofday(&t0, NULL);
-	for (size_t i = 0; i < NB_TEST; i++)
-		fct(tmp[i], tmp2[i]);
-	gettimeofday(&t1, NULL);
-	float t = t1 - t0;
-	std::cout << NAMESPACE_STR << "::" << std::left << std::setw(30) << testName << ": ";
-	if (t > 1000000)
-		std::cout << std::setw(5) << std::right << t / 1000000.0 << "  s" << std::endl;
-	else if (t > 1000)
-		std::cout << std::setw(5) << std::right << t / 1000.0 << " ms" << std::endl;
-	else
-		std::cout << std::setw(5) << std::right << t << " us" << std::endl;
-}
+// 	for (size_t i = 0; i < NB_TEST; i++)
+// 		tmp[i] = Container(cont);
+// 	for (size_t i = 0; i < NB_TEST; i++)
+// 		tmp2[i] = Container(cont2);
+// 	gettimeofday(&t0, NULL);
+// 	for (size_t i = 0; i < NB_TEST; i++)
+// 		fct(tmp[i], tmp2[i]);
+// 	gettimeofday(&t1, NULL);
+// 	float t = t1 - t0;
+// 	std::cout << NAMESPACE_STR << "::" << std::left << std::setw(30) << testName << ": ";
+// 	if (t > 1000000)
+// 		std::cout << std::setw(5) << std::right << t / 1000000.0 << "  s" << std::endl;
+// 	else if (t > 1000)
+// 		std::cout << std::setw(5) << std::right << t / 1000.0 << " ms" << std::endl;
+// 	else
+// 		std::cout << std::setw(5) << std::right << t << " us" << std::endl;
+// }
 
 #endif
