@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/13 21:32:29 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/16 00:13:48 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool	isEqual(const V1& v1, const V2& v2)
 
 template <class V1, class V2, typename T>
 void	constructVector(int (*f) (V1& , V2&, std::string),
-						T* tab,
+						const T* tab,
 						size_t size,
 						std::string testName)
 {
@@ -401,7 +401,7 @@ int	error(std::string testMsg, std::string test, V1& v1, V2& v2)
 }
 
 template <typename T>
-int	constructor_test(T* tab, size_t size, std::string type)
+int	constructor_test(const T* tab, size_t size, std::string type)
 {
 	ft::vector<T>	vft;
 	std::vector<T>	vstd;
@@ -440,7 +440,7 @@ int	constructor_test(T* tab, size_t size, std::string type)
 }
 
 template <typename T>
-int	assign_test(T* tab, size_t size, std::string type)
+int	assign_test(const T* tab, size_t size, std::string type)
 {
 	ft::vector<T>	vft;
 	std::vector<T>	vstd;
@@ -477,7 +477,7 @@ int	assign_test(T* tab, size_t size, std::string type)
 }
 
 template <typename T>
-void vectorTest(T* tab, size_t size, std::string type)
+void vectorTest(const T* tab, size_t size, std::string type)
 {
 	printTitle("Vector(" + type + ")", STR_MAGENTA, 1);
 

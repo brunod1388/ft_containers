@@ -6,13 +6,13 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/08/15 05:22:12 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/16 02:47:11 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 S		= srcs/
 O		= objs/
-I		= incs/
+I		= incs/ -I tests/
 
 NAME	= ft_containers
 
@@ -29,7 +29,7 @@ OBJS	= $(SRCS:$S%=$O%.o)
 DEPS	= $(SRCS:$S%=$D%.d)
 RM		= /bin/rm -rf
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test tree_test subject_test vector_test tree_test
 
 all:	$(NAME)
 $O:
@@ -47,7 +47,7 @@ $D:
 
 $(NAME):	$(OBJS)
 			@echo "Assembling $(NAME)"
-			@$(CC) $(LDFLAGS) $^ -o $@
+			@$(CC) $(LDFLAGS) -I $I $^ -o $@
 
 clean:
 		@echo "Cleaning up..."
@@ -55,22 +55,31 @@ clean:
 
 fclean: clean
 		@echo "Everything!"
-		@$(RM) $(NAME)
+		@$(RM) $(NAME) test tree_test minitest subject_test benchmarkmake fclean
 
-test:	fclean
-		@$(CC) $(CFLAGS) -I tests/ srcs/main_test.cpp -o test
-		./test
+vector_test:	fclean
+		@$(CC) $(CFLAGS) -I tests/ srcs/main_randVecTest.cpp -o vector_test
+		./vector_test
 
-tree:
-		@clang++  $(CFLAGS) srcs/maintree.cpp -g3 -o tree_test -fsanitize=address
+tree_test:
+		@$(CC)  $(CFLAGS) -I $I srcs/main_randTreeTest.cpp -g3 -o tree_test -fsanitize=address
 		./tree_test
 
-minitest:	fclean
-			@$(CC) $(CFLAGS) -I tests/ srcs/test.cpp -o minitest
-			./minitest
+test:	fclean
+		@$(CC) $(CFLAGS) -I $I srcs/test.cpp -o test
+		./test
 
-benchmark:	fclean
-			@$(CC) $(CFLAGS) -I tests/ srcs/main_benchmark.cpp -o benchmark
-			./benchmark
+subject_test:	fclean
+				@$(CC) $(CFLAGS) -I $I srcs/main_subject.cpp -o subject_test
+				./subject_test
+
+benchmarkFT:	fclean
+				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -o benchmark
+				./benchmark
+
+benchmarkSTD:	fclean
+				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D STD=0 -o benchmark
+				./benchmark
+
 
 re:	fclean all

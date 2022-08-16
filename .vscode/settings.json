@@ -1,7 +1,11 @@
 {
 
 	"workbench.colorTheme": "Nord Aurora"
-
+	"workbench.colorCustomizations": {
+		"scrollbarSlider.background": "#b15b697d",
+		"scrollbarSlider.activeBackground": "#62224c80",
+		"scrollbarSlider.hoverBackground": "#b64dd080",
+	},
 	"files.associations": {
 		"vector": "cpp",
 		"iosfwd": "cpp",
