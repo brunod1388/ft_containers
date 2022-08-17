@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 03:12:52 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 05:00:03 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 #define OK			"\U0001F91F"
 #define NOTOK		"\U0001F44E"
+#define SKULL		"\U0001F480"
+#define STAR		"\U0001F4AB"
 
 #define	NOFLAG		0
 #define	SIZE		1

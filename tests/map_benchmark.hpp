@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:24:11 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 03:55:20 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 04:46:58 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,21 +283,25 @@ void	fullBothMapTest(K* kTab, T* vTab, size_t size, K* kTab2, T* vTab2, size_t s
 	ft::map<K, T>	ftm2(lft2.begin(), lft2.end());
 
 	/* Element Access */
+	std::cout << std::setfill('-') << std::setw(73) << std::left << "Element Access" << std::setfill(' ') << std::endl;
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, at_mapTest<std::map<K, T> >, at_mapTest<ft::map<K, T> >, "map::at");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, brackets_mapTest<std::map<K, T> >, brackets_mapTest<ft::map<K, T> >, "map::[]");
 
 	/* Capacity */
+	std::cout << std::setfill('-') << std::setw(73) << std::left << "Capacity" << std::setfill(' ') << std::endl;
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, size_mapTest<std::map<K, T> >, size_mapTest<ft::map<K, T> >, "map::size");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, empty_mapTest<std::map<K, T> >, empty_mapTest<ft::map<K, T> >, "map::empty");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, max_size_mapTest<std::map<K, T> >, max_size_mapTest<ft::map<K, T> >, "map::max_size");
 
 	/* Iterator */
+	std::cout << std::setfill('-') << std::setw(73) << std::left << "Iterator" << std::setfill(' ') << std::endl;
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, begin_mapTest<std::map<K, T> >, begin_mapTest<ft::map<K, T> >, "map::begin");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, end_mapTest<std::map<K, T> >, end_mapTest<ft::map<K, T> >, "map::end");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, rbegin_mapTest<std::map<K, T> >, rbegin_mapTest<ft::map<K, T> >, "map::rbegin");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, rend_mapTest<std::map<K, T> >, rend_mapTest<ft::map<K, T> >, "map::rend");
 
 	/* Modifiers */
+	std::cout << std::setfill('-') << std::setw(73) << std::left << "Modifiers" << std::setfill(' ') << std::endl;
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, clear_mapTest<std::map<K, T> >, clear_mapTest<ft::map<K, T> >, "map::clear");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, insertVal_mapTest<std::map<K, T> >, insertVal_mapTest<ft::map<K, T> >, "map::insert(val)");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, insertRange_mapTest<std::map<K, T> >, insertRange_mapTest<ft::map<K, T> >, "map::insert(first, last)");
@@ -308,10 +312,12 @@ void	fullBothMapTest(K* kTab, T* vTab, size_t size, K* kTab2, T* vTab2, size_t s
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, swap_mapTest<std::map<K, T> >, swap_mapTest<ft::map<K, T> >, "map::swap");
 
 	/* LookUp */
+	std::cout << std::setfill('-') << std::setw(73) << std::left << "LookUp" << std::setfill(' ') << std::endl;
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, count_mapTest<std::map<K, T> >, count_mapTest<ft::map<K, T> >, "map::count");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, find_mapTest<std::map<K, T> >, find_mapTest<ft::map<K, T> >, "map::find");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, lower_bound_mapTest<std::map<K, T> >, lower_bound_mapTest<ft::map<K, T> >, "map::lower_bound");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, upper_bound_mapTest<std::map<K, T> >, upper_bound_mapTest<ft::map<K, T> >, "map::upper_bound");
 	containerCompareBenchmark(stdm, stdm2, ftm, ftm2, equal_range_mapTest<std::map<K, T> >, equal_range_mapTest<ft::map<K, T> >, "map::equal_range");
+	std::cout << std::endl;
 }
 #endif

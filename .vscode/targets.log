@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Tue Aug 16 02:47:32 2022
+# Make data base, printed on Wed Aug 17 04:50:21 2022
 
 # Variables
 
@@ -25,6 +25,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # makefile (from `Makefile', line 15)
 I = incs/ -I tests/
 # makefile
+ 
 CURDIR := /Users/brunodeoliveira/Desktop/ft_container
 # makefile
 SHELL = /bin/sh
@@ -187,9 +188,9 @@ VSCODE_PID = 5720
 
 # Directories
 
-# . (device 16777231, inode 5939660): 20 files, no impossibilities.
+# . (device 16777231, inode 5939660): 19 files, no impossibilities.
 
-# 20 files, no impossibilities in 1 directories.
+# 19 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -211,8 +212,8 @@ benchmarkFT: fclean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 77):
-	@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -o benchmark
+#  commands to execute (from `Makefile', line 81):
+	@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D FT=0 -o benchmark
 	./benchmark
 	
 
@@ -220,6 +221,15 @@ benchmarkFT: fclean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+fullTest: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 88):
+	./$(NAME)
+	make benchmark
+	
 
 # Not a target:
 .SUFFIXES:
@@ -240,7 +250,7 @@ vector_test: fclean
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-16 02:47:11
+#  Last modified 2022-08-17 04:49:56
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -256,9 +266,19 @@ test: fclean
 	./test
 	
 
+benchmark: fclean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 77):
+	@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -o benchmark
+	./benchmark
+	
+
 objs:
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: `'
+ 
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
@@ -266,7 +286,6 @@ objs:
 # @ := objs
 # automatic
 # % := 
- 
 # automatic
 # * := 
 # automatic
@@ -298,7 +317,7 @@ fclean: clean
 # Not a target:
 srcs/main.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-16 00:10:23
+#  Last modified 2022-08-16 04:38:22
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -366,7 +385,7 @@ benchmarkSTD: fclean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 81):
+#  commands to execute (from `Makefile', line 85):
 	@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D STD=0 -o benchmark
 	./benchmark
 	
@@ -382,7 +401,7 @@ tree_test:
 	
 
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=0/54=0%
+# Load=20/1024=2%, Rehash=0, Collisions=0/58=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -394,6 +413,6 @@ tree_test:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Tue Aug 16 02:47:32 2022
+# Finished Make data base on Wed Aug 17 04:50:21 2022
 
  

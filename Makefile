@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/08/16 02:47:11 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/17 04:49:56 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,13 +73,20 @@ subject_test:	fclean
 				@$(CC) $(CFLAGS) -I $I srcs/main_subject.cpp -o subject_test
 				./subject_test
 
-benchmarkFT:	fclean
+benchmark:		fclean
 				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -o benchmark
+				./benchmark
+
+benchmarkFT:	fclean
+				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D FT=0 -o benchmark
 				./benchmark
 
 benchmarkSTD:	fclean
 				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D STD=0 -o benchmark
 				./benchmark
+fullTest:		all
+				./$(NAME)
+				make benchmark
 
 
 re:	fclean all

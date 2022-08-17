@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 03:51:18 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 04:36:52 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ void fullCompareTest()
 int main(int argc, char** argv)
 {
 	if (argc == 1)
+#if defined(STD) || defined(FT)
+		fullTest();
+#else
 		fullCompareTest();
-		// fullTest();
+#endif
 	for (int i = 1; i < argc; i++)
 	{
 		if (std::string(argv[i]) == std::string("map"))

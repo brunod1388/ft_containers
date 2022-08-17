@@ -1,7 +1,6 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/brunodeoliveira/Desktop/ft_container'
 mkdir objs
- 
 echo "Compiling srcs/main.cpp: "
 c++-11 -Wall -Wextra -Werror -std=c++98 -g  -Iincs/ -I tests/  -c srcs/main.cpp -o objs/main.cpp.o
 echo "✓"

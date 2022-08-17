@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 03:12:06 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 05:06:16 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,10 @@ void containerCompareBenchmark(const STDCont& stdCont,
 	float	ftT = timeTest(ftCont, ftCont2, ftFct);
 	float	ratio = ftT / stdT;
 
-	std::cout << std::left << std::setw(35) << testName << ": ";
+	std::cout << std::left << std::setw(37) << testName;
 	std::cout << std::setw(10) << std::right << Time(ftT) << std::setw(10) << std::right << Time(stdT)
 			  << std::setw(10) << std::setprecision(3) << std::right << (ratio > 20 ? STR_RED : (ratio > 1 ? STR_YELLOW : STR_GREEN))
-			  << ratio <<  STR_RESET << std::endl;
-
+			  << ratio <<  STR_RESET << "  " << (ratio > 20 ? SKULL : "") << (ratio < 1 ? STAR : "") << std::endl;
 }
 
 #endif
