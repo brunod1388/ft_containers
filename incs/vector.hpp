@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/15 04:58:52 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 01:49:58 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ namespace ft{
 		const_reference operator[](size_type pos) const { return _data[pos]; }
 		const_reference front() const	{ return *begin(); }
 		const_reference back() const	{ return *(end() - 1); }
-		const T* 		data() const	{ return _data; }
+		const_pointer	data() const	{ return _data; }
 
 		/*===================================================================*/
 		/*====                        Iterator                           ====*/
@@ -447,9 +447,9 @@ namespace ft{
 		void swap (vector& arg)
 		{
 			std::swap(_size, arg._size);
-			std::swap(_capacity, arg._capacity);
-			std::swap(_data, arg._data);
-			std::swap(_alloc, arg._alloc);
+			ft::swap(_capacity, arg._capacity);
+			ft::swap(*_data, *arg._data);
+			ft::swap(_alloc, arg._alloc);
 		}
 
 	};	//class vector

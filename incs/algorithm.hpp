@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/03 02:36:34 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 01:48:41 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ namespace ft{
 	}
 
 	template< class T >
-	void swap( T& a, T& b )
+	inline void swap( T& a, T& b )
 	{
-		T& c(a);
+		T& c = a;
 
 		a = b;
 		b = c;

@@ -653,11 +653,14 @@ public:
 
 		void swap( _RBTree& other )
 		{
-			std::swap(_nodeAlloc, other._nodeAlloc);
-			std::swap(_alloc, other._alloc);
-			std::swap(_comp, other._comp);
-			std::swap(_root, other._root);
-			std::swap(_size, other._size);
+			ft::swap(_nodeAlloc, other._nodeAlloc);
+			ft::swap(_alloc, other._alloc);
+			ft::swap(_comp, other._comp);
+			ft::swap(_size, other._size);
+
+			node_ptr tmp = _root;
+			_root = other._root;
+			other._root = tmp;
 		}
 
 		/*===================================================================*/
@@ -669,32 +672,6 @@ public:
 		iterator find( const_reference key ) { return iterator(_getNode(key), _root); }
 		const_iterator find( const_reference key ) const { return const_iterator(_getNode(key), _root); }
 
-
-		// iterator lower_bound( const_reference key )
-		// {
-		// 	iterator it = begin();
-
-		// 	while (it != end())
-		// 	{
-		// 		if (_comp(*it, key))
-		// 			break;
-		// 		it++;
-		// 	}
-		// 	return it;
-		// }
-
-		// const_iterator lower_bound( const_reference key ) const
-		// {
-		// 	const_iterator it = begin();
-
-		// 	while (it != end())
-		// 	{
-		// 		if (_comp(*it, key))
-		// 			break;
-		// 		it++;
-		// 	}
-		// 	return it;
-		// }
 		iterator lower_bound( const_reference key )
 		{
 			node_ptr node = _root ? _root->mini() : NULL;
@@ -718,32 +695,6 @@ public:
 				node = node->next();
 			return (const_iterator(node, _root));
 		}
-
-		// iterator upper_bound( const_reference key )
-		// {
-		// 	iterator it = begin();
-
-		// 	while (it != end())
-		// 	{
-		// 		if (_comp(key, *it))
-		// 			break;
-		// 		it++;
-		// 	}
-		// 	return it;
-		// }
-
-		// const_iterator upper_bound( const_reference key ) const
-		// {
-		// 	const_iterator it = begin();
-
-		// 	while (it != end())
-		// 	{
-		// 		if (_comp(key, *it))
-		// 			break;
-		// 		it++;
-		// 	}
-		// 	return it;
-		// }
 
 		iterator upper_bound( const_reference key )
 		{

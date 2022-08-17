@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/13 21:11:10 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 01:45:12 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,6 @@ namespace ft{
 	{
 		return !(lhs < rhs);
 	}
-
-	// template< typename T>    // not sur about this
-	// void	swap(T a, T b)
-	// {
-	// 	T c;
-
-	// 	c = a;
-	// 	a = b;
-	// 	b = c;
-	// }
 
 #ifdef TEST
 	template< class T1, class T2 >

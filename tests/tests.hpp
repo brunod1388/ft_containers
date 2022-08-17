@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 02:53:04 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 03:12:52 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ centered( std::string const& original, size_t targetSize )
 void printTitle(std::string title, std::string color = STR_MAGENTA, int height = 0)
 {
 	std::cout << color;
-	std::cout << "==================================================================" << std::endl;
+	std::cout << "=========================================================================" << std::endl;
 	for (int i = 0; i < height; i++)
-		std::cout << "===                                                            ===" << std::endl;
-	std::cout << "===" << centered(title, 60) << "===" <<std::endl;
+		std::cout << "===                                                                   ===" << std::endl;
+	std::cout << "===" << centered(title, 67) << "===" <<std::endl;
 	for (int i = 0; i < height; i++)
-		std::cout << "===                                                            ===" << std::endl;
-	std::cout << "==================================================================";
+		std::cout << "===                                                                   ===" << std::endl;
+	std::cout << "=========================================================================";
 	std::cout << STR_RESET << std::endl;
 }
 

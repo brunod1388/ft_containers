@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 23:24:11 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:09:08 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 03:15:16 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,51 @@ void	fullMapTest(typename Map::key_type* kTab, typename Map::mapped_type* vTab, 
 	containerBenchmark(map, map2, equal_range_mapTest<Map>, "map::equal_range");
 }
 
+template <typename T>
+void	fullBothVectorTest(T* vTab, size_t size, T* vTab2, size_t size2)
+{
+	std::cout << STR_MAGENTA << "Test" << std::setw(46) << "ft Time" << std::setw(13)
+			  << "std Time" << std::setw(10) << "Ratio" << STR_RESET << std::endl;
+	std::list<typename std::vector<T>::value_type> lst = constructList<std::vector<T> >(vTab, size);
+	std::list<typename std::vector<T>::value_type> lst2 = constructList<std::vector<T> >(vTab2, size2);
+	std::list<typename std::vector<T>::value_type> ftlst = constructList<ft::vector<T> >(vTab, size);
+	std::list<typename std::vector<T>::value_type> ftlst2 = constructList<ft::vector<T> >(vTab2, size2);
 
+	std::vector<T>	stdv(lst.begin(), lst.end());
+	std::vector<T>	stdv2(lst2.begin(), lst2.end());
+	ft::vector<T>	ftv(ftlst.begin(), ftlst.end());
+	ft::vector<T>	ftv2(ftlst2.begin(), ftlst2.end());
 
+	/* Element Access */
+	containerBenchmark(map, map2, at_mapTest<Map>, "map::at");
+	containerBenchmark(map, map2, brackets_mapTest<Map>, "map::[]");
+
+	/* Capacity */
+	containerBenchmark(map, map2, size_mapTest<Map>, "map::size");
+	containerBenchmark(map, map2, empty_mapTest<Map>, "map::empty");
+	containerBenchmark(map, map2, max_size_mapTest<Map>, "map::max_size");
+
+	/* Iterator */
+	containerBenchmark(map, map2, begin_mapTest<Map>, "map::begin");
+	containerBenchmark(map, map2, end_mapTest<Map>, "map::end");
+	containerBenchmark(map, map2, rbegin_mapTest<Map>, "map::rbegin");
+	containerBenchmark(map, map2, rend_mapTest<Map>, "map::rend");
+
+	/* Modifiers */
+	containerBenchmark(map, map2, clear_mapTest<Map>, "map::clear");
+	containerBenchmark(map, map2, insertVal_mapTest<Map>, "map::insert(val)");
+	containerBenchmark(map, map2, insertRange_mapTest<Map>, "map::insert(first, last)");
+	// containerBenchmark(map, map2, insertHint_mapTest<Map>, "map::insert(hint, value)");
+	containerBenchmark(map, map2, eraseVal_mapTest<Map>, "map::erase(key)");
+	containerBenchmark(map, map2, erasePos_mapTest<Map>, "map::erase(pos)");
+	containerBenchmark(map, map2, eraseRange_mapTest<Map>, "map::erase(first, last)");
+	containerBenchmark(map, map2, swap_mapTest<Map>, "map::swap");
+
+	/* LookUp */
+	containerBenchmark(map, map2, count_mapTest<Map>, "map::count");
+	containerBenchmark(map, map2, find_mapTest<Map>, "map::find");
+	containerBenchmark(map, map2, lower_bound_mapTest<Map>, "map::lower_bound");
+	containerBenchmark(map, map2, upper_bound_mapTest<Map>, "map::upper_bound");
+	containerBenchmark(map, map2, equal_range_mapTest<Map>, "map::equal_range");
+}
 #endif

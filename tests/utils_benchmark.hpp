@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:19:02 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 03:12:06 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 #include "tests.hpp"
 #include <sys/time.h>
+#include <string>
 #include <iomanip>
+#include <iostream>
 
 #ifndef NB_TEST
 # define NB_TEST 1000
@@ -27,10 +29,9 @@ float operator-(struct timeval& lhs, struct timeval& rhs)
 }
 
 template <class Container, class ContFunc>
-float containerBenchmark(const Container& cont,
-						const Container& cont2,
-						ContFunc* fct,
-						std::string testName)
+float	timeTest(const Container& cont,
+				 const Container& cont2,
+				 ContFunc* fct)
 {
 	Container		tmp[NB_TEST];
 	Container		tmp2[NB_TEST];
@@ -45,7 +46,17 @@ float containerBenchmark(const Container& cont,
 		fct(tmp[i], tmp2[i]);
 	gettimeofday(&t1, NULL);
 
-	float t = t1 - t0;
+	return t1 - t0;
+}
+
+template <class Container, class ContFunc>
+float containerBenchmark(const Container& cont,
+						const Container& cont2,
+						ContFunc* fct,
+						std::string testName)
+{
+	float t = timeTest(cont, cont2, fct);
+
 	std::cout << NAMESPACE_STR << "::" << std::left << std::setw(30) << testName << ": ";
 	if (t > 1000000)
 		std::cout << std::setw(5) << std::right << t / 1000000.0 << "  s" << std::endl;
@@ -56,33 +67,39 @@ float containerBenchmark(const Container& cont,
 	return t;
 }
 
-/* TODO : Compare */
-// template <class Container, class Container2>
-// void containerCompareBenchmark(const Container& cont,
-// 							   const Container2& cont2,
-// 							   ContFunc* fct,
-// 							   std::string testName)
+#define Time(t) (t > 1000000 ? t / 1000000 : (t > 1000 ? t / 1000 : t)) << (t > 1000000 ? "  s" : (t > 1000 ? " ms" : " us"))
+// std::string time(float t)
 // {
-// 	Container		tmp[NB_TEST];
-// 	Container		tmp2[NB_TEST];
-// 	struct timeval	t0, t1;
+// 	std::string str;
 
-// 	for (size_t i = 0; i < NB_TEST; i++)
-// 		tmp[i] = Container(cont);
-// 	for (size_t i = 0; i < NB_TEST; i++)
-// 		tmp2[i] = Container(cont2);
-// 	gettimeofday(&t0, NULL);
-// 	for (size_t i = 0; i < NB_TEST; i++)
-// 		fct(tmp[i], tmp2[i]);
-// 	gettimeofday(&t1, NULL);
-// 	float t = t1 - t0;
-// 	std::cout << NAMESPACE_STR << "::" << std::left << std::setw(30) << testName << ": ";
 // 	if (t > 1000000)
-// 		std::cout << std::setw(5) << std::right << t / 1000000.0 << "  s" << std::endl;
+// 		str = std::to_string(t / 1000000.0) + "  s";
 // 	else if (t > 1000)
-// 		std::cout << std::setw(5) << std::right << t / 1000.0 << " ms" << std::endl;
+// 		str = std::to_string(t / 1000.0) + " ms";
 // 	else
-// 		std::cout << std::setw(5) << std::right << t << " us" << std::endl;
+// 		str = std::to_string(t) + " us";
+// 	return str;
 // }
+
+/* TODO : Compare */
+template <class STDCont, class FTCont, class STDContFunc, class FTContFunc>
+void containerCompareBenchmark(const STDCont& stdCont,
+							   const STDCont& stdCont2,
+							   const FTCont& ftCont,
+							   const FTCont& ftCont2,
+							   STDContFunc* stdFct,
+							   FTContFunc* ftFct,
+							   std::string testName)
+{
+	float	stdT = timeTest(stdCont, stdCont2, stdFct);
+	float	ftT = timeTest(ftCont, ftCont2, ftFct);
+	float	ratio = ftT / stdT;
+
+	std::cout << std::left << std::setw(35) << testName << ": ";
+	std::cout << std::setw(10) << std::right << Time(ftT) << std::setw(10) << std::right << Time(stdT)
+			  << std::setw(10) << std::setprecision(3) << std::right << (ratio > 20 ? STR_RED : (ratio > 1 ? STR_YELLOW : STR_GREEN))
+			  << ratio <<  STR_RESET << std::endl;
+
+}
 
 #endif

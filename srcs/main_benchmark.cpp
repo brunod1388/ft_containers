@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:54:42 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 02:52:41 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,23 @@
 
 void fullTest()
 {
-	printTitle("FULL TEST  (nbTest: 1000)" , STR_BLUE, 1);
+	printTitle("FULL TEST" , STR_BLUE, 1);
 	fullMapTest<NAMESPACE::map<int, std::string> >(iTab, strTab, 20, iTabOrder, strTabOrder, 20);
+	std::cout << std::endl;
 	fullVectorTest<NAMESPACE::vector<int> >(iTab, 20, iTabOrder, 20);
+}
+
+void fullCompareTest()
+{
+	printTitle("FULL COMPARE TEST" , STR_BLUE, 1);
+	fullBothVectorTest<int>(iTab, 20, iTabOrder, 20);
 }
 
 int main(int argc, char** argv)
 {
 	if (argc == 1)
-		fullTest();
+		fullCompareTest();
+		// fullTest();
 	for (int i = 1; i < argc; i++)
 	{
 		if (std::string(argv[i]) == std::string("map"))
