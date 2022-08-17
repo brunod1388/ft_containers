@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 05:00:03 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 08:03:38 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@
 #define STR_BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define STR_BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+#define Time(t) (t > 1000000 ? t / 1000000 : (t > 1000 ? t / 1000 : t)) << (t > 1000000 ? "  s" : (t > 1000 ? " ms" : " us"))
+
 #include <iostream>
 #include <string>
 #include <list>
@@ -95,6 +97,30 @@ std::list<T> constructList(const T* tab, size_t size)
 	for (size_t i = 0; i < size; i++)
 		lst.push_back(tab[i]);
 	return lst;
+}
+
+template <class P1, class P2>
+bool operator==(const P1& pstd, const P2& pft)
+{
+	return pstd.first == pft.first && pstd.second == pft.second;
+}
+
+template< class T1, class T2 >
+std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
+{
+	os << "(" << rhs.first << ", " << rhs.second << ")";
+	return os;
+}
+
+template <class M>
+void	print(const M& m)
+{
+	for (typename M::const_iterator i = m.begin(); i != m.end(); i++)
+		std::cout << *i << " ";
+	std::cout << std::endl;
+	std::cout << "size    :" << m.size() << std::endl;
+	std::cout << "empty   :" << m.empty() << std::endl;
+	std::cout << "maxSize :" << m.max_size() << std::endl;
 }
 
 #endif

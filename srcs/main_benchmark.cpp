@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 04:36:52 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 08:34:32 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include "utils_benchmark.hpp"
 #include "map_benchmark.hpp"
+#include "set_benchmark.hpp"
 #include "vector_benchmark.hpp"
 #include "tests.hpp"
 
@@ -54,6 +55,10 @@ void fullCompareTest()
 	fullBothMapTest<std::string, int>(strTab, iTab, 20, strTabOrder, iTabOrder, 20);
 	printTitle("Map<int, std::string>" , STR_CYAN, 0);
 	fullBothMapTest<int, std::string>(iTab, strTab, 20, iTabOrder, strTabOrder, 20);
+	printTitle("Set<int>" , STR_CYAN, 0);
+	fullBothSetTest<int>(iTab, 20, iTabOrder, 20);
+	printTitle("Set<std::string>" , STR_CYAN, 0);
+	fullBothSetTest<std::string>(strTab, 20, strTabOrder, 20);
 }
 
 int main(int argc, char** argv)

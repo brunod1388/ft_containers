@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 05:06:16 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 07:12:28 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ float containerBenchmark(const Container& cont,
 	return t;
 }
 
-#define Time(t) (t > 1000000 ? t / 1000000 : (t > 1000 ? t / 1000 : t)) << (t > 1000000 ? "  s" : (t > 1000 ? " ms" : " us"))
 // std::string time(float t)
 // {
 // 	std::string str;

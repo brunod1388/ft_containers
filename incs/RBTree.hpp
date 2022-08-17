@@ -17,68 +17,13 @@
 #include <iostream>
 #include <functional>
 #include <cstddef>
-#include "bidirectional_iterator.hpp"
+#include "iterator_traits.hpp"
 #include "utility.hpp"
 #include "algorithm.hpp"
 #include "type_traits.hpp"
 
 namespace ft
 {
-	/*-------------------------------------------------------------------------
-	*                       ft::_RBTree fct list
-	*
-	* - Element Access
-	*	operator[]:					access or _insertNode element
-	*	getRoot():					returns root
-	*	_getNode(const Key&):			returns node corresponding to key  TO MODIFY WITH KEZ_COMPARE
-	*	first():					returns smallest node
-	*	last():						returns biggest node
-	*
-	* - Modifiers
-	*	_insertNode(const Key&)			_insertNode node by key
-	*	deleteKey(const Key&)			delete node by key
-	*	_deleteNode(const node_ptr&)	delete node by node_ptr
-    *
-	*	PUBLIC
-	*
-	* - Coplien form
-	*	(constructor):				Constructs the _RBTree
-	*	(destructor)				Destructs the _RBTree
-	*
-    * - Capacity:
-    *	empty(): 					Test whether container is empty
-    *	size(): 					Return container size
-     *	max_size(): 				Return maximum size
-	*	operator=:					assigns values to the container
-	*
-	 * - Modifiers:
-     *	insert: 		Insert elements
-     *	erase: 			Erase elements
-     *	swap: 			Swap content
-     *	clear: 			Clear content
-	*
-     * - Operations:
-     *	find: 			Get iterator to element
-     *	count: 			Count elements with a specific key
-     *	lower_bound: 	Return iterator to lower bound
-     *	upper_bound: 	Return iterator to upper bound
-     *	equal_range  	Get range of equal elements
-	*
-     * - Observers:
-     *	key_comp: 		Return key comparison object
-     *	value_comp: 	Return value comparison object   * - Iterators:
-    *
-	* - Iterators:
-	*	begin(): 					Return iterator to beginning
-    *	end(): 						Return iterator to end
-    *	rbegin(): 					Return reverse iterator to reverse beginning
-    *	rend(): 					Return reverse iterator to reverse end
-	*
-	* - Optional (must define TEST)
-	*	printTree()					print _RBTree
-	*	print()						print _RBTree
-	*-------------------------------------------------------------------------*/
-
 	template<
 		class Key,
 		class Compare = ft::less<Key>,
@@ -88,24 +33,6 @@ namespace ft
 	private:
 		typedef enum {BLACK, RED} 		_color_type;
 
-		/*-------------------------------------------------------------------------
-		*                       ft::_RBNode fct list
-		*
-		* - Coplien form
-		*	(constructor):		Constructs the _RBTree
-		*	(destructor)		Destructs the _RBTree
-		*	operator=:			assigns values to the container
-		*
-		* - Element Access
-		*	getRoot():			returns root
-		*	next():				return the next node
-		*	previous():			return the prev node
-		*	mini():				return the min node
-		*	maxi():				return the max node
-		*
-		* - Operator:
-		*	== / !=				relational operator for _RBNodes
-		*-------------------------------------------------------------------------*/
 		struct _RBNode
 		{
 			typedef Key		value_type;
@@ -182,6 +109,9 @@ namespace ft
 
 		}; // struct _RBNode -------------------------------------------------------
 
+		typedef struct _RBNode													node_type;
+		typedef struct _RBNode*													node_ptr;
+		typedef typename Allocator::template rebind<node_type>::other			_RBNodeAllocator;
 
 	public:
 		typedef Key																value_type;
@@ -195,12 +125,9 @@ namespace ft
 		typedef value_type*														pointer;
 		typedef const value_type*												const_pointer;
 
-		typedef struct _RBNode													node_type;
-		typedef struct _RBNode*													node_ptr;
-		typedef typename Allocator::template rebind<node_type>::other			_RBNodeAllocator;
 
 		typedef typename ft::BidirectionalIterator<node_type, value_type>		iterator;
-		typedef typename ft::BidirectionalIterator<node_type, const value_type>	const_iterator;			//un truc a faire ici avec const
+		typedef typename ft::BidirectionalIterator<node_type, const value_type>	const_iterator;
 		typedef typename ft::BidirectionalIterator_reverse<iterator>			reverse_iterator;
 		typedef typename ft::BidirectionalIterator_reverse<const_iterator>		const_reverse_iterator;
 
@@ -562,6 +489,8 @@ public:
 			_alloc(alloc),
 			_comp(comp),
 			_root(NULL),
+			_firstElement(NULL),
+			_lastElement(NULL),
 			_size(0)
 		{}
 
@@ -573,6 +502,8 @@ public:
 			_alloc(alloc),
 			_comp(comp),
 			_root(NULL),
+			_firstElement(NULL),
+			_lastElement(NULL),
 			_size(0)
 		{
 			insert(first, last);
@@ -583,6 +514,8 @@ public:
 			_alloc(src._alloc),
 			_comp(src._comp),
 			_root(NULL),
+			_firstElement(NULL),
+			_lastElement(NULL),
 			_size(0)
 		{ insert(src.begin(), src.end()); }
 
@@ -609,9 +542,9 @@ public:
 		/*====                     Capacity                              ====*/
 		/*===================================================================*/
 
-		bool		empty(void) const	{ return _root ? true : false; }
+		bool		empty(void) const	{ return begin() == end(); }
 		size_type	size(void) const	{ return _size; }
-		size_type	max_size() const	{ return _nodeAlloc.max_size(); }  //maybe add ram available?
+		size_type	max_size() const	{ return _nodeAlloc.max_size(); }
 
 		/*===================================================================*/
 		/*====                        Modifiers                          ====*/
@@ -664,15 +597,13 @@ public:
 
 		void swap( _RBTree& other )
 		{
-			ft::swap(_nodeAlloc, other._nodeAlloc);
-			ft::swap(_alloc, other._alloc);
-			ft::swap(_comp, other._comp);
-			ft::swap(_size, other._size);
+			std::swap(_nodeAlloc, other._nodeAlloc);
+			std::swap(_alloc, other._alloc);
+			std::swap(_comp, other._comp);
+			std::swap(_size, other._size);
+			std::swap(_root, other._root);
 			std::swap(_firstElement, other._firstElement);
 			std::swap(_lastElement, other._lastElement);
-			node_ptr tmp = _root;
-			_root = other._root;
-			other._root = tmp;
 		}
 
 		/*===================================================================*/
@@ -746,15 +677,15 @@ public:
 		/*====                        Iterator                           ====*/
 		/*===================================================================*/
 
-		iterator				begin(void) 		{ return iterator(_root ? _root->mini() : NULL, _root); }
+		iterator				begin(void) 		{ return iterator(_firstElement, _root); }
 		iterator				end(void) 			{ return iterator(NULL , _root); }
-		reverse_iterator		rbegin(void)		{ return reverse_iterator(_size ? --end() : iterator(NULL, _root)); }
-		reverse_iterator		rend(void)			{ return reverse_iterator(_size ? --begin() : iterator(NULL, _root)); }
+		reverse_iterator		rbegin(void)		{ return reverse_iterator(iterator(_lastElement, _root)); }
+		reverse_iterator		rend(void)			{ return reverse_iterator(iterator(NULL, _root)); }
 
-		const_iterator			begin(void) const	{ return const_iterator(_root ? _root->mini() : NULL, _root); }
+		const_iterator			begin(void) const	{ return const_iterator(_firstElement, _root); }
 		const_iterator			end(void) const		{ return const_iterator(NULL , _root); }
-		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(_size ? --end() : iterator(NULL, _root)); }
-		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(_size ? --begin() : iterator(NULL, _root)); }
+		const_reverse_iterator	rbegin(void) const	{ return const_reverse_iterator(iterator(_lastElement, _root)); }
+		const_reverse_iterator	rend(void) const	{ return const_reverse_iterator(iterator(NULL, _root)); }
 
 #ifdef TEST
 		void	printTree(void)

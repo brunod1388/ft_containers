@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:38:16 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 08:03:51 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@
 
 #define STDMAP std::map<K, T>
 #define FTMAP ft::map<K, T>
-
-template <class P1, class P2>
-bool operator==(const P1& pstd, const P2& pft)
-{
-	return pstd.first == pft.first && pstd.second == pft.second;
-}
 
 template <typename K, typename T>
 bool mapEqual(const std::map<K, T>& mstd, const ft::map<K, T>& mft)
@@ -58,24 +52,6 @@ map	constructMap(const K* ktab, const T* vtab, size_t size)
 	for (size_t i = 0; i < size; i++)
 		m.insert(typename map::value_type(ktab[i], vtab[i]));
 	return m;
-}
-
-template< class T1, class T2 >
-std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
-{
-	os << "(" << rhs.first << ", " << rhs.second << ")";
-	return os;
-}
-
-template <class M>
-void	print(const M& m)
-{
-	for (typename M::const_iterator i = m.begin(); i != m.end(); i++)
-		std::cout << *i << " ";
-	std::cout << std::endl;
-	std::cout << "size    :" << m.size() << std::endl;
-	std::cout << "empty   :" << m.empty() << std::endl;
-	std::cout << "maxSize :" << m.max_size() << std::endl;
 }
 
 template <typename K, typename T>

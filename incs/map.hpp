@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/15 00:45:53 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 07:18:53 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,57 +16,15 @@
 #include <memory>
 #include <ostream>
 #include <cstddef>
-#include "bidirectional_iterator.hpp"
+#include "iterator_traits.hpp"
 #include "utility.hpp"
 #include "algorithm.hpp"
 #include "type_traits.hpp"
 #include "RBTree.hpp"
 
-namespace ft{
+namespace ft
+{
 
-    /*------------------------------------------------------------- 
-     *						ft:map
-     *
-     * - Coplien form:
-     *	(constructor):	Construct map
-     *	(destructor):	Map destructor
-     *	operator=:		Assign map
-     *
-     * - Iterators:
-     *	begin: 			Return iterator to beginning
-     *	end: 			Return iterator to end
-     *	rbegin: 		Return reverse iterator to reverse beginning
-     *	rend: 			Return reverse iterator to reverse end
-     *
-     * - Capacity:
-     *	empty: 			Test whether container is empty
-     *	size: 			Return container size
-     *	max_size: 		Return maximum size
-     *
-     * - Element access:
-     *	operator:		Access element
-     *
-     * - Modifiers:
-     *	insert: 		Insert elements
-     *	erase: 			Erase elements
-     *	swap: 			Swap content
-     *	clear: 			Clear content
-     *
-     * - Observers:
-     *	key_comp: 		Return key comparison object
-     *	value_comp: 	Return value comparison object
-     *
-     * - Operations:
-     *	find: 			Get iterator to element
-     *	count: 			Count elements with a specific key
-     *	lower_bound: 	Return iterator to lower bound
-     *	upper_bound: 	Return iterator to upper bound
-     *	equal_range  	Get range of equal elements
-	 *
-	 * - optional:
-	 * 	printTree:			print Tree
-	 *	print:				print map
-     * ------------------------------------------------------------- */
 	template<
 		class Key,
 		class T,
@@ -109,13 +67,12 @@ namespace ft{
 		};
 
 		typedef _RBTree<value_type, value_compare, Allocator>	RBTree;
-		typedef typename RBTree::node_ptr						node_ptr;
 
 	public:
 		typedef typename RBTree::iterator					iterator;
-		typedef typename RBTree::const_iterator				const_iterator;			//un truc a faire ici avec const
+		typedef typename RBTree::const_iterator				const_iterator;
 		typedef typename RBTree::reverse_iterator			reverse_iterator;
-		typedef typename RBTree::const_reverse_iterator		const_reverse_iterator;	//un truc a faire ici avec const
+		typedef typename RBTree::const_reverse_iterator		const_reverse_iterator;
 
 	private:
 		RBTree			_tree;
@@ -205,7 +162,7 @@ namespace ft{
 
 		bool		empty() const		{ return _tree.size() == 0; }
 		size_type	size() const		{ return _tree.size(); }
-		size_type	max_size() const	{ return _tree.max_size(); }  // should be corrected
+		size_type	max_size() const	{ return _tree.max_size(); }
 
 
 		/*===================================================================*/
@@ -265,9 +222,7 @@ namespace ft{
 	};	//class map
 
 	/*===================================================================*/
-	/*====                                                           ====*/
 	/*====                    Non member function                    ====*/
-	/*====                                                           ====*/
 	/*===================================================================*/
 
 	template< class Key, class T, class Compare, class Alloc >

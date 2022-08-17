@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 01:42:44 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 07:14:10 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 
 class vector;
 
-namespace ft{
-
+namespace ft
+{
 	template < class T, class Container = ft::vector<T> >
-	class stack{
-
+	class stack
+	{
 	public:
 		typedef Container							container_type;
 		typedef typename Container::value_type		value_type;

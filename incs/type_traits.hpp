@@ -6,14 +6,15 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/06/08 16:09:43 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 06:52:44 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_TRAITS_HPP
 # define TYPE_TRAITS_HPP
 
-namespace ft{
+namespace ft
+{
 
 template<bool B, class T = void>
 struct enable_if
@@ -34,7 +35,6 @@ struct integral_constant
 	static const T	value = v;
 
 	operator	value_type(void) const { return value; }
-	// T			operator()(void) { return value; }  //c++14
 };
 
 typedef integral_constant<bool, true>	true_type;

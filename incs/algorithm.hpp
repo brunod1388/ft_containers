@@ -6,14 +6,15 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 01:48:41 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 06:54:14 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ALGORITHM_HPP
 # define ALGORITHM_HPP
 
-namespace ft{
+namespace ft
+{
 
 	template< class InputIt1, class InputIt2 >
 	bool lexicographical_compare( InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2 )
