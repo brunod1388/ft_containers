@@ -209,6 +209,8 @@ namespace ft
 		allocator_type		_alloc;
 		key_compare			_comp;
 		node_ptr			_root;
+		node_ptr			_firstElement;
+		node_ptr			_lastElement;
 		size_type			_size;
 
 		node_ptr	_newNode(const_reference content)
@@ -470,6 +472,10 @@ namespace ft
 
 			_size++;
 			newNode->color = RED;
+			if(_size == 1 || _comp(newNode->content, _firstElement->content))
+				_firstElement = newNode;
+			if(_size == 1 || _comp(_lastElement->content, newNode->content))
+				_lastElement = newNode;
 			while (current)
 			{
 				parent = current;
@@ -505,7 +511,10 @@ namespace ft
 
 			if (!toDelete)
 				return 0;
-
+			if (toDelete == _firstElement)
+				_firstElement = toDelete->next();
+			if (toDelete == _lastElement)
+				_lastElement = toDelete->previous();
 			original_color = toDelete->color;
 			if (!toDelete->left)
 			{
@@ -588,6 +597,8 @@ public:
 			_nodeAlloc = rhs._nodeAlloc;
 			_comp = rhs._comp;
 			_alloc = rhs._alloc;
+			_firstElement = rhs._firstElement;
+			_lastElement = rhs._lastElement;
 			insert(rhs.begin(), rhs.end());
 			return *this;
 		}
@@ -657,7 +668,8 @@ public:
 			ft::swap(_alloc, other._alloc);
 			ft::swap(_comp, other._comp);
 			ft::swap(_size, other._size);
-
+			std::swap(_firstElement, other._firstElement);
+			std::swap(_lastElement, other._lastElement);
 			node_ptr tmp = _root;
 			_root = other._root;
 			other._root = tmp;
