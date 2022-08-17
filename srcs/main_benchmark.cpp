@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 02:52:41 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 03:51:18 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,14 @@ void fullTest()
 void fullCompareTest()
 {
 	printTitle("FULL COMPARE TEST" , STR_BLUE, 1);
+	printTitle("Vector<int>" , STR_CYAN, 0);
 	fullBothVectorTest<int>(iTab, 20, iTabOrder, 20);
+	printTitle("Vector<std::string>" , STR_CYAN, 0);
+	fullBothVectorTest<std::string>(strTab, 20, strTabOrder, 20);
+	printTitle("Map<std::string, int>" , STR_CYAN, 0);
+	fullBothMapTest<std::string, int>(strTab, iTab, 20, strTabOrder, iTabOrder, 20);
+	printTitle("Map<int, std::string>" , STR_CYAN, 0);
+	fullBothMapTest<int, std::string>(iTab, strTab, 20, iTabOrder, strTabOrder, 20);
 }
 
 int main(int argc, char** argv)

@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 01:49:58 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 03:48:34 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -446,10 +446,13 @@ namespace ft{
 
 		void swap (vector& arg)
 		{
-			std::swap(_size, arg._size);
+			ft::swap(_size, arg._size);
 			ft::swap(_capacity, arg._capacity);
-			ft::swap(*_data, *arg._data);
 			ft::swap(_alloc, arg._alloc);
+			pointer	tmp = _data;
+			_data = arg._data;
+			arg._data = tmp;
+			// ft::swap(*_data, *arg._data);
 		}
 
 	};	//class vector

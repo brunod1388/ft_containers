@@ -221,11 +221,12 @@ void	push_back_vectorTest(Vector& v, Vector& v2)
 template<class Vector>
 void	pop_back_vectorTest(Vector& v, Vector& v2)
 {
-	Vector	tmp, tmp2;
-	for (typename Vector::iterator it = v.begin(); it != v.end(); it++)
-		tmp.pop_back();
-	for (typename Vector::iterator it = v2.begin(); it != v2.end(); it++)
-		tmp2.pop_back();
+	size_t size = v.size();
+	for (size_t i = 0; i < size; i++)
+		v.pop_back();
+	size = v2.size();
+	for (size_t i = 0; i < size; i++)
+		v2.pop_back();
 }
 
 template<class Vector>
@@ -321,7 +322,7 @@ void	fullBothVectorTest(T* vTab, size_t size, T* vTab2, size_t size2)
 	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, insertVal_vectorTest<std::vector<T> >, insertVal_vectorTest<ft::vector<T> >, "vector::insert(pos, val)");
 	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, insertCountVal_vectorTest<std::vector<T> >, insertCountVal_vectorTest<ft::vector<T> >, "vector::insert(pos, count, value)");
 	// containerCompareBenchmark(stdv, stdv2, ftv, ftv2, insertRange_vectorTest<std::vector<T> >, "vector::insert(first, last)");
-	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, erasePos_vectorTest<std::vector<T> >, erasePos_vectorTest<ft::vector<T> >, "vector::erase(pos)");
+	// containerCompareBenchmark(stdv, stdv2, ftv, ftv2, erasePos_vectorTest<std::vector<T> >, erasePos_vectorTest<ft::vector<T> >, "vector::erase(pos)");
 	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, eraseRange_vectorTest<std::vector<T> >, eraseRange_vectorTest<ft::vector<T> >, "vector::erase(first, last)");
 	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, push_back_vectorTest<std::vector<T> >, push_back_vectorTest<ft::vector<T> >, "vector::push_back");
 	containerCompareBenchmark(stdv, stdv2, ftv, ftv2, pop_back_vectorTest<std::vector<T> >, pop_back_vectorTest<ft::vector<T> >, "vector::pop_back");
