@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 08:55:40 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 05:11:11 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define NAMESPACE ft
 # define NAMESPACE_STR std::string("ft")
 # include "map.hpp"
+# include "set.hpp"
+# include "stack.hpp"
 # include "vector.hpp"
 #endif
 
@@ -32,9 +34,9 @@
 #include "utils_benchmark.hpp"
 #include "map_benchmark.hpp"
 #include "set_benchmark.hpp"
+#include "stack_benchmark.hpp"
 #include "vector_benchmark.hpp"
 #include "tests.hpp"
-
 
 void fullTest()
 {
@@ -59,6 +61,10 @@ void fullCompareTest()
 	fullBothSetTest<int>(iTab, 20, iTabOrder, 20);
 	printTitle("Set<std::string>" , STR_CYAN, 0);
 	fullBothSetTest<std::string>(strTab, 20, strTabOrder, 20);
+	printTitle("stack<int>" , STR_CYAN, 0);
+	fullBothStackTest<int>(iTab, 20, iTabOrder, 20);
+	printTitle("stack<std::string>" , STR_CYAN, 0);
+	fullBothStackTest<std::string>(strTab, 20, strTabOrder, 20);
 }
 
 int main(void)
