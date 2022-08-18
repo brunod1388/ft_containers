@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 08:22:05 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 04:10:51 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -535,6 +535,175 @@ bool constEqualSetTest(const SETSTD& stdset, const SETFT& ftset)
 	return false;
 }
 
+template<typename SETSTD, typename SETFT>
+bool insertValSetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT										tmpFt;
+	SETSTD										tmpStd;
+	bool										isOk = true;
+	typename SETFT::const_iterator				ftit = ftset.begin();
+	typename SETSTD::const_iterator				stdit = stdset.begin();
+	ft::pair<typename SETFT::iterator, bool>	retft;
+	std::pair<typename SETSTD::iterator, bool>	retstd;
+
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		retft = tmpFt.insert(*ftit);
+		retstd = tmpStd.insert(*stdit);
+		if (!(*retft.first == *retstd.first) || retft.second != retstd.second || !setEqual(tmpStd, tmpFt))
+			return false;
+	}
+	return true;
+}
+
+template<typename SETSTD, typename SETFT>
+bool insertRangeSetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT										tmpFt;
+	SETSTD										tmpStd;
+	bool										isOk = true;
+	typename SETFT::const_iterator				ftit = ftset.begin();
+	typename SETSTD::const_iterator				stdit = stdset.begin();
+
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		tmpFt.insert(ftset.begin(), ftit);
+		tmpStd.insert(stdset.begin(), stdit);
+		if (!setEqual(tmpStd, tmpFt))
+			return false;
+		tmpFt.clear();
+		tmpStd.clear();
+	}
+	return true;
+}
+
+template<typename SETSTD, typename SETFT>
+bool insertHintSetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT										tmpFt;
+	SETSTD										tmpStd;
+	bool										isOk = true;
+	typename SETFT::const_iterator				ftit = ftset.begin();
+	typename SETSTD::const_iterator				stdit = stdset.begin();
+
+
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		tmpFt.insert(tmpFt.begin(), *ftit);
+		tmpStd.insert(tmpStd.begin(), *stdit);
+		if (!setEqual(tmpStd, tmpFt))
+			return false;
+	}
+	tmpFt.clear();
+	tmpStd.clear();
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		tmpFt.insert(tmpFt.end(), *ftit);
+		tmpStd.insert(tmpStd.end(), *stdit);
+		if (!setEqual(tmpStd, tmpFt))
+			return false;
+	}
+	return true;
+}
+
+template<typename SETSTD, typename SETFT>
+bool erasePosSetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT										tmpFt(ftset);
+	SETSTD										tmpStd(stdset);
+	bool										isOk = true;
+	typename SETFT::const_iterator				ftit = ftset.begin();
+	typename SETSTD::const_iterator				stdit = stdset.begin();
+	ft::pair<typename SETFT::iterator, bool>	retft;
+	std::pair<typename SETSTD::iterator, bool>	retstd;
+
+	if (!stdset.size())
+		return true;
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		tmpFt.erase(tmpFt.begin());
+		tmpStd.erase(tmpStd.begin());
+		if (!setEqual(tmpStd, tmpFt))
+			return false;
+	}
+	return true;
+}
+
+template<typename SETSTD, typename SETFT>
+bool eraseKeySetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT										tmpFt;
+	SETSTD										tmpStd;
+	bool										isOk = true;
+	typename SETFT::const_iterator				ftit = ftset.begin();
+	typename SETSTD::const_iterator				stdit = stdset.begin();
+	size_t										resft;
+	size_t										resstd;
+
+	for (; isOk && ftit != ftset.end() && stdit != stdset.end(); stdit++, ftit++)
+	{
+		resft = tmpFt.erase((*ftit));
+		resstd = tmpStd.erase((*stdit));
+		if (resft != resstd && !setEqual(tmpStd, tmpFt))
+			return false;
+	}
+	return true;
+}
+
+template<typename SETSTD, typename SETFT>
+bool eraseRangeSetTest(const SETSTD& stdset, const SETFT& ftset)
+{
+	SETFT	tmpFt;
+	SETSTD	tmpStd;
+
+	if (!stdset.size())
+		return true;
+
+	tmpFt = ftset;
+	tmpStd = stdset;
+	tmpFt.erase(tmpFt.begin(), tmpFt.end());
+	tmpStd.erase(tmpStd.begin(), tmpStd.end());
+	if (!setEqual(tmpStd, tmpFt))
+	{
+		printSets(tmpStd, tmpFt);
+		return false;
+	}
+	if (stdset.size() < 3)
+		return true;
+
+	tmpFt = ftset;
+	tmpStd = stdset;
+	tmpFt.erase(++tmpFt.begin(), tmpFt.end());
+	tmpStd.erase(++tmpStd.begin(), tmpStd.end());
+	if (!setEqual(tmpStd, tmpFt))
+	{
+		printSets(tmpStd, tmpFt);
+		return false;
+	}
+
+	tmpFt = ftset;
+	tmpStd = stdset;
+	tmpFt.erase(tmpFt.begin(), --tmpFt.end());
+	tmpStd.erase(tmpStd.begin(), --tmpStd.end());
+	if (!setEqual(tmpStd, tmpFt))
+	{
+		printSets(tmpStd, tmpFt);
+		return false;
+	}
+
+	tmpFt = ftset;
+	tmpStd = stdset;
+	tmpFt.erase(++tmpFt.begin(), --tmpFt.end());
+	tmpStd.erase(++tmpStd.begin(), --tmpStd.end());
+	if (!setEqual(tmpStd, tmpFt))
+	{
+		printSets(tmpStd, tmpFt);
+		return false;
+	}
+	return true;
+}
+
+
 template <typename T, class F>
 bool doSetTest(const T* vtab, size_t size, F* f, std::string test_name)
 {
@@ -635,7 +804,19 @@ bool setTest(const T* vTab, size_t size, std::string types)
 	printTitle("Modifiers", STR_BLUE, 0);
 	if (!doSetTest<T>(vTab, size, clearSetTest<STDSET, FTSET>, "clear"))
 		isOk = false;
-
+	if (!doSetTest<T>(vTab, size, insertValSetTest<STDSET, FTSET>, "insert(val)"))
+		isOk = false;
+	if (!doSetTest<T>(vTab, size, insertRangeSetTest<STDSET, FTSET>, "insert(first, last)"))
+		isOk = false;
+	if (!doSetTest<T>(vTab, size, insertHintSetTest<STDSET, FTSET>, "insert(hint, val)"))
+		isOk = false;
+	if (!doSetTest<T>(vTab, size, erasePosSetTest<STDSET, FTSET>, "erase(pos)"))
+		isOk = false;
+	if (!doSetTest<T>(vTab, size, eraseKeySetTest<STDSET, FTSET>, "erase(key)"))
+		isOk = false;
+	if (!doSetTest<T>(vTab, size, eraseRangeSetTest<STDSET, FTSET>, "erase(first, last)"))
+		isOk = false;
+	std::cout << std::endl << std::endl;
 	return isOk;
 }
 

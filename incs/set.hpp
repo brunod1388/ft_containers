@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 08:37:55 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 00:42:10 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ namespace ft
 		typedef Compare                                 key_compare;
 		typedef Key			                            key_type;
 
-		// set() : Base() {}
-		explicit set( const Compare& comp = key_compare(),
+		set() : Base() {}
+		explicit set( const Compare& comp,
 					  const Allocator& alloc = Allocator()) :
 			Base(Compare(comp), alloc)
 		{}
@@ -46,8 +46,6 @@ namespace ft
 		set( const set& other ) : Base(other) {}
 
 		~set(void) {}
-
-		set&	operator=(const set& rhs) { *this = rhs; return *this;}
 
 		key_compare		value_comp() const { return this->_comp; }
 

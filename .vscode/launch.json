@@ -8,7 +8,7 @@
 			"name": "C++ Launch (Windows)",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/minitest",
+			"program": "${workspaceFolder}/benchmark",
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"externalConsole": false,

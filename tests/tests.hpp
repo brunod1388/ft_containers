@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 01:33:32 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 08:03:38 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 01:10:17 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@
 #include <sys/time.h>
 
 std::string	strTab[20] = {"KIKOU", "42", "nop", "Hello World", "ahah", "yeah", "why not?",
-								"etait une fois", "AHAHAH HIHIIH", "Nop", "dkhskjasjknajhfkakjdshkahkadjkahdjka",
-								"a", "", "un", "deux", "trois", "quatre", "cinq", "6", "septe"};
+						  "etait une fois", "AHAHAH HIHIIH", "Nop", "dkhskjasjknajhfkakjdshkahkadjkahdjka",
+						  "a", "", "un", "deux", "trois", "quatre", "cinq", "6", "septe"};
 std::string	strTabOrder[20] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
-									   "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze",
-									   "seize", "dix-sept", "dix-huit", "dix-neuf"};
+							   "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze",
+							   "seize", "dix-sept", "dix-huit", "dix-neuf"};
 int			iTab[20] = {56, 15876, -56, 30, 4654, 121864, -514341, 0, 1, 2, 3, 4, 5, 6, 7, 1536, 12, 23, -564, -845};
 int			iTabOrder[20] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 

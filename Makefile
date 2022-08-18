@@ -6,7 +6,7 @@
 #    By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 00:46:25 by bgoncalv          #+#    #+#              #
-#    Updated: 2022/08/17 04:49:56 by brunodeoliv      ###   ########.fr        #
+#    Updated: 2022/08/18 01:07:52 by brunodeoliv      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ NAME	= ft_containers
 
 SRCS	= main.cpp 
 
-CC		= c++-11
-# CC		= clang++
+# CC		= c++-11
+CC		= clang++
 
 CFLAGS	= -Wall -Wextra -Werror -std=c++98 -g #-fsanitize=address 
 
@@ -65,7 +65,7 @@ tree_test:
 		@$(CC)  $(CFLAGS) -I $I srcs/main_randTreeTest.cpp -g3 -o tree_test -fsanitize=address
 		./tree_test
 
-test:	fclean
+minitest:	fclean
 		@$(CC) $(CFLAGS) -I $I srcs/test.cpp -o test
 		./test
 
@@ -84,9 +84,11 @@ benchmarkFT:	fclean
 benchmarkSTD:	fclean
 				@$(CC) $(CFLAGS) srcs/main_benchmark.cpp -D STD=0 -o benchmark
 				./benchmark
-fullTest:		all
+
+test:			all
 				./$(NAME)
-				make benchmark
+
+fullTest:		test benchmark
 
 
 re:	fclean all

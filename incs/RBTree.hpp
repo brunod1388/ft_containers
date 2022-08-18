@@ -484,7 +484,17 @@ public:
 		/*====                     Constructor                           ====*/
 		/*===================================================================*/
 
-		_RBTree(const key_compare& comp = key_compare(), const Allocator alloc = Allocator()) :
+		_RBTree() :
+			_nodeAlloc(_RBNodeAllocator(Allocator())),
+			_alloc(Allocator()),
+			_comp(key_compare()),
+			_root(NULL),
+			_firstElement(NULL),
+			_lastElement(NULL),
+			_size(0)
+		{}
+
+		explicit _RBTree(const key_compare& comp, const Allocator alloc = Allocator()) :
 			_nodeAlloc(_RBNodeAllocator(Allocator())),
 			_alloc(alloc),
 			_comp(comp),
@@ -527,12 +537,14 @@ public:
 				return *this;
 
 			_clearNode(_nodeAlloc, _root);
+			_root = NULL;
+			_size = 0;
 			_nodeAlloc = rhs._nodeAlloc;
 			_comp = rhs._comp;
 			_alloc = rhs._alloc;
-			_firstElement = rhs._firstElement;
-			_lastElement = rhs._lastElement;
 			insert(rhs.begin(), rhs.end());
+			_firstElement = _root ? _root->mini() : NULL;
+			_lastElement = _root ? _root->maxi() : NULL;
 			return *this;
 		}
 

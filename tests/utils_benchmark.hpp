@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 07:12:28 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 04:21:22 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void containerCompareBenchmark(const STDCont& stdCont,
 
 	std::cout << std::left << std::setw(37) << testName;
 	std::cout << std::setw(10) << std::right << Time(ftT) << std::setw(10) << std::right << Time(stdT)
-			  << std::setw(10) << std::setprecision(3) << std::right << (ratio > 20 ? STR_RED : (ratio > 1 ? STR_YELLOW : STR_GREEN))
+			  << std::setw(10) << std::fixed << std::setprecision(3) << (ratio > 20 ? STR_RED : (ratio > 1 ? STR_YELLOW : STR_GREEN))
 			  << ratio <<  STR_RESET << "  " << (ratio > 20 ? SKULL : "") << (ratio < 1 ? STAR : "") << std::endl;
 }
 

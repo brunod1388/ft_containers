@@ -1,29 +1,12 @@
 #define TEST
 #include <iostream>
 #include <map>
+#include "set.hpp"
 #include "map.hpp"
 #include "vector.hpp"
 #include <string>
 #include <list>
 #include "tests.hpp"
-
-template< class T1, class T2 >
-std::ostream &operator<<(std::ostream &os, const std::pair<T1,T2>& rhs )
-{
-	os << "(" << rhs.first << ", " << rhs.second << ")";
-	return os;
-}
-
-template <class M>
-void	print(const M& m)
-{
-	for (typename M::const_iterator i = m.begin(); i != m.end(); i++)
-		std::cout << *i << " ";
-	std::cout << std::endl;
-	std::cout << "size    :" << m.size() << std::endl;
-	std::cout << "empty   :" << m.empty() << std::endl;
-	std::cout << "maxSize :" << m.max_size() << std::endl;
-}
 
 int main(void)
 {
@@ -181,7 +164,7 @@ int main(void)
 		print(mft2);
 		std::cout << "std:return value (testing boolean): " << mstd2.insert(*(istd2)).second << std::endl;
 
-		typename std::map<int, std::string>::value_type pa(istd2->first, istd2->second);
+		std::map<int, std::string>::value_type pa(istd2->first, istd2->second);
 		mstd2.erase(mstd2.begin());
 		std::cout << "std:return value (testing iterator, the mapped content): " << mstd2.insert(pa).first->second;
 
@@ -189,7 +172,7 @@ int main(void)
 
 		std::cout << "ft :return value (testing boolean): " << mft2.insert(*(ift2)).second << std::endl;
 
-		typename ft::map<int, std::string>::value_type pa2(ift2->first, ift2->second);
+		ft::map<int, std::string>::value_type pa2(ift2->first, ift2->second);
 		mft2.erase(mft2.begin());
 
 		std::cout << "ft :return value (testing iterator, the mapped content): " << mft2.insert(pa2).first->second;
@@ -199,10 +182,57 @@ int main(void)
 		istd2++;
 		ift2++;
 	}
-	std::map<int, std::string>::iterator itx = mstd.begin();
-	for ( int i = 0; i < 15; i++)
+
+	std::list<int> lstx;
+	for (int i = 0; i < 10; i++)
+		lstx.push_back(i);
+
+	ft::set<int> s(lstx.begin(), lstx.end());
+	std::cout << "set: "<< std::endl;
+	s.print();
 	{
-		itx++;
+		std::cout << "----------------------------"<< std::endl;
+		std::map<int, std::string> mx(lst.begin(), --(--lst.end()));
+		ft::map<int, std::string> mxft(lft.begin(), --(--lft.end()));
+		print(mx);
+		print(mxft);
+		mx.erase(mx.begin(), mx.end());
+		mxft.erase(mxft.begin(), mxft.end());
+		print(mx);
+		print(mxft);
+	}
+	{
+		std::cout << "----------------------------"<< std::endl;
+		std::map<int, std::string> mx(lst.begin(), --(--lst.end()));
+		ft::map<int, std::string> mxft(lft.begin(), --(--lft.end()));
+		print(mx);
+		print(mxft);
+		mx.erase(++mx.begin(), mx.end());
+		mxft.erase(++mxft.begin(), mxft.end());
+		print(mx);
+		print(mxft);
+	}
+	{
+		std::cout << "----------------------------"<< std::endl;
+		std::map<int, std::string> mx(lst.begin(), --(--lst.end()));
+		ft::map<int, std::string> mxft(lft.begin(), --(--lft.end()));
+		print(mx);
+		print(mxft);
+		mx.erase(mx.begin(), --mx.end());
+		mxft.erase(mxft.begin(), --mxft.end());
+		print(mx);
+		print(mxft);
+	}
+	{
+		std::cout << "----------------------------"<< std::endl;
+		std::map<int, std::string> mx(lst.begin(), --(--lst.end()));
+		ft::map<int, std::string> mxft(lft.begin(), --(--lft.end()));
+		print(mx);
+		print(mxft);
+		mx.erase(++mx.begin(), --mx.end());
+		mxft.erase(++mxft.begin(), --mxft.end());
+		print(mx);
+		print(mxft);
 	}
 
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 20:25:28 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/16 04:35:25 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/18 04:10:48 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -521,6 +521,7 @@ bool vectorTest(const T* tab, size_t size, std::string type)
 	if (!constructVector<ft::vector<T>, std::vector<T>, T>(
 		vectorTest_reverseIterator< ft::vector<T>, std::vector<T> >, tab, size, "reverse_iterator(" + type + ")"))
 		isOk = false;
+	std::cout << std::endl << std::endl;
 	return isOk;
 }
 

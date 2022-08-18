@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 05:16:56 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 08:34:32 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/17 08:55:40 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,12 @@ void fullCompareTest()
 	fullBothSetTest<std::string>(strTab, 20, strTabOrder, 20);
 }
 
-int main(int argc, char** argv)
+int main(void)
 {
-	if (argc == 1)
 #if defined(STD) || defined(FT)
 		fullTest();
 #else
 		fullCompareTest();
 #endif
-	for (int i = 1; i < argc; i++)
-	{
-		if (std::string(argv[i]) == std::string("map"))
-			std::cout << "I am map" << std::endl;
-		else if (std::string(argv[i]) == std::string("vector"))
-			std::cout << "I am vector" << std::endl;
-		else
-			std::cout << "I am nothing like John Snow" << std::endl;
-	}
-
 	return 0;
 }
