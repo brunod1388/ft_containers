@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 01:48:05 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 06:54:29 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/19 05:13:46 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ namespace ft
 
 			RandomAccessIterator	operator+(const difference_type n) const { return RandomAccessIterator(_p + n); }
 			RandomAccessIterator	operator-(const difference_type n) const { return RandomAccessIterator(_p - n); }
-			difference_type	operator-(RandomAccessIterator rhs) const { return _p - rhs._p; }
+			difference_type			operator-(RandomAccessIterator rhs) const { return _p - rhs._p; }
 
 			bool	operator==(const RandomAccessIterator& rhs) const { return _p == rhs._p; }
 			bool	operator!=(const RandomAccessIterator& rhs) const { return _p != rhs._p; }
@@ -191,17 +191,17 @@ namespace ft
 
 			RandomAccessIterator_reverse& operator+=( difference_type n )
 			{
-				current += n;
+				current -= n;
 				return *this;
 			}
 
 			RandomAccessIterator_reverse& operator-=( difference_type n )
 			{
-				current -= n;
+				current += n;
 				return *this;
 			}
 
-			reference	operator[](size_t i) const { return *(current - i - 1); }
+			reference	operator[](size_t i) const { return *(current - i); }
 
 	}; // class RandomAccessIterator_reverse
 
@@ -360,8 +360,11 @@ namespace ft
 	{
 		typename InputIt::difference_type n = 0;
 
-		while (first++ != last)
+		while (first != last)
+		{
 			n++;
+			first++;
+		}
 		return n;
 	}
 

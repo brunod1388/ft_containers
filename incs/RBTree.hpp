@@ -721,6 +721,15 @@ public:
 #endif
 	}; // class _RBTree
 
+#ifdef TEST
+		template< class T, class Compare, class Alloc >
+		std::ostream&	operator<<(std::ostream &os, const _RBTree<T, Compare, Alloc>& rhs)
+		{
+			for (typename _RBTree<T, Compare, Alloc>::const_iterator it = rhs.begin(); it != rhs.end(); it++)
+				os << *it << (it != --rhs.end() ? ", " : "");
+			return os;
+		}
+#endif
 } // namespace ft
 
 #endif

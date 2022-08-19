@@ -6,7 +6,7 @@
 /*   By: brunodeoliveira <brunodeoliveira@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:44:04 by brunodeoliv       #+#    #+#             */
-/*   Updated: 2022/08/17 06:52:58 by brunodeoliv      ###   ########.fr       */
+/*   Updated: 2022/08/19 05:00:50 by brunodeoliv      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,30 +336,36 @@ namespace ft
 
 		iterator	erase( iterator pos )
 		{
-			_alloc.destroy(&(*pos));
+			if (!pos.base())
+				return pos;
+			_alloc.destroy(pos.base());
 
-			for (iterator it(pos); it < end() - 1; it++)
-				it[0] = it[1];
 			_size--;
+			for (iterator it(pos); it < end(); it++)
+				it[0] = it[1];
 			return pos;
 		}
 
 		iterator	erase( iterator first, iterator last )
 		{
-			difference_type diff = last - first;
+			if (first == last)
+				return last;
 
-			if (first == last || first == end())
-				return first;
-			while (first != end())
+			difference_type	diff = last - first;
+			iterator		tmp = first;
+
+			while (tmp != last)
+				_alloc.destroy(tmp++.base());
+			tmp = first;
+			while (last < end())
 			{
-				if (first < end() - diff)
-					first[0] = first[diff];
-				else
-					_alloc.destroy(&(*first));
+				_alloc.construct(first.base(), *last);
+				_alloc.destroy(last.base());
 				first++;
+				last++;
 			}
 			_size -= diff;
-			return iterator(&_data[diff]);
+			return tmp;
 		}
 
 		void	push_back( const T& value )
@@ -446,7 +452,7 @@ namespace ft
 
 #ifdef TEST
 	template< class T, class Alloc >
-	std::ostream &operator<<( std::ostream &os, const vector<T, Alloc>& rhs )
+	std::ostream &operator<<( std::ostream &os, const ft::vector<T, Alloc>& rhs )
 	{
 		os << "(";
 		for (size_t i = 0; i < rhs.size(); i++)

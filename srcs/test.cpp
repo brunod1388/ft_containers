@@ -4,9 +4,20 @@
 #include "set.hpp"
 #include "map.hpp"
 #include "vector.hpp"
+#include <vector>
 #include <string>
 #include <list>
 #include "tests.hpp"
+
+template< class T, class Alloc >
+std::ostream &operator<<( std::ostream &os, const std::vector<T, Alloc>& rhs )
+{
+	os << "(";
+	for (size_t i = 0; i < rhs.size(); i++)
+		os << rhs[i] << (i < rhs.size() - 1 ? ", " : "");
+	os << ")";
+	return os;
+}
 
 int main(void)
 {
@@ -235,5 +246,124 @@ int main(void)
 		print(mxft);
 	}
 
+	{
+		std::list<int> l;
+
+		for (int i = 0; i < 20; i++)
+			l.push_back(iTabOrder[i]);
+		ft::vector<int> v(l.begin(), l.end());
+
+		std::cout << "vectorTest : " << v << std::endl;
+		v.erase(v.begin(), v.begin());
+		std::cout << "vectorTest : " << v << std::endl;
+		v.erase(v.end(), v.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		v.erase(v.begin() + 1, v.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		v = ft::vector<int>(l.begin(), l.end());
+		v.erase(v.begin(), v.end());
+		std::cout << "vectorTest : " << v << std::endl;
+
+
+		v = ft::vector<int>(l.begin(), l.end());
+		v.erase(v.end() - 1, v.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		while (v.size())
+			v.erase(v.begin());
+		std::cout << "vectorTest : " << v << std::endl;
+	}
+		std::cout << "-----------------------------------------"<< std::endl;
+
+	{
+		std::list<std::string> l;
+
+		for (int i = 0; i < 20; i++)
+			l.push_back(strTabOrder[i]);
+		ft::vector<std::string> v(l.begin(), l.end());
+		std::vector<std::string> v2(l.begin(), l.end());
+
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+
+		ft::vector<std::string>::iterator ftit = v.erase(v.begin(), v.begin());
+		std::vector<std::string>::iterator stdit = v2.erase(v2.begin(), v2.begin());
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+
+		ftit = v.erase(v.end(), v.end());
+		stdit = v2.erase(v2.end(), v2.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit  : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+		std::cout << " stdit : " << stdit.base() << " begin " << stdit.base() << " " << stdit.base() << "  *: " << *stdit << std::endl;
+		std::cout << " ftit  : " << ftit.base() << " begin " << ftit.base() << " " << ftit.base() << "  *: " << *ftit << std::endl;
+		// this test can be changed by changin initialising order of v and v2
+
+		ftit = v.erase(v.begin() + 1, v.end());
+		stdit = v2.erase(v2.begin() + 1, v2.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit  : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+
+		v = ft::vector<std::string>(l.begin(), l.end());
+		v2 = std::vector<std::string>(l.begin(), l.end());
+		ftit = v.erase(v.begin(), v.end());
+		stdit = v2.erase(v2.begin(), v2.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit  : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+
+		v = ft::vector<std::string>(l.begin(), l.end());
+		v2 = std::vector<std::string>(l.begin(), l.end());
+		ftit = v.erase(v.begin() + 3, v.end() - 2);
+		stdit = v2.erase(v2.begin() + 3, v2.end() - 2);
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit  : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+
+		v = ft::vector<std::string>(l.begin(), l.end());
+		v2 = std::vector<std::string>(l.begin(), l.end());
+		ftit = v.erase(v.begin(), v.end());
+		stdit = v2.erase(v2.begin(), v2.end());
+		std::cout << "vectorTest : " << v << std::endl;
+		std::cout << "vectorTest : " << v2 << std::endl<< std::endl;
+		std::cout << " ftit  : " << (ftit == v.end() ? *ftit : "null") << std::endl;
+		std::cout << " stdit : " << (stdit == v2.end() ? *stdit : "null") << std::endl;
+
+		std::cout << "-----------------------------------------"<< std::endl;
+
+
+		v = ft::vector<std::string>(l.begin(), l.end());
+		v2 = std::vector<std::string>(l.begin(), l.end());
+		ft::vector<std::string>::reverse_iterator ftrit = v.rbegin();
+		std::vector<std::string>::reverse_iterator stdrit = v2.rbegin();
+
+		std::cout << "ftrit  :";
+		while (ftrit != v.rend())
+		{
+			std::cout << *ftrit << " ";
+			ftrit += 1;
+		}
+		std::cout << std::endl;
+		
+		std::cout << "stdrit :";
+		while (stdrit != v2.rend())
+			std::cout << *stdrit++ << " ";
+		std::cout << std::endl;
+	}
+
+	
+
+	// ft::set<int> se(l.begin(), l.end());
+	// std::cout << "set : " << se << std::endl;
+	// se.erase(++se.begin(), --se.end());
+	// std::cout << "set : " << se << std::endl;
+	while (1);
 	return 0;
 }
